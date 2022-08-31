@@ -1,0 +1,3 @@
+es_artifacts_auriels_shield = {
+	defensiveness = 0.25
+}
