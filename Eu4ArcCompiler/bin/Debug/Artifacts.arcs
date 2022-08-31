@@ -1,0 +1,20 @@
+amulet_of_infectious_charm = {
+	name = "Amulet of Infectious Charm"
+	desc = "The Amulet of Infectious Charm is a legendary magical trinket once owned by the Nord chieftain Hrothmund the Red of Solstheim, the first chieftain of Thirsk. The amulet is enchanted to boost the personality of the wearer hugely, but at the cost of being constantly fatigued and susceptible to disease. According to legends, Hrothmund was ugly as a troll, but received much womanly attention due to the amulet."
+	type = country
+	trigger = {
+		OR = { area = morrowind_23_la
+			area = morrowind_24_la }
+	}
+	modifiers = {
+		diplomatic_reputation = 1.5
+	}
+	effects = {
+		if = {
+			limit = {
+				owner = { has_consort }
+			}
+			define_consort = { }
+		}
+	}
+}

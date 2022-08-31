@@ -1,0 +1,40 @@
+province_event = {
+        id = es_archeology.1
+        name = es_archeology.1.t
+        test = es_archeology.1.d
+
+        picture = TRADEGOODS_eventPicture
+
+        option = {
+                name = es_archeology.1.a
+		random_list = {
+			1 = { province_event = { days = 365 } add_province_flag = "es_artifacts_auriels_shield" }
+		}
+        }
+}
+
+province_event = {
+        id = es_archeology.2
+        name = es_archeology.2.t
+        test = es_archeology.2.d
+
+        picture = {
+		trigger ={
+			has_province_flag = "es_artifacts_auriels_shield" 
+			continent = tamriel
+		}
+		picture = es_artifacts_auriels_shield
+	}
+
+        option = {
+                name = es_archeology.2.a
+		if = {	
+			limit = { 
+				has_province_flag = "es_artifacts_auriels_shield" 
+				continent = tamriel
+			}
+			add_ruler_modifier = es_artifacts_auriels_shield
+			clr_province_flag = "es_artifacts_auriels_shield"
+		}
+        }
+}
