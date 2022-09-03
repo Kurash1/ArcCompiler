@@ -1,2 +1,0 @@
-es_artifacts_auriels_shield: "Auriel's Shield"
-desc_es_artifacts_auriels_shield: "Auriel's Shield is an artifact used by the elven god Auriel, the Altmeri Akatosh, Dragon God of Time. It takes the form of a small shield, sometimes rounded, made from either ebony or moonstone. It has several magical abilities that help to make its wielder nigh invulnerable. Its known enchantments include resistance to fire, shielding from either magical or physical attacks, healing properties, magical armor enhancement, and spell reflection."

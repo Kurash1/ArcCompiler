@@ -1,4 +1,0 @@
-spriteType = {
-	name = "GFX_es_artifacts_auriels_shield"	
-	texturefile = "gfx//interface//es_artifacts//auriels_shield"
-}
