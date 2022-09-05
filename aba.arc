@@ -12,9 +12,10 @@ arc_event = {
 		english = {
 			name = "aba"
 		}
-		if (
-			continent = tamriel
-		) {
+		if {
+			limit = {
+				owner = { capital = "Windhelm" }
+			}
 			add_base_tax = 1	
 		}
 	}
