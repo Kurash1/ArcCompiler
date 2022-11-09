@@ -13,12 +13,21 @@ arc_modifier = {
             <here you can list all of the modifiers>
       }
 } #Arc modifier only really exists cus I needed it for the artifact system, though it's still slightly better way to write modifiers
+
 var <key> = <value> #Variables, note that they will be made into static thingy thing things once transpiled
+
 CB8, ALE = { } #Multiple scopes
+
 (<expression>) #Math
+
 defineloc <localisation key> = "<what to localise>" #Allows you to define localisation in code
+
 for i = 0 to 8 = { } #hololololo for loops finally
+
 using "<relative path from arc.exe>" as <classname> #this allows you to open a class definition file as classes
+
 foreach <classname> = { } #this iterates through every object in a class you can access the properties like this classname.propertyname
+
 <classname>.<insantceid>.<propertyid> #way to access any 1 object, could actually be used to store a bunch of different functions in a class
+
 <variable name> #gets you the value of a variable
