@@ -3,6 +3,7 @@
 compiler be in bin\Release\Arc 4.exe
 
 keywords/othershit you have in arc.
+
 arc_modifier = {
       id = <the id you want to save the modifier under, will also be used for localisations>
       type = <country/ruler(<duration>) without () it's -1>
