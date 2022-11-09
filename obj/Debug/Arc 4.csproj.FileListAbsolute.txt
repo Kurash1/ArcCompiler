@@ -1,0 +1,8 @@
+G:\Ohjelmat\Arc 4\bin\Debug\Arc 4.exe.config
+G:\Ohjelmat\Arc 4\bin\Debug\Arc 4.exe
+G:\Ohjelmat\Arc 4\bin\Debug\Arc 4.pdb
+G:\Ohjelmat\Arc 4\obj\Debug\Arc 4.csproj.AssemblyReference.cache
+G:\Ohjelmat\Arc 4\obj\Debug\Arc 4.csproj.SuggestedBindingRedirects.cache
+G:\Ohjelmat\Arc 4\obj\Debug\Arc 4.csproj.CoreCompileInputs.cache
+G:\Ohjelmat\Arc 4\obj\Debug\Arc 4.exe
+G:\Ohjelmat\Arc 4\obj\Debug\Arc 4.pdb
