@@ -2,6 +2,8 @@
 
 compiler be in bin\Release\Arc 4.exe
 
+The Arc.exe file, must be in the same folder as your .mod file, the common\event_modifiers\ and localisation\english\ directories must exist so that arc can write modifier and localisation files. When you run the Arc.exe it will transpile all the .arc files into eu4 script and write them to .txt files of the same name, all localisations will be written to a file called arc_l_english.yml and all modifiers will be written to a file called arc.txt, if you get errors you can either message me or try looking at the transpilers code yourself.
+
 Now let's get into the different keywords/othershit you have in arc.
 ```
 arc_modifier = {
