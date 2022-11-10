@@ -25,14 +25,14 @@ namespace Arc4
         string directory;
         public void writeMod(string key, string modifiers)
         {
-            if(mod.ContainsKey(key))
+            if (mod.ContainsKey(key))
                 mod[key] = modifiers;
             else
                 mod.Add(key, modifiers);
         }
         public void writeLoc(string key, string text)
         {
-            if(loc.ContainsKey(key))
+            if (loc.ContainsKey(key))
                 loc[key] = text;
             else
                 loc.Add(key, text);
@@ -42,11 +42,11 @@ namespace Arc4
             if (!File.Exists(directory + "\\localisation\\english\\arc_l_english.yml"))
                 File.Create(directory + "\\localisation\\english\\arc_l_english.yml").Dispose();
             string[] loca = File.ReadAllLines(directory + "\\localisation\\english\\arc_l_english.yml");
-            for(int i = 0; i < loca.Length; i++)
+            for (int i = 0; i < loca.Length; i++)
             {
                 Match match = Regex.Match(loca[i], "([A-Za-z0-9_.-]+): +\"([^\"]*)\"");
-                if(match.Success)
-                    loc.Add(match.Groups[1].Value,'\"'+match.Groups[2].Value+'\"');
+                if (match.Success)
+                    loc.Add(match.Groups[1].Value, '\"' + match.Groups[2].Value + '\"');
             }
         }
         private void readMod()
@@ -54,10 +54,10 @@ namespace Arc4
             if (!File.Exists(directory + "\\common\\event_modifiers\\arc.txt"))
                 File.Create(directory + "\\common\\event_modifiers\\arc.txt").Dispose();
             string[] loca = File.ReadAllLines(directory + "\\common\\event_modifiers\\arc.txt");
-            for(int i = 0; i < loca.Length; i++)
+            for (int i = 0; i < loca.Length; i++)
             {
                 Match match = Regex.Match(loca[i], "^([^ ]+) *= *{ *([^}]+) *}", RegexOptions.Multiline);
-                if(match.Success)
+                if (match.Success)
                     mod.Add(match.Groups[1].Value, match.Groups[2].Value);
             }
         }
@@ -83,12 +83,12 @@ namespace Arc4
                 File.Create(directory + "\\localisation\\english\\arc_l_english.yml").Dispose();
             List<string> loca = new List<string>();
             loca.Add("l_english:");
-            for(int i = 0; i < loc.Count; i++)
+            for (int i = 0; i < loc.Count; i++)
             {
                 loca.Add(" " + loc.Keys.ElementAt(i) + ": " + loc.Values.ElementAt(i));
             }
             string loca2 = "";
-            for(int i = 0; i < loca.Count; i++)
+            for (int i = 0; i < loca.Count; i++)
             {
                 loca2 += loca[i] + "\n";
             }
@@ -119,9 +119,10 @@ namespace Arc4
                 string[] files = Directory.GetFiles(start);
                 for (int i = 0; i < files.Length; i++)
                     if (files[i].EndsWith(".arc"))
-                    {   try
+                    {
+                        try
                         {
-                            if(syntax)
+                            if (syntax)
                                 File.WriteAllText(files[i].Substring(0, files[i].Length - 4) + ".txt",
                                     new Compiler(directory, this).compile(
                                         Regex.Replace(File.ReadAllText(files[i]), "#.*", "")
@@ -185,9 +186,9 @@ namespace Arc4
                         i = arc_variable(i);
                         break;
                     case string s when Regex.IsMatch(s, "[^,],"):
-                        multiscope.Add(s.Substring(0,s.Length-1));
-                            if (currentscope.Count == 0 || currentscope[0] != "multiscope")
-                                currentscope.Insert(0, "multiscope");
+                        multiscope.Add(s.Substring(0, s.Length - 1));
+                        if (currentscope.Count == 0 || currentscope[0] != "multiscope")
+                            currentscope.Insert(0, "multiscope");
                         break;
                     case string s when Regex.IsMatch(s, "\\([^()]+\\)"):
                         result += arc_math(Regex.Match(Regex.Match(s, "\\([^()]+\\)").Value, "[^()]+").Value);
@@ -199,7 +200,7 @@ namespace Arc4
                         result += arc_for(i, out i);
                         break;
                     case "using": i = arc_using(i); break;
-                    case "foreach": i = arc_foreach(i); break;
+                    case "foreach": result += arc_foreach(i, out i); break;
                     case string s when Regex.IsMatch(s, "([^.]+)\\.([^.]+)\\.([^.]+)") && classes.ContainsKey(Regex.Match(s, "[^.]+").Value):
                         i = arc_class(i);
                         break;
@@ -221,33 +222,33 @@ namespace Arc4
             }
             string arc_modifier(int a, out int i)
             {
-                        i = a;
-                i++;    while(!expect(code,i,"=")) { i++; }
-                i++;    while(!expect(code,i,"{")) { i++; }
-                i++;    while(!expect(code,i,"id")) { i++; }
-                i++;    while(!expect(code,i,"=")) { i++; }
-                i++;    string id = code[i];
-                i++;    while (!expect(code, i, "type")) { i++; }
-                i++;    while (!expect(code, i, "=")) { i++; }
-                i++;    string type = Regex.Match(code[i],"[^(]+").Value;
-                        string duration = arc_math(Regex.Match(code[i],"\\([^()]*\\)").Value);
-                        if (duration == "") duration = "-1";
-                i++;    while (!expect(code, i, "name")) { i++; }
-                i++;    while (!expect(code, i, "=")) { i++; }
-                i++;    string name = code[i];
-                i++;    while (!expect(code, i, "desc")) { i++; }
-                i++;    while (!expect(code, i, "=")) { i++; }
-                i++;    string desc = code[i];
-                i++;    while (!expect(code, i, "modifiers")) { i++; }
-                i++;    while (!expect(code, i, "=")) { i++; }
-                i++;    while (!expect(code, i, "{")) { i++; }
-                i++;    string modifiers = code[i];
-                i++;    while (!expect(code, i, "}")) { i++; }
-                i++;    while (!expect(code, i, "}")) { i++; }
-                        owner.writeLoc(id, name);
-                        owner.writeLoc(id + "_desc", desc);
-                        owner.writeMod(id, modifiers);
-                        return "add_" + type + "_modifier = { name = " + id + " duration = " + duration + " desc = " + id + "_desc hidden = no } "; 
+                i = a;
+                i++; while (!expect(code, i, "=")) { i++; }
+                i++; while (!expect(code, i, "{")) { i++; }
+                i++; while (!expect(code, i, "id")) { i++; }
+                i++; while (!expect(code, i, "=")) { i++; }
+                i++; string id = code[i];
+                i++; while (!expect(code, i, "type")) { i++; }
+                i++; while (!expect(code, i, "=")) { i++; }
+                i++; string type = Regex.Match(code[i], "[^(]+").Value;
+                string duration = arc_math(Regex.Match(code[i], "\\([^()]*\\)").Value);
+                if (duration == "") duration = "-1";
+                i++; while (!expect(code, i, "name")) { i++; }
+                i++; while (!expect(code, i, "=")) { i++; }
+                i++; string name = code[i];
+                i++; while (!expect(code, i, "desc")) { i++; }
+                i++; while (!expect(code, i, "=")) { i++; }
+                i++; string desc = code[i];
+                i++; while (!expect(code, i, "modifiers")) { i++; }
+                i++; while (!expect(code, i, "=")) { i++; }
+                i++; while (!expect(code, i, "{")) { i++; }
+                i++; string modifiers = code[i];
+                i++; while (!expect(code, i, "}")) { i++; }
+                i++; while (!expect(code, i, "}")) { i++; }
+                owner.writeLoc(id, name);
+                owner.writeLoc(id + "_desc", desc);
+                owner.writeMod(id, modifiers);
+                return "add_" + type + "_modifier = { name = " + id + " duration = " + duration + " desc = " + id + "_desc hidden = no } ";
             }
             int arc_variable(int i)
             {
@@ -255,7 +256,7 @@ namespace Arc4
                 i++; while (!expect(code, i, "=")) { i++; }
                 i++; string varvalue = code[i];
                 if (varvalue.Contains("("))
-                        varvalue = arc_math(Regex.Match(varvalue,"\\(.*\\)").Value);
+                    varvalue = arc_math(Regex.Match(varvalue, "\\(.*\\)").Value);
                 setVar(varname, varvalue);
                 return i++;
             }
@@ -273,7 +274,7 @@ namespace Arc4
                 int indent = 1;
                 List<string> loop = new List<string>();
 
-                while(indent > 0)
+                while (indent > 0)
                 {
                     string g = code[i];
                     switch (g)
@@ -284,7 +285,7 @@ namespace Arc4
                             break;
                         case "}":
                             indent--;
-                            if(indent > 0)
+                            if (indent > 0)
                                 loop.Add("}");
                             break;
                         default:
@@ -340,18 +341,19 @@ namespace Arc4
                 currentscope.RemoveAt(0);
                 multiscope.Add(g);
                 List<string> effect = new List<string>();
-                while(g != "}")
+                while (g != "}")
                 {
                     i++; g = code[i];
                     effect.Add(g);
                 }
                 effect.Add("\\n");
                 string[] newcode = new string[(effect.Count + 1) * multiscope.Count];
-                for(int j = 0; j < multiscope.Count; j++)
+                for (int j = 0; j < multiscope.Count; j++)
                 {
-                   newcode[j*(effect.Count+1)] = multiscope[j];
-                    for(int k = 0; k < effect.Count; k++) { 
-                        newcode[k + (j*(effect.Count+1))+1] = effect[k];
+                    newcode[j * (effect.Count + 1)] = multiscope[j];
+                    for (int k = 0; k < effect.Count; k++)
+                    {
+                        newcode[k + (j * (effect.Count + 1)) + 1] = effect[k];
                     };
                 }
                 multiscope.Clear();
@@ -368,10 +370,11 @@ namespace Arc4
                 matches = new Regex("([^()0-9.*+/-]+)").Matches(expression);
                 for (int i = 0; i < matches.Count; i++)
                     expression = Regex.Replace(expression, matches[i].Value, variables[matches[i].Groups[1].Value]);
-                return Regex.Match(new DataTable().Compute(expression, "").ToString(),"[^.]+").Value;
+                return Regex.Match(new DataTable().Compute(expression, "").ToString(), "[^.]+").Value;
             }
-            int arc_foreach(int i)
+            string arc_foreach(int a, out int i)
             {
+                i = a;
                 i++;
                 string currentClass = code[i];
                 i++;
@@ -394,9 +397,6 @@ namespace Arc4
 
                 List<string> ForEach = new List<string>();
 
-                for (int z = 0; z < i; z++)
-                    ForEach.Add(code[z]);
-
                 for (int z = 0; z < classes[currentClass].Count; z++)
                 {
                     for (int b = 0; b < loop.Count; b++)
@@ -411,15 +411,9 @@ namespace Arc4
                     }
                 }
 
-                for (int c = i + loop.Count + 1; c < code.Length; c++)
-                {
-                    ForEach.Add(code[c]);
-                }
+                i += loop.Count;
 
-                code = ForEach.ToArray();
-                i--;
-
-                return i;
+                return low_compile(ForEach.ToArray());
             }
 
             int arc_class(int i)
@@ -494,8 +488,8 @@ namespace Arc4
                     case string s when indent == 0:
                         elements.Clear();
                         id = s;
-                        i++; while(!_expect(i, "=")) { i++; }
-                        i++; while(!_expect(i, "{")) { i++; }
+                        i++; while (!_expect(i, "=")) { i++; }
+                        i++; while (!_expect(i, "{")) { i++; }
                         indent++;
                         break;
                     case string s when indent == 1:
@@ -522,7 +516,7 @@ namespace Arc4
 
             return;
         }
-        private bool expect(string[] code, int index, string regex, string error = "") { return actual_except(code[index],index,regex,error); }
+        private bool expect(string[] code, int index, string regex, string error = "") { return actual_except(code[index], index, regex, error); }
         private bool actual_except(string str, int index, string regex, string error)
         {
             if (Regex.IsMatch(str, regex))

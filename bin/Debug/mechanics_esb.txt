@@ -4,6 +4,8 @@
 
 namespace = es_esb 
 
+
+
 province_event = { 
 	id = es_esb.0 
 	title = es_esb.0.t 
@@ -28,6 +30,7 @@ province_event = {
 		name = es_esb.0.b 
 		province_event = { 
 			id = es_esb.1 
+			days = 1 
 		} 
 	} 
 	
@@ -49,6 +52,8 @@ province_event = {
 	} 
 	
 	
+	
+	
 	option = { 
 		name = es_esb.0.e 
 		if = { 
@@ -58,12 +63,10 @@ province_event = {
 					NOT = { has_country_flag = es_esb } 
 				} 
 			} 
-			hidden_effect = { 
-				province_event = { 
-					id = es_esb.1 
-					days = 3650 
-					random = 3650 
-				} 
+			province_event = { 
+				id = es_esb.6 
+				days = 1 
+				random = 1 
 			} 
 			custom_tooltip = es_esb.0.tt.a 
 			owner = { add_treasury = -100 } 
@@ -98,25 +101,24 @@ country_event = {
 					NOT = { OR = { has_terrain = farmlands has_terrain = grasslands has_terrain = steppe has_terrain = savannah has_terrain = jungle has_terrain = marsh has_terrain = coastal_desert has_terrain = coastline has_terrain = mudflats } }  
 					NOT = { trade_goods = adamantium } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 213
-						dip_power = 213
-						mil_power = 213
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 213
+							dip_power = 213
+							mil_power = 213
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 213
+						dip_power_cost = 213
+						mil_power_cost = 213
+					} 
+					change_trade_goods = adamantium 
 				} 
-				owner = { 
-					adm_power_cost = 213
-					dip_power_cost = 213
-					mil_power_cost = 213
-				} 
-				change_trade_goods = adamantium 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 237
@@ -138,7 +140,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = ale 
 			if = { 
@@ -146,25 +149,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = drylands has_terrain = hills has_terrain = mountain has_terrain = highlands has_terrain = desert has_terrain = coastal_desert has_terrain = lava has_terrain = salt_plains has_terrain = taiga has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } } OR = { superregion = cyrodiil_superregion superregion = skyrim_superregion }  
 					NOT = { trade_goods = ale } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 100
-						dip_power = 100
-						mil_power = 100
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 100
+							dip_power = 100
+							mil_power = 100
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 100
+						dip_power_cost = 100
+						mil_power_cost = 100
+					} 
+					change_trade_goods = ale 
 				} 
-				owner = { 
-					adm_power_cost = 100
-					dip_power_cost = 100
-					mil_power_cost = 100
-				} 
-				change_trade_goods = ale 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 112
@@ -186,7 +188,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = algae 
 			if = { 
@@ -194,25 +197,24 @@ country_event = {
 					NOT = { OR = { has_terrain = dwemer_stronghold has_terrain = lava has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } } has_port = yes  
 					NOT = { trade_goods = algae } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 45
-						dip_power = 45
-						mil_power = 45
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 45
+							dip_power = 45
+							mil_power = 45
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 45
+						dip_power_cost = 45
+						mil_power_cost = 45
+					} 
+					change_trade_goods = algae 
 				} 
-				owner = { 
-					adm_power_cost = 45
-					dip_power_cost = 45
-					mil_power_cost = 45
-				} 
-				change_trade_goods = algae 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 50
@@ -234,7 +236,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = alto 
 			if = { 
@@ -242,25 +245,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = drylands has_terrain = mountain has_terrain = desert has_terrain = coastal_desert has_terrain = lava has_terrain = salt_plains has_terrain = taiga has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } } superregion = skyrim_superregion  
 					NOT = { trade_goods = alto } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 145
-						dip_power = 145
-						mil_power = 145
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 145
+							dip_power = 145
+							mil_power = 145
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 145
+						dip_power_cost = 145
+						mil_power_cost = 145
+					} 
+					change_trade_goods = alto 
 				} 
-				owner = { 
-					adm_power_cost = 145
-					dip_power_cost = 145
-					mil_power_cost = 145
-				} 
-				change_trade_goods = alto 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 162
@@ -282,7 +284,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = amber 
 			if = { 
@@ -290,25 +293,24 @@ country_event = {
 					NOT = { OR = { has_terrain = farmlands has_terrain = grasslands has_terrain = steppe has_terrain = savannah has_terrain = marsh has_terrain = bayou has_terrain = dwemer_stronghold has_terrain = lava } }  
 					NOT = { trade_goods = amber } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 112
-						dip_power = 112
-						mil_power = 112
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 112
+							dip_power = 112
+							mil_power = 112
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 112
+						dip_power_cost = 112
+						mil_power_cost = 112
+					} 
+					change_trade_goods = amber 
 				} 
-				owner = { 
-					adm_power_cost = 112
-					dip_power_cost = 112
-					mil_power_cost = 112
-				} 
-				change_trade_goods = amber 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 125
@@ -330,7 +332,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = argonian_bloodwine 
 			if = { 
@@ -338,25 +341,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = drylands has_terrain = hills has_terrain = mountain has_terrain = highlands has_terrain = desert has_terrain = coastal_desert has_terrain = lava has_terrain = salt_plains has_terrain = taiga has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } OR = { superregion = black_marsh_superregion culture_group = marsh_cg NOT = { continent = Tamriel } } }  
 					NOT = { trade_goods = argonian_bloodwine } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 168
-						dip_power = 168
-						mil_power = 168
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 168
+							dip_power = 168
+							mil_power = 168
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 168
+						dip_power_cost = 168
+						mil_power_cost = 168
+					} 
+					change_trade_goods = argonian_bloodwine 
 				} 
-				owner = { 
-					adm_power_cost = 168
-					dip_power_cost = 168
-					mil_power_cost = 168
-				} 
-				change_trade_goods = argonian_bloodwine 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 187
@@ -378,7 +380,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = ayleid_nose_hash 
 			if = { 
@@ -386,25 +389,24 @@ country_event = {
 					culture = ayleid NOT = { has_province_flag = banned_ayleid_nose_hash_production_flag }  
 					NOT = { trade_goods = ayleid_nose_hash } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 112
-						dip_power = 112
-						mil_power = 112
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 112
+							dip_power = 112
+							mil_power = 112
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 112
+						dip_power_cost = 112
+						mil_power_cost = 112
+					} 
+					change_trade_goods = ayleid_nose_hash 
 				} 
-				owner = { 
-					adm_power_cost = 112
-					dip_power_cost = 112
-					mil_power_cost = 112
-				} 
-				change_trade_goods = ayleid_nose_hash 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 125
@@ -426,7 +428,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = beer 
 			if = { 
@@ -434,25 +437,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = drylands has_terrain = hills has_terrain = mountain has_terrain = highlands has_terrain = desert has_terrain = coastal_desert has_terrain = lava has_terrain = salt_plains has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } }  
 					NOT = { trade_goods = beer } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 100
-						dip_power = 100
-						mil_power = 100
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 100
+							dip_power = 100
+							mil_power = 100
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 100
+						dip_power_cost = 100
+						mil_power_cost = 100
+					} 
+					change_trade_goods = beer 
 				} 
-				owner = { 
-					adm_power_cost = 100
-					dip_power_cost = 100
-					mil_power_cost = 100
-				} 
-				change_trade_goods = beer 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 112
@@ -474,7 +476,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = bloodgrass 
 			if = { 
@@ -482,25 +485,24 @@ country_event = {
 					owner = { full_idea_group = alchemical_ideas }  
 					NOT = { trade_goods = bloodgrass } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 22
-						dip_power = 22
-						mil_power = 22
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 22
+							dip_power = 22
+							mil_power = 22
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 22
+						dip_power_cost = 22
+						mil_power_cost = 22
+					} 
+					change_trade_goods = bloodgrass 
 				} 
-				owner = { 
-					adm_power_cost = 22
-					dip_power_cost = 22
-					mil_power_cost = 22
-				} 
-				change_trade_goods = bloodgrass 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 25
@@ -522,7 +524,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = chalcopyrite 
 			if = { 
@@ -530,25 +533,24 @@ country_event = {
 					NOT = { OR = { has_terrain = farmlands has_terrain = grasslands has_terrain = steppe has_terrain = savannah has_terrain = jungle has_terrain = marsh has_terrain = coastal_desert has_terrain = coastline has_terrain = mudflats } }  
 					NOT = { trade_goods = chalcopyrite } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 33
-						dip_power = 33
-						mil_power = 33
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 33
+							dip_power = 33
+							mil_power = 33
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 33
+						dip_power_cost = 33
+						mil_power_cost = 33
+					} 
+					change_trade_goods = chalcopyrite 
 				} 
-				owner = { 
-					adm_power_cost = 33
-					dip_power_cost = 33
-					mil_power_cost = 33
-				} 
-				change_trade_goods = chalcopyrite 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 37
@@ -570,7 +572,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = chitin 
 			if = { 
@@ -578,25 +581,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = mountain has_terrain = highlands has_terrain = desert has_terrain = coastal_desert has_terrain = lava has_terrain = taiga has_terrain = mudflats has_terrain = salt_plains has_climate = arctic has_winter = severe_winter has_winter = normal_winter } }  
 					NOT = { trade_goods = chitin } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 145
-						dip_power = 145
-						mil_power = 145
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 145
+							dip_power = 145
+							mil_power = 145
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 145
+						dip_power_cost = 145
+						mil_power_cost = 145
+					} 
+					change_trade_goods = chitin 
 				} 
-				owner = { 
-					adm_power_cost = 145
-					dip_power_cost = 145
-					mil_power_cost = 145
-				} 
-				change_trade_goods = chitin 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 162
@@ -618,7 +620,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = clannfear_claws 
 			if = { 
@@ -626,25 +629,24 @@ country_event = {
 					owner = { full_idea_group = alchemical_ideas }  
 					NOT = { trade_goods = clannfear_claws } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 78
-						dip_power = 78
-						mil_power = 78
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 78
+							dip_power = 78
+							mil_power = 78
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 78
+						dip_power_cost = 78
+						mil_power_cost = 78
+					} 
+					change_trade_goods = clannfear_claws 
 				} 
-				owner = { 
-					adm_power_cost = 78
-					dip_power_cost = 78
-					mil_power_cost = 78
-				} 
-				change_trade_goods = clannfear_claws 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 87
@@ -666,7 +668,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = cloth 
 			if = { 
@@ -674,25 +677,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = drylands has_terrain = hills has_terrain = mountain has_terrain = highlands has_terrain = lava has_terrain = salt_plains has_terrain = taiga has_terrain = tundra has_terrain = marsh has_terrain = bayou has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } }  
 					NOT = { trade_goods = cloth } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 100
-						dip_power = 100
-						mil_power = 100
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 100
+							dip_power = 100
+							mil_power = 100
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 100
+						dip_power_cost = 100
+						mil_power_cost = 100
+					} 
+					change_trade_goods = cloth 
 				} 
-				owner = { 
-					adm_power_cost = 100
-					dip_power_cost = 100
-					mil_power_cost = 100
-				} 
-				change_trade_goods = cloth 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 112
@@ -714,7 +716,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = coal 
 			if = { 
@@ -722,25 +725,24 @@ country_event = {
 					NOT = { OR = { has_terrain = farmlands has_terrain = grasslands has_terrain = steppe has_terrain = savannah has_terrain = jungle has_terrain = marsh has_terrain = coastal_desert has_terrain = coastline has_terrain = mudflats } }  
 					NOT = { trade_goods = coal } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 67
-						dip_power = 67
-						mil_power = 67
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 67
+							dip_power = 67
+							mil_power = 67
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 67
+						dip_power_cost = 67
+						mil_power_cost = 67
+					} 
+					change_trade_goods = coal 
 				} 
-				owner = { 
-					adm_power_cost = 67
-					dip_power_cost = 67
-					mil_power_cost = 67
-				} 
-				change_trade_goods = coal 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 75
@@ -762,7 +764,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = colovian_battlecry 
 			if = { 
@@ -770,25 +773,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = drylands has_terrain = mountain has_terrain = desert has_terrain = coastal_desert has_terrain = lava has_terrain = salt_plains has_terrain = taiga has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } } region = western_cyrodiil_lr  
 					NOT = { trade_goods = colovian_battlecry } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 123
-						dip_power = 123
-						mil_power = 123
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 123
+							dip_power = 123
+							mil_power = 123
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 123
+						dip_power_cost = 123
+						mil_power_cost = 123
+					} 
+					change_trade_goods = colovian_battlecry 
 				} 
-				owner = { 
-					adm_power_cost = 123
-					dip_power_cost = 123
-					mil_power_cost = 123
-				} 
-				change_trade_goods = colovian_battlecry 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 137
@@ -810,7 +812,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = colovian_brandy 
 			if = { 
@@ -818,25 +821,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = drylands has_terrain = hills has_terrain = mountain has_terrain = highlands has_terrain = desert has_terrain = coastal_desert has_terrain = lava has_terrain = salt_plains has_terrain = taiga has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } } region = western_cyrodiil_lr  
 					NOT = { trade_goods = colovian_brandy } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 213
-						dip_power = 213
-						mil_power = 213
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 213
+							dip_power = 213
+							mil_power = 213
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 213
+						dip_power_cost = 213
+						mil_power_cost = 213
+					} 
+					change_trade_goods = colovian_brandy 
 				} 
-				owner = { 
-					adm_power_cost = 213
-					dip_power_cost = 213
-					mil_power_cost = 213
-				} 
-				change_trade_goods = colovian_brandy 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 237
@@ -858,7 +860,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = copper 
 			if = { 
@@ -866,25 +869,24 @@ country_event = {
 					NOT = { OR = { has_terrain = farmlands has_terrain = grasslands has_terrain = steppe has_terrain = savannah has_terrain = jungle has_terrain = marsh has_terrain = coastal_desert has_terrain = coastline has_terrain = mudflats has_terrain = deadlands_daedric_keep } }  
 					NOT = { trade_goods = copper } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 45
-						dip_power = 45
-						mil_power = 45
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 45
+							dip_power = 45
+							mil_power = 45
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 45
+						dip_power_cost = 45
+						mil_power_cost = 45
+					} 
+					change_trade_goods = copper 
 				} 
-				owner = { 
-					adm_power_cost = 45
-					dip_power_cost = 45
-					mil_power_cost = 45
-				} 
-				change_trade_goods = copper 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 50
@@ -906,7 +908,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = corals 
 			if = { 
@@ -914,25 +917,24 @@ country_event = {
 					NOT = { OR = { has_terrain = dwemer_stronghold has_terrain = lava has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } } has_port = yes  
 					NOT = { trade_goods = corals } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 33
-						dip_power = 33
-						mil_power = 33
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 33
+							dip_power = 33
+							mil_power = 33
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 33
+						dip_power_cost = 33
+						mil_power_cost = 33
+					} 
+					change_trade_goods = corals 
 				} 
-				owner = { 
-					adm_power_cost = 33
-					dip_power_cost = 33
-					mil_power_cost = 33
-				} 
-				change_trade_goods = corals 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 37
@@ -954,7 +956,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = corundum 
 			if = { 
@@ -962,25 +965,24 @@ country_event = {
 					NOT = { OR = { has_terrain = farmlands has_terrain = grasslands has_terrain = steppe has_terrain = savannah has_terrain = jungle has_terrain = marsh has_terrain = coastal_desert has_terrain = coastline has_terrain = mudflats has_terrain = deadlands_daedric_keep } }  
 					NOT = { trade_goods = corundum } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 55
-						dip_power = 55
-						mil_power = 55
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 55
+							dip_power = 55
+							mil_power = 55
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 55
+						dip_power_cost = 55
+						mil_power_cost = 55
+					} 
+					change_trade_goods = corundum 
 				} 
-				owner = { 
-					adm_power_cost = 55
-					dip_power_cost = 55
-					mil_power_cost = 55
-				} 
-				change_trade_goods = corundum 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 62
@@ -1002,7 +1004,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = crabs 
 			if = { 
@@ -1010,25 +1013,24 @@ country_event = {
 					NOT = { OR = { has_terrain = dwemer_stronghold has_terrain = lava has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } } has_port = yes  
 					NOT = { trade_goods = crabs } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 135
-						dip_power = 135
-						mil_power = 135
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 135
+							dip_power = 135
+							mil_power = 135
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 135
+						dip_power_cost = 135
+						mil_power_cost = 135
+					} 
+					change_trade_goods = crabs 
 				} 
-				owner = { 
-					adm_power_cost = 135
-					dip_power_cost = 135
-					mil_power_cost = 135
-				} 
-				change_trade_goods = crabs 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 150
@@ -1050,7 +1052,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = crops 
 			if = { 
@@ -1058,25 +1061,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = drylands has_terrain = hills has_terrain = mountain has_terrain = highlands has_terrain = desert has_terrain = coastal_desert has_terrain = dwemer_stronghold has_terrain = lava has_terrain = ashlands has_terrain = barrow has_terrain = taiga has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } }  
 					NOT = { trade_goods = crops } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 55
-						dip_power = 55
-						mil_power = 55
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 55
+							dip_power = 55
+							mil_power = 55
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 55
+						dip_power_cost = 55
+						mil_power_cost = 55
+					} 
+					change_trade_goods = crops 
 				} 
-				owner = { 
-					adm_power_cost = 55
-					dip_power_cost = 55
-					mil_power_cost = 55
-				} 
-				change_trade_goods = crops 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 62
@@ -1098,7 +1100,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = cyrodilic_brandy 
 			if = { 
@@ -1106,25 +1109,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = drylands has_terrain = hills has_terrain = mountain has_terrain = highlands has_terrain = desert has_terrain = coastal_desert has_terrain = lava has_terrain = salt_plains has_terrain = taiga has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } } OR = { superregion = cyrodiil_superregion }  
 					NOT = { trade_goods = cyrodilic_brandy } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 190
-						dip_power = 190
-						mil_power = 190
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 190
+							dip_power = 190
+							mil_power = 190
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 190
+						dip_power_cost = 190
+						mil_power_cost = 190
+					} 
+					change_trade_goods = cyrodilic_brandy 
 				} 
-				owner = { 
-					adm_power_cost = 190
-					dip_power_cost = 190
-					mil_power_cost = 190
-				} 
-				change_trade_goods = cyrodilic_brandy 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 212
@@ -1146,7 +1148,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = daedra_heart 
 			if = { 
@@ -1154,25 +1157,24 @@ country_event = {
 					owner = { full_idea_group = alchemical_ideas } owner = { NOT = { culture_group = daedra_cg } }  
 					NOT = { trade_goods = daedra_heart } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 180
-						dip_power = 180
-						mil_power = 180
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 180
+							dip_power = 180
+							mil_power = 180
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 180
+						dip_power_cost = 180
+						mil_power_cost = 180
+					} 
+					change_trade_goods = daedra_heart 
 				} 
-				owner = { 
-					adm_power_cost = 180
-					dip_power_cost = 180
-					mil_power_cost = 180
-				} 
-				change_trade_goods = daedra_heart 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 200
@@ -1194,7 +1196,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = daedra_silk 
 			if = { 
@@ -1202,25 +1205,24 @@ country_event = {
 					owner = { full_idea_group = alchemical_ideas }  
 					NOT = { trade_goods = daedra_silk } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 135
-						dip_power = 135
-						mil_power = 135
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 135
+							dip_power = 135
+							mil_power = 135
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 135
+						dip_power_cost = 135
+						mil_power_cost = 135
+					} 
+					change_trade_goods = daedra_silk 
 				} 
-				owner = { 
-					adm_power_cost = 135
-					dip_power_cost = 135
-					mil_power_cost = 135
-				} 
-				change_trade_goods = daedra_silk 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 150
@@ -1242,7 +1244,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = daedra_venin 
 			if = { 
@@ -1250,25 +1253,24 @@ country_event = {
 					owner = { full_idea_group = alchemical_ideas }  
 					NOT = { trade_goods = daedra_venin } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 157
-						dip_power = 157
-						mil_power = 157
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 157
+							dip_power = 157
+							mil_power = 157
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 157
+						dip_power_cost = 157
+						mil_power_cost = 157
+					} 
+					change_trade_goods = daedra_venin 
 				} 
-				owner = { 
-					adm_power_cost = 157
-					dip_power_cost = 157
-					mil_power_cost = 157
-				} 
-				change_trade_goods = daedra_venin 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 175
@@ -1290,7 +1292,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = daedroth_teeth 
 			if = { 
@@ -1298,25 +1301,24 @@ country_event = {
 					owner = { full_idea_group = alchemical_ideas }  
 					NOT = { trade_goods = daedroth_teeth } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 123
-						dip_power = 123
-						mil_power = 123
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 123
+							dip_power = 123
+							mil_power = 123
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 123
+						dip_power_cost = 123
+						mil_power_cost = 123
+					} 
+					change_trade_goods = daedroth_teeth 
 				} 
-				owner = { 
-					adm_power_cost = 123
-					dip_power_cost = 123
-					mil_power_cost = 123
-				} 
-				change_trade_goods = daedroth_teeth 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 137
@@ -1338,7 +1340,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = dagoth_brandy 
 			if = { 
@@ -1346,25 +1349,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = drylands has_terrain = hills has_terrain = mountain has_terrain = highlands has_terrain = desert has_terrain = coastal_desert has_terrain = lava has_terrain = salt_plains has_terrain = taiga has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } } superregion = morrowind_superregion  
 					NOT = { trade_goods = dagoth_brandy } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 225
-						dip_power = 225
-						mil_power = 225
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 225
+							dip_power = 225
+							mil_power = 225
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 225
+						dip_power_cost = 225
+						mil_power_cost = 225
+					} 
+					change_trade_goods = dagoth_brandy 
 				} 
-				owner = { 
-					adm_power_cost = 225
-					dip_power_cost = 225
-					mil_power_cost = 225
-				} 
-				change_trade_goods = dagoth_brandy 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 250
@@ -1386,7 +1388,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = daril 
 			if = { 
@@ -1394,25 +1397,24 @@ country_event = {
 					culture = ayleid NOT = { has_province_flag = banned_daril_production_flag continent = Tamriel }  
 					NOT = { trade_goods = daril } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 100
-						dip_power = 100
-						mil_power = 100
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 100
+							dip_power = 100
+							mil_power = 100
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 100
+						dip_power_cost = 100
+						mil_power_cost = 100
+					} 
+					change_trade_goods = daril 
 				} 
-				owner = { 
-					adm_power_cost = 100
-					dip_power_cost = 100
-					mil_power_cost = 100
-				} 
-				change_trade_goods = daril 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 112
@@ -1434,7 +1436,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = dwemer_metal 
 			if = { 
@@ -1442,25 +1445,24 @@ country_event = {
 					OR = { AND = { culture_group = dwemer_cg has_owner_culture = yes } has_terrain = dwemer_stronghold }  
 					NOT = { trade_goods = dwemer_metal } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 123
-						dip_power = 123
-						mil_power = 123
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 123
+							dip_power = 123
+							mil_power = 123
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 123
+						dip_power_cost = 123
+						mil_power_cost = 123
+					} 
+					change_trade_goods = dwemer_metal 
 				} 
-				owner = { 
-					adm_power_cost = 123
-					dip_power_cost = 123
-					mil_power_cost = 123
-				} 
-				change_trade_goods = dwemer_metal 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 137
@@ -1482,7 +1484,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = dyes 
 			if = { 
@@ -1490,25 +1493,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = drylands has_terrain = mountain has_terrain = desert has_terrain = coastal_desert has_terrain = deadlands_daedric_keep } }  
 					NOT = { trade_goods = dyes } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 67
-						dip_power = 67
-						mil_power = 67
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 67
+							dip_power = 67
+							mil_power = 67
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 67
+						dip_power_cost = 67
+						mil_power_cost = 67
+					} 
+					change_trade_goods = dyes 
 				} 
-				owner = { 
-					adm_power_cost = 67
-					dip_power_cost = 67
-					mil_power_cost = 67
-				} 
-				change_trade_goods = dyes 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 75
@@ -1530,7 +1532,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = ebony 
 			if = { 
@@ -1538,25 +1541,24 @@ country_event = {
 					OR = { superregion = morrowind_superregion region = rift_lr region = valus_mountains_lr area = cyrodiil_75_la area = cyrodiil_73_la area = cyrodiil_74_la area = cyrodiil_72_la } OR = { has_terrain = mountain has_terrain = dwemer_stronghold has_terrain = ashlands has_terrain = orcish_stronghold province_id = 4256 province_id = 952 has_terrain = lava }  
 					NOT = { trade_goods = ebony } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 180
-						dip_power = 180
-						mil_power = 180
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 180
+							dip_power = 180
+							mil_power = 180
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 180
+						dip_power_cost = 180
+						mil_power_cost = 180
+					} 
+					change_trade_goods = ebony 
 				} 
-				owner = { 
-					adm_power_cost = 180
-					dip_power_cost = 180
-					mil_power_cost = 180
-				} 
-				change_trade_goods = ebony 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 200
@@ -1578,7 +1580,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = eggs 
 			if = { 
@@ -1586,25 +1589,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = drylands has_terrain = hills has_terrain = mountain has_terrain = highlands has_terrain = desert has_terrain = coastal_desert has_terrain = dwemer_stronghold has_terrain = lava has_terrain = ashlands has_terrain = barrow has_terrain = taiga has_terrain = coastline has_climate = arid has_climate = arctic has_winter = severe_winter continent = Oblivion } }  
 					NOT = { trade_goods = eggs } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 78
-						dip_power = 78
-						mil_power = 78
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 78
+							dip_power = 78
+							mil_power = 78
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 78
+						dip_power_cost = 78
+						mil_power_cost = 78
+					} 
+					change_trade_goods = eggs 
 				} 
-				owner = { 
-					adm_power_cost = 78
-					dip_power_cost = 78
-					mil_power_cost = 78
-				} 
-				change_trade_goods = eggs 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 87
@@ -1626,7 +1628,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = fire_salts 
 			if = { 
@@ -1634,25 +1637,24 @@ country_event = {
 					owner = { full_idea_group = alchemical_ideas }  
 					NOT = { trade_goods = fire_salts } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 90
-						dip_power = 90
-						mil_power = 90
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 90
+							dip_power = 90
+							mil_power = 90
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 90
+						dip_power_cost = 90
+						mil_power_cost = 90
+					} 
+					change_trade_goods = fire_salts 
 				} 
-				owner = { 
-					adm_power_cost = 90
-					dip_power_cost = 90
-					mil_power_cost = 90
-				} 
-				change_trade_goods = fire_salts 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 100
@@ -1674,7 +1676,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = fish 
 			if = { 
@@ -1682,25 +1685,24 @@ country_event = {
 					NOT = { OR = { has_terrain = dwemer_stronghold has_terrain = lava has_terrain = salt_plains has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } }  
 					NOT = { trade_goods = fish } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 33
-						dip_power = 33
-						mil_power = 33
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 33
+							dip_power = 33
+							mil_power = 33
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 33
+						dip_power_cost = 33
+						mil_power_cost = 33
+					} 
+					change_trade_goods = fish 
 				} 
-				owner = { 
-					adm_power_cost = 33
-					dip_power_cost = 33
-					mil_power_cost = 33
-				} 
-				change_trade_goods = fish 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 37
@@ -1722,7 +1724,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = flin 
 			if = { 
@@ -1730,25 +1733,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = drylands has_terrain = hills has_terrain = mountain has_terrain = highlands has_terrain = desert has_terrain = coastal_desert has_terrain = lava has_terrain = salt_plains has_terrain = taiga has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } }  
 					NOT = { trade_goods = flin } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 157
-						dip_power = 157
-						mil_power = 157
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 157
+							dip_power = 157
+							mil_power = 157
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 157
+						dip_power_cost = 157
+						mil_power_cost = 157
+					} 
+					change_trade_goods = flin 
 				} 
-				owner = { 
-					adm_power_cost = 157
-					dip_power_cost = 157
-					mil_power_cost = 157
-				} 
-				change_trade_goods = flin 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 175
@@ -1770,7 +1772,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = frost_salts 
 			if = { 
@@ -1778,25 +1781,24 @@ country_event = {
 					owner = { full_idea_group = alchemical_ideas }  
 					NOT = { trade_goods = frost_salts } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 112
-						dip_power = 112
-						mil_power = 112
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 112
+							dip_power = 112
+							mil_power = 112
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 112
+						dip_power_cost = 112
+						mil_power_cost = 112
+					} 
+					change_trade_goods = frost_salts 
 				} 
-				owner = { 
-					adm_power_cost = 112
-					dip_power_cost = 112
-					mil_power_cost = 112
-				} 
-				change_trade_goods = frost_salts 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 125
@@ -1818,7 +1820,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = frostdew_blanc 
 			if = { 
@@ -1826,25 +1829,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = drylands has_terrain = hills has_terrain = mountain has_terrain = highlands has_terrain = desert has_terrain = coastal_desert has_terrain = lava has_terrain = salt_plains has_terrain = taiga has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } }  
 					NOT = { trade_goods = frostdew_blanc } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 100
-						dip_power = 100
-						mil_power = 100
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 100
+							dip_power = 100
+							mil_power = 100
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 100
+						dip_power_cost = 100
+						mil_power_cost = 100
+					} 
+					change_trade_goods = frostdew_blanc 
 				} 
-				owner = { 
-					adm_power_cost = 100
-					dip_power_cost = 100
-					mil_power_cost = 100
-				} 
-				change_trade_goods = frostdew_blanc 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 112
@@ -1866,7 +1868,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = fruits_and_vegetables 
 			if = { 
@@ -1874,25 +1877,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = drylands has_terrain = hills has_terrain = mountain has_terrain = highlands has_terrain = desert has_terrain = coastal_desert has_terrain = dwemer_stronghold has_terrain = lava has_terrain = ashlands has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } }  
 					NOT = { trade_goods = fruits_and_vegetables } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 67
-						dip_power = 67
-						mil_power = 67
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 67
+							dip_power = 67
+							mil_power = 67
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 67
+						dip_power_cost = 67
+						mil_power_cost = 67
+					} 
+					change_trade_goods = fruits_and_vegetables 
 				} 
-				owner = { 
-					adm_power_cost = 67
-					dip_power_cost = 67
-					mil_power_cost = 67
-				} 
-				change_trade_goods = fruits_and_vegetables 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 75
@@ -1914,7 +1916,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = fur 
 			if = { 
@@ -1922,25 +1925,24 @@ country_event = {
 					NOT = { OR = { has_terrain = marsh has_terrain = desert has_terrain = coastal_desert has_terrain = coastline has_terrain = dwemer_stronghold has_terrain = lava has_terrain = ashlands has_terrain = salt_plains has_terrain = drylands has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } }  
 					NOT = { trade_goods = fur } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 55
-						dip_power = 55
-						mil_power = 55
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 55
+							dip_power = 55
+							mil_power = 55
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 55
+						dip_power_cost = 55
+						mil_power_cost = 55
+					} 
+					change_trade_goods = fur 
 				} 
-				owner = { 
-					adm_power_cost = 55
-					dip_power_cost = 55
-					mil_power_cost = 55
-				} 
-				change_trade_goods = fur 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 62
@@ -1962,7 +1964,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = gems 
 			if = { 
@@ -1970,25 +1973,24 @@ country_event = {
 					NOT = { OR = { has_terrain = farmlands has_terrain = grasslands has_terrain = steppe has_terrain = savannah has_terrain = marsh has_terrain = coastline has_terrain = bayou } }  
 					NOT = { trade_goods = gems } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 157
-						dip_power = 157
-						mil_power = 157
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 157
+							dip_power = 157
+							mil_power = 157
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 157
+						dip_power_cost = 157
+						mil_power_cost = 157
+					} 
+					change_trade_goods = gems 
 				} 
-				owner = { 
-					adm_power_cost = 157
-					dip_power_cost = 157
-					mil_power_cost = 157
-				} 
-				change_trade_goods = gems 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 175
@@ -2010,7 +2012,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = glass 
 			if = { 
@@ -2018,25 +2021,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = taiga has_terrain = barrow has_terrain = deadlands_daedric_keep } }  
 					NOT = { trade_goods = glass } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 135
-						dip_power = 135
-						mil_power = 135
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 135
+							dip_power = 135
+							mil_power = 135
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 135
+						dip_power_cost = 135
+						mil_power_cost = 135
+					} 
+					change_trade_goods = glass 
 				} 
-				owner = { 
-					adm_power_cost = 135
-					dip_power_cost = 135
-					mil_power_cost = 135
-				} 
-				change_trade_goods = glass 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 150
@@ -2058,7 +2060,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = gold 
 			if = { 
@@ -2066,25 +2069,24 @@ country_event = {
 					NOT = { has_terrain = grasslands has_terrain = jungle has_terrain = farmlands has_terrain = coastline has_terrain = coastal_desert has_terrain = woods has_terrain = marsh has_terrain = bayou has_terrain = glacier has_terrain = taiga has_terrain = lava has_terrain = fungal_forest has_terrain = steppe has_terrain = deadlands_boiling_coast has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } NOT = { any_province_in_state = { OR = { trade_goods = silver trade_goods = gold } } }  
 					NOT = { trade_goods = gold } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 225
-						dip_power = 225
-						mil_power = 225
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 225
+							dip_power = 225
+							mil_power = 225
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 225
+						dip_power_cost = 225
+						mil_power_cost = 225
+					} 
+					change_trade_goods = gold 
 				} 
-				owner = { 
-					adm_power_cost = 225
-					dip_power_cost = 225
-					mil_power_cost = 225
-				} 
-				change_trade_goods = gold 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 250
@@ -2106,7 +2108,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = greef 
 			if = { 
@@ -2114,25 +2117,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = drylands has_terrain = hills has_terrain = mountain has_terrain = highlands has_terrain = desert has_terrain = coastal_desert has_terrain = lava has_terrain = salt_plains has_terrain = taiga has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } } OR = { superregion = morrowind_superregion }  
 					NOT = { trade_goods = greef } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 180
-						dip_power = 180
-						mil_power = 180
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 180
+							dip_power = 180
+							mil_power = 180
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 180
+						dip_power_cost = 180
+						mil_power_cost = 180
+					} 
+					change_trade_goods = greef 
 				} 
-				owner = { 
-					adm_power_cost = 180
-					dip_power_cost = 180
-					mil_power_cost = 180
-				} 
-				change_trade_goods = greef 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 200
@@ -2154,7 +2156,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = hags_breath 
 			if = { 
@@ -2162,25 +2165,24 @@ country_event = {
 					culture = ayleid NOT = { has_province_flag = banned_hags_breath_production_flag continent = Tamriel }  
 					NOT = { trade_goods = hags_breath } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 180
-						dip_power = 180
-						mil_power = 180
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 180
+							dip_power = 180
+							mil_power = 180
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 180
+						dip_power_cost = 180
+						mil_power_cost = 180
+					} 
+					change_trade_goods = hags_breath 
 				} 
-				owner = { 
-					adm_power_cost = 180
-					dip_power_cost = 180
-					mil_power_cost = 180
-				} 
-				change_trade_goods = hags_breath 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 200
@@ -2202,7 +2204,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = harrada_root 
 			if = { 
@@ -2210,25 +2213,24 @@ country_event = {
 					owner = { full_idea_group = alchemical_ideas }  
 					NOT = { trade_goods = harrada_root } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 45
-						dip_power = 45
-						mil_power = 45
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 45
+							dip_power = 45
+							mil_power = 45
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 45
+						dip_power_cost = 45
+						mil_power_cost = 45
+					} 
+					change_trade_goods = harrada_root 
 				} 
-				owner = { 
-					adm_power_cost = 45
-					dip_power_cost = 45
-					mil_power_cost = 45
-				} 
-				change_trade_goods = harrada_root 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 50
@@ -2250,7 +2252,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = herbs 
 			if = { 
@@ -2258,25 +2261,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = drylands has_terrain = hills has_terrain = mountain has_terrain = highlands has_terrain = dwemer_stronghold has_terrain = lava has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } }  
 					NOT = { trade_goods = herbs } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 123
-						dip_power = 123
-						mil_power = 123
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 123
+							dip_power = 123
+							mil_power = 123
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 123
+						dip_power_cost = 123
+						mil_power_cost = 123
+					} 
+					change_trade_goods = herbs 
 				} 
-				owner = { 
-					adm_power_cost = 123
-					dip_power_cost = 123
-					mil_power_cost = 123
-				} 
-				change_trade_goods = herbs 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 137
@@ -2298,7 +2300,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = hist_sap 
 			if = { 
@@ -2306,25 +2309,24 @@ country_event = {
 					NOT = { has_province_flag = banned_hist_sap_production_flag } religion = hist  
 					NOT = { trade_goods = hist_sap } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 157
-						dip_power = 157
-						mil_power = 157
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 157
+							dip_power = 157
+							mil_power = 157
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 157
+						dip_power_cost = 157
+						mil_power_cost = 157
+					} 
+					change_trade_goods = hist_sap 
 				} 
-				owner = { 
-					adm_power_cost = 157
-					dip_power_cost = 157
-					mil_power_cost = 157
-				} 
-				change_trade_goods = hist_sap 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 175
@@ -2346,7 +2348,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = honey_and_wax 
 			if = { 
@@ -2354,25 +2357,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = drylands has_terrain = mountain has_terrain = dwemer_stronghold has_terrain = lava has_terrain = ashlands has_climate = arid has_climate = arctic has_terrain = coastline has_terrain = desert has_terrain = coastal_desert has_winter = severe_winter continent = Oblivion } }  
 					NOT = { trade_goods = honey_and_wax } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 112
-						dip_power = 112
-						mil_power = 112
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 112
+							dip_power = 112
+							mil_power = 112
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 112
+						dip_power_cost = 112
+						mil_power_cost = 112
+					} 
+					change_trade_goods = honey_and_wax 
 				} 
-				owner = { 
-					adm_power_cost = 112
-					dip_power_cost = 112
-					mil_power_cost = 112
-				} 
-				change_trade_goods = honey_and_wax 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 125
@@ -2394,7 +2396,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = human_flesh 
 			if = { 
@@ -2402,25 +2405,24 @@ country_event = {
 					OR = { owner = { is_daedric_nation_trigger = yes } religion_group = daedric_group culture = bosmer }  
 					NOT = { trade_goods = human_flesh } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 157
-						dip_power = 157
-						mil_power = 157
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 157
+							dip_power = 157
+							mil_power = 157
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 157
+						dip_power_cost = 157
+						mil_power_cost = 157
+					} 
+					change_trade_goods = human_flesh 
 				} 
-				owner = { 
-					adm_power_cost = 157
-					dip_power_cost = 157
-					mil_power_cost = 157
-				} 
-				change_trade_goods = human_flesh 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 175
@@ -2442,7 +2444,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = incense_of_mara 
 			if = { 
@@ -2450,25 +2453,24 @@ country_event = {
 					NOT = { OR = { has_province_flag = banned_incense_of_mara_production_flag AND = { NOT = { religion_group = polytheistic_group } OR = { has_terrain = mountain has_winter = severe_winter has_winter = normal_winter has_climate = tropical } } } }  
 					NOT = { trade_goods = incense_of_mara } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 145
-						dip_power = 145
-						mil_power = 145
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 145
+							dip_power = 145
+							mil_power = 145
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 145
+						dip_power_cost = 145
+						mil_power_cost = 145
+					} 
+					change_trade_goods = incense_of_mara 
 				} 
-				owner = { 
-					adm_power_cost = 145
-					dip_power_cost = 145
-					mil_power_cost = 145
-				} 
-				change_trade_goods = incense_of_mara 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 162
@@ -2490,7 +2492,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = iron 
 			if = { 
@@ -2498,25 +2501,24 @@ country_event = {
 					OR = { has_terrain = mountain has_terrain = highlands has_terrain = hills has_terrain = dwemer_stronghold has_terrain = barrow has_terrain = mountain_meadows has_terrain = orcish_stronghold has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation }  
 					NOT = { trade_goods = iron } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 33
-						dip_power = 33
-						mil_power = 33
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 33
+							dip_power = 33
+							mil_power = 33
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 33
+						dip_power_cost = 33
+						mil_power_cost = 33
+					} 
+					change_trade_goods = iron 
 				} 
-				owner = { 
-					adm_power_cost = 33
-					dip_power_cost = 33
-					mil_power_cost = 33
-				} 
-				change_trade_goods = iron 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 37
@@ -2538,7 +2540,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = ironstone 
 			if = { 
@@ -2546,25 +2549,24 @@ country_event = {
 					NOT = { OR = { has_terrain = farmlands has_terrain = grasslands has_terrain = steppe has_terrain = savannah has_terrain = jungle has_terrain = marsh has_terrain = coastal_desert has_terrain = coastline has_terrain = mudflats } }  
 					NOT = { trade_goods = ironstone } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 55
-						dip_power = 55
-						mil_power = 55
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 55
+							dip_power = 55
+							mil_power = 55
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 55
+						dip_power_cost = 55
+						mil_power_cost = 55
+					} 
+					change_trade_goods = ironstone 
 				} 
-				owner = { 
-					adm_power_cost = 55
-					dip_power_cost = 55
-					mil_power_cost = 55
-				} 
-				change_trade_goods = ironstone 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 62
@@ -2586,7 +2588,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = ivory 
 			if = { 
@@ -2594,25 +2597,24 @@ country_event = {
 					NOT = { OR = { has_terrain = jungle has_terrain = marsh has_terrain = drylands has_terrain = hills has_terrain = mountain has_terrain = desert has_terrain = coastal_desert has_terrain = dwemer_stronghold has_terrain = lava has_terrain = ashlands has_terrain = salt_plains has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } }  
 					NOT = { trade_goods = ivory } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 100
-						dip_power = 100
-						mil_power = 100
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 100
+							dip_power = 100
+							mil_power = 100
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 100
+						dip_power_cost = 100
+						mil_power_cost = 100
+					} 
+					change_trade_goods = ivory 
 				} 
-				owner = { 
-					adm_power_cost = 100
-					dip_power_cost = 100
-					mil_power_cost = 100
-				} 
-				change_trade_goods = ivory 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 112
@@ -2634,7 +2636,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = julianos_firebelly 
 			if = { 
@@ -2642,25 +2645,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = drylands has_terrain = hills has_terrain = mountain has_terrain = highlands has_terrain = desert has_terrain = coastal_desert has_terrain = lava has_terrain = salt_plains has_terrain = taiga has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } } continent = Tamriel  
 					NOT = { trade_goods = julianos_firebelly } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 145
-						dip_power = 145
-						mil_power = 145
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 145
+							dip_power = 145
+							mil_power = 145
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 145
+						dip_power_cost = 145
+						mil_power_cost = 145
+					} 
+					change_trade_goods = julianos_firebelly 
 				} 
-				owner = { 
-					adm_power_cost = 145
-					dip_power_cost = 145
-					mil_power_cost = 145
-				} 
-				change_trade_goods = julianos_firebelly 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 162
@@ -2682,7 +2684,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = lapis_lazuli 
 			if = { 
@@ -2690,25 +2693,24 @@ country_event = {
 					NOT = { OR = { has_terrain = farmlands has_terrain = grasslands has_terrain = steppe has_terrain = savannah has_terrain = marsh has_terrain = coastline has_terrain = bayou } }  
 					NOT = { trade_goods = lapis_lazuli } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 157
-						dip_power = 157
-						mil_power = 157
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 157
+							dip_power = 157
+							mil_power = 157
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 157
+						dip_power_cost = 157
+						mil_power_cost = 157
+					} 
+					change_trade_goods = lapis_lazuli 
 				} 
-				owner = { 
-					adm_power_cost = 157
-					dip_power_cost = 157
-					mil_power_cost = 157
-				} 
-				change_trade_goods = lapis_lazuli 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 175
@@ -2730,7 +2732,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = leather 
 			if = { 
@@ -2738,25 +2741,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = mountain has_terrain = highlands has_terrain = dwemer_stronghold has_terrain = lava has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } }  
 					NOT = { trade_goods = leather } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 78
-						dip_power = 78
-						mil_power = 78
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 78
+							dip_power = 78
+							mil_power = 78
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 78
+						dip_power_cost = 78
+						mil_power_cost = 78
+					} 
+					change_trade_goods = leather 
 				} 
-				owner = { 
-					adm_power_cost = 78
-					dip_power_cost = 78
-					mil_power_cost = 78
-				} 
-				change_trade_goods = leather 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 87
@@ -2778,7 +2780,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = livestock 
 			if = { 
@@ -2786,25 +2789,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = drylands has_terrain = mountain has_terrain = coastal_desert has_terrain = dwemer_stronghold has_terrain = lava has_terrain = salt_plains has_terrain = taiga has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } }  
 					NOT = { trade_goods = livestock } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 78
-						dip_power = 78
-						mil_power = 78
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 78
+							dip_power = 78
+							mil_power = 78
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 78
+						dip_power_cost = 78
+						mil_power_cost = 78
+					} 
+					change_trade_goods = livestock 
 				} 
-				owner = { 
-					adm_power_cost = 78
-					dip_power_cost = 78
-					mil_power_cost = 78
-				} 
-				change_trade_goods = livestock 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 87
@@ -2826,7 +2828,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = magic_goods 
 			if = { 
@@ -2834,25 +2837,24 @@ country_event = {
 					owner = { full_idea_group = arcane_ideas }  
 					NOT = { trade_goods = magic_goods } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 190
-						dip_power = 190
-						mil_power = 190
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 190
+							dip_power = 190
+							mil_power = 190
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 190
+						dip_power_cost = 190
+						mil_power_cost = 190
+					} 
+					change_trade_goods = magic_goods 
 				} 
-				owner = { 
-					adm_power_cost = 190
-					dip_power_cost = 190
-					mil_power_cost = 190
-				} 
-				change_trade_goods = magic_goods 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 212
@@ -2874,7 +2876,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = malachite 
 			if = { 
@@ -2882,25 +2885,24 @@ country_event = {
 					NOT = { OR = { has_terrain = farmlands has_terrain = grasslands has_terrain = steppe has_terrain = savannah has_terrain = jungle has_terrain = marsh has_terrain = coastal_desert has_terrain = coastline has_terrain = mudflats has_terrain = deadlands_daedric_keep has_terrain = glacier has_terrain = drylands has_terrain = forest has_terrain = woods has_terrain = taiga has_terrain = desert has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_sulfuric_desolation has_terrain = deadlands_daedric_keep } }  
 					NOT = { trade_goods = malachite } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 78
-						dip_power = 78
-						mil_power = 78
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 78
+							dip_power = 78
+							mil_power = 78
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 78
+						dip_power_cost = 78
+						mil_power_cost = 78
+					} 
+					change_trade_goods = malachite 
 				} 
-				owner = { 
-					adm_power_cost = 78
-					dip_power_cost = 78
-					mil_power_cost = 78
-				} 
-				change_trade_goods = malachite 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 87
@@ -2922,7 +2924,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = marble 
 			if = { 
@@ -2930,25 +2933,24 @@ country_event = {
 					NOT = { OR = { has_terrain = farmlands has_terrain = grasslands has_terrain = steppe has_terrain = savannah has_terrain = marsh has_terrain = coastline has_terrain = bayou } }  
 					NOT = { trade_goods = marble } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 168
-						dip_power = 168
-						mil_power = 168
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 168
+							dip_power = 168
+							mil_power = 168
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 168
+						dip_power_cost = 168
+						mil_power_cost = 168
+					} 
+					change_trade_goods = marble 
 				} 
-				owner = { 
-					adm_power_cost = 168
-					dip_power_cost = 168
-					mil_power_cost = 168
-				} 
-				change_trade_goods = marble 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 187
@@ -2970,7 +2972,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = mazte 
 			if = { 
@@ -2978,25 +2981,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = drylands has_terrain = hills has_terrain = mountain has_terrain = highlands has_terrain = desert has_terrain = coastal_desert has_terrain = lava has_terrain = salt_plains has_terrain = taiga has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } } superregion = morrowind_superregion  
 					NOT = { trade_goods = mazte } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 78
-						dip_power = 78
-						mil_power = 78
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 78
+							dip_power = 78
+							mil_power = 78
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 78
+						dip_power_cost = 78
+						mil_power_cost = 78
+					} 
+					change_trade_goods = mazte 
 				} 
-				owner = { 
-					adm_power_cost = 78
-					dip_power_cost = 78
-					mil_power_cost = 78
-				} 
-				change_trade_goods = mazte 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 87
@@ -3018,7 +3020,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = mead 
 			if = { 
@@ -3026,25 +3029,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = drylands has_terrain = mountain has_terrain = desert has_terrain = coastal_desert has_terrain = lava has_terrain = salt_plains has_terrain = taiga has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } }  
 					NOT = { trade_goods = mead } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 112
-						dip_power = 112
-						mil_power = 112
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 112
+							dip_power = 112
+							mil_power = 112
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 112
+						dip_power_cost = 112
+						mil_power_cost = 112
+					} 
+					change_trade_goods = mead 
 				} 
-				owner = { 
-					adm_power_cost = 112
-					dip_power_cost = 112
-					mil_power_cost = 112
-				} 
-				change_trade_goods = mead 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 125
@@ -3066,7 +3068,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = milk_of_kynareth 
 			if = { 
@@ -3074,25 +3077,24 @@ country_event = {
 					religion = nordic_pantheon  
 					NOT = { trade_goods = milk_of_kynareth } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 225
-						dip_power = 225
-						mil_power = 225
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 225
+							dip_power = 225
+							mil_power = 225
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 225
+						dip_power_cost = 225
+						mil_power_cost = 225
+					} 
+					change_trade_goods = milk_of_kynareth 
 				} 
-				owner = { 
-					adm_power_cost = 225
-					dip_power_cost = 225
-					mil_power_cost = 225
-				} 
-				change_trade_goods = milk_of_kynareth 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 250
@@ -3114,7 +3116,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = mithril 
 			if = { 
@@ -3122,25 +3125,24 @@ country_event = {
 					NOT = { OR = { has_terrain = farmlands has_terrain = grasslands has_terrain = steppe has_terrain = savannah has_terrain = jungle has_terrain = marsh has_terrain = coastal_desert has_terrain = coastline has_terrain = mudflats } }  
 					NOT = { trade_goods = mithril } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 168
-						dip_power = 168
-						mil_power = 168
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 168
+							dip_power = 168
+							mil_power = 168
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 168
+						dip_power_cost = 168
+						mil_power_cost = 168
+					} 
+					change_trade_goods = mithril 
 				} 
-				owner = { 
-					adm_power_cost = 168
-					dip_power_cost = 168
-					mil_power_cost = 168
-				} 
-				change_trade_goods = mithril 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 187
@@ -3162,7 +3164,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = moon_sugar 
 			if = { 
@@ -3170,25 +3173,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = drylands has_terrain = hills has_terrain = mountain has_terrain = highlands has_terrain = coastal_desert has_terrain = dwemer_stronghold has_terrain = lava has_terrain = salt_plains has_terrain = taiga has_terrain = tundra has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } } culture_group = khajiiti_cg  
 					NOT = { trade_goods = moon_sugar } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 157
-						dip_power = 157
-						mil_power = 157
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 157
+							dip_power = 157
+							mil_power = 157
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 157
+						dip_power_cost = 157
+						mil_power_cost = 157
+					} 
+					change_trade_goods = moon_sugar 
 				} 
-				owner = { 
-					adm_power_cost = 157
-					dip_power_cost = 157
-					mil_power_cost = 157
-				} 
-				change_trade_goods = moon_sugar 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 175
@@ -3210,7 +3212,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = moonshine 
 			if = { 
@@ -3218,25 +3221,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = drylands has_terrain = hills has_terrain = mountain has_terrain = highlands has_terrain = desert has_terrain = coastal_desert has_terrain = lava has_terrain = salt_plains has_terrain = taiga has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } }  
 					NOT = { trade_goods = moonshine } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 78
-						dip_power = 78
-						mil_power = 78
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 78
+							dip_power = 78
+							mil_power = 78
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 78
+						dip_power_cost = 78
+						mil_power_cost = 78
+					} 
+					change_trade_goods = moonshine 
 				} 
-				owner = { 
-					adm_power_cost = 78
-					dip_power_cost = 78
-					mil_power_cost = 78
-				} 
-				change_trade_goods = moonshine 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 87
@@ -3258,7 +3260,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = moonstone 
 			if = { 
@@ -3266,25 +3269,24 @@ country_event = {
 					NOT = { OR = { has_terrain = farmlands has_terrain = grasslands has_terrain = steppe has_terrain = savannah has_terrain = jungle has_terrain = marsh has_terrain = coastal_desert has_terrain = coastline has_terrain = mudflats has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } }  
 					NOT = { trade_goods = moonstone } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 112
-						dip_power = 112
-						mil_power = 112
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 112
+							dip_power = 112
+							mil_power = 112
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 112
+						dip_power_cost = 112
+						mil_power_cost = 112
+					} 
+					change_trade_goods = moonstone 
 				} 
-				owner = { 
-					adm_power_cost = 112
-					dip_power_cost = 112
-					mil_power_cost = 112
-				} 
-				change_trade_goods = moonstone 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 125
@@ -3306,7 +3308,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = mushrooms 
 			if = { 
@@ -3314,25 +3317,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = drylands has_terrain = hills has_terrain = mountain has_terrain = highlands has_terrain = desert has_terrain = coastal_desert has_terrain = lava has_terrain = taiga has_terrain = mudflats has_terrain = salt_plains has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } }  
 					NOT = { trade_goods = mushrooms } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 112
-						dip_power = 112
-						mil_power = 112
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 112
+							dip_power = 112
+							mil_power = 112
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 112
+						dip_power_cost = 112
+						mil_power_cost = 112
+					} 
+					change_trade_goods = mushrooms 
 				} 
-				owner = { 
-					adm_power_cost = 112
-					dip_power_cost = 112
-					mil_power_cost = 112
-				} 
-				change_trade_goods = mushrooms 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 125
@@ -3354,7 +3356,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = naval_supplies 
 			if = { 
@@ -3362,25 +3365,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = drylands has_terrain = mountain has_terrain = desert has_terrain = steppe has_terrain = farmlands has_terrain = grasslands has_terrain = dwemer_stronghold has_terrain = lava has_terrain = ashlands has_terrain = salt_plains has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } }  
 					NOT = { trade_goods = naval_supplies } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 67
-						dip_power = 67
-						mil_power = 67
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 67
+							dip_power = 67
+							mil_power = 67
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 67
+						dip_power_cost = 67
+						mil_power_cost = 67
+					} 
+					change_trade_goods = naval_supplies 
 				} 
-				owner = { 
-					adm_power_cost = 67
-					dip_power_cost = 67
-					mil_power_cost = 67
-				} 
-				change_trade_goods = naval_supplies 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 75
@@ -3402,7 +3404,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = nirncrux 
 			if = { 
@@ -3410,25 +3413,24 @@ country_event = {
 					region = dragontail_mountains_lr  
 					NOT = { trade_goods = nirncrux } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 112
-						dip_power = 112
-						mil_power = 112
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 112
+							dip_power = 112
+							mil_power = 112
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 112
+						dip_power_cost = 112
+						mil_power_cost = 112
+					} 
+					change_trade_goods = nirncrux 
 				} 
-				owner = { 
-					adm_power_cost = 112
-					dip_power_cost = 112
-					mil_power_cost = 112
-				} 
-				change_trade_goods = nirncrux 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 125
@@ -3450,7 +3452,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = nirnroot 
 			if = { 
@@ -3458,25 +3461,24 @@ country_event = {
 					NOT = { OR = { has_terrain = ashlands has_terrain = lava has_terrain = desert has_terrain = coastal_desert has_terrain = glacier has_terrain = mountain continent = Oblivion } }  
 					NOT = { trade_goods = nirnroot } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 168
-						dip_power = 168
-						mil_power = 168
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 168
+							dip_power = 168
+							mil_power = 168
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 168
+						dip_power_cost = 168
+						mil_power_cost = 168
+					} 
+					change_trade_goods = nirnroot 
 				} 
-				owner = { 
-					adm_power_cost = 168
-					dip_power_cost = 168
-					mil_power_cost = 168
-				} 
-				change_trade_goods = nirnroot 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 187
@@ -3498,7 +3500,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = numbskin_mead 
 			if = { 
@@ -3506,25 +3509,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = drylands has_terrain = hills has_terrain = mountain has_terrain = highlands has_terrain = desert has_terrain = coastal_desert has_terrain = lava has_terrain = salt_plains has_terrain = taiga has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } }  
 					NOT = { trade_goods = numbskin_mead } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 100
-						dip_power = 100
-						mil_power = 100
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 100
+							dip_power = 100
+							mil_power = 100
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 100
+						dip_power_cost = 100
+						mil_power_cost = 100
+					} 
+					change_trade_goods = numbskin_mead 
 				} 
-				owner = { 
-					adm_power_cost = 100
-					dip_power_cost = 100
-					mil_power_cost = 100
-				} 
-				change_trade_goods = numbskin_mead 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 112
@@ -3546,7 +3548,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = orgnium 
 			if = { 
@@ -3554,25 +3557,24 @@ country_event = {
 					NOT = { OR = { has_terrain = farmlands has_terrain = grasslands has_terrain = steppe has_terrain = marsh has_terrain = coastal_desert has_terrain = coastline has_terrain = mudflats } } continent = Pyandonea  
 					NOT = { trade_goods = orgnium } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 100
-						dip_power = 100
-						mil_power = 100
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 100
+							dip_power = 100
+							mil_power = 100
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 100
+						dip_power_cost = 100
+						mil_power_cost = 100
+					} 
+					change_trade_goods = orgnium 
 				} 
-				owner = { 
-					adm_power_cost = 100
-					dip_power_cost = 100
-					mil_power_cost = 100
-				} 
-				change_trade_goods = orgnium 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 112
@@ -3594,7 +3596,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = orichalcum 
 			if = { 
@@ -3602,25 +3605,24 @@ country_event = {
 					OR = { has_terrain = highlands has_terrain = orcish_stronghold has_terrain = hills }  
 					NOT = { trade_goods = orichalcum } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 90
-						dip_power = 90
-						mil_power = 90
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 90
+							dip_power = 90
+							mil_power = 90
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 90
+						dip_power_cost = 90
+						mil_power_cost = 90
+					} 
+					change_trade_goods = orichalcum 
 				} 
-				owner = { 
-					adm_power_cost = 90
-					dip_power_cost = 90
-					mil_power_cost = 90
-				} 
-				change_trade_goods = orichalcum 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 100
@@ -3642,7 +3644,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = paper 
 			if = { 
@@ -3650,25 +3653,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = salt_plains has_terrain = lava has_terrain = ashlands has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } }  
 					NOT = { trade_goods = paper } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 145
-						dip_power = 145
-						mil_power = 145
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 145
+							dip_power = 145
+							mil_power = 145
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 145
+						dip_power_cost = 145
+						mil_power_cost = 145
+					} 
+					change_trade_goods = paper 
 				} 
-				owner = { 
-					adm_power_cost = 145
-					dip_power_cost = 145
-					mil_power_cost = 145
-				} 
-				change_trade_goods = paper 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 162
@@ -3690,7 +3692,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = potions 
 			if = { 
@@ -3698,25 +3701,24 @@ country_event = {
 					any_province_in_state = { OR = { trade_goods = void_salts trade_goods = vampire_dust trade_goods = scamp_skin trade_goods = salt trade_goods = nirnroot trade_goods = nirncrux trade_goods = mushrooms trade_goods = moon_sugar trade_goods = human_flesh trade_goods = hist_sap trade_goods = herbs trade_goods = harrada_root trade_goods = fire_salts trade_goods = eggs trade_goods = crabs trade_goods = bloodgrass trade_goods = algae } }  
 					NOT = { trade_goods = potions } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 145
-						dip_power = 145
-						mil_power = 145
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 145
+							dip_power = 145
+							mil_power = 145
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 145
+						dip_power_cost = 145
+						mil_power_cost = 145
+					} 
+					change_trade_goods = potions 
 				} 
-				owner = { 
-					adm_power_cost = 145
-					dip_power_cost = 145
-					mil_power_cost = 145
-				} 
-				change_trade_goods = potions 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 162
@@ -3738,7 +3740,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = quicksilver 
 			if = { 
@@ -3746,25 +3749,24 @@ country_event = {
 					OR = { has_terrain = mountain has_terrain = highlands has_terrain = hills has_terrain = dwemer_stronghold has_terrain = barrow has_terrain = mountain_meadows has_terrain = orcish_stronghold has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation }  
 					NOT = { trade_goods = quicksilver } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 100
-						dip_power = 100
-						mil_power = 100
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 100
+							dip_power = 100
+							mil_power = 100
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 100
+						dip_power_cost = 100
+						mil_power_cost = 100
+					} 
+					change_trade_goods = quicksilver 
 				} 
-				owner = { 
-					adm_power_cost = 100
-					dip_power_cost = 100
-					mil_power_cost = 100
-				} 
-				change_trade_goods = quicksilver 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 112
@@ -3786,7 +3788,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = salt 
 			if = { 
@@ -3794,25 +3797,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = mudflats has_terrain = farmlands has_terrain = grasslands has_terrain = forest has_terrain = woods has_terrain = jungle has_terrain = marsh has_terrain = bayou has_terrain = savannah has_terrain = taiga has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } }  
 					NOT = { trade_goods = salt } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 90
-						dip_power = 90
-						mil_power = 90
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 90
+							dip_power = 90
+							mil_power = 90
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 90
+						dip_power_cost = 90
+						mil_power_cost = 90
+					} 
+					change_trade_goods = salt 
 				} 
-				owner = { 
-					adm_power_cost = 90
-					dip_power_cost = 90
-					mil_power_cost = 90
-				} 
-				change_trade_goods = salt 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 100
@@ -3834,7 +3836,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = sandstone 
 			if = { 
@@ -3842,25 +3845,24 @@ country_event = {
 					OR = { has_climate = arid has_terrain = desert has_terrain = coastal_desert }  
 					NOT = { trade_goods = sandstone } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 27
-						dip_power = 27
-						mil_power = 27
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 27
+							dip_power = 27
+							mil_power = 27
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 27
+						dip_power_cost = 27
+						mil_power_cost = 27
+					} 
+					change_trade_goods = sandstone 
 				} 
-				owner = { 
-					adm_power_cost = 27
-					dip_power_cost = 27
-					mil_power_cost = 27
-				} 
-				change_trade_goods = sandstone 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 31
@@ -3882,7 +3884,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = scamp_skin 
 			if = { 
@@ -3890,25 +3893,24 @@ country_event = {
 					owner = { full_idea_group = alchemical_ideas }  
 					NOT = { trade_goods = scamp_skin } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 55
-						dip_power = 55
-						mil_power = 55
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 55
+							dip_power = 55
+							mil_power = 55
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 55
+						dip_power_cost = 55
+						mil_power_cost = 55
+					} 
+					change_trade_goods = scamp_skin 
 				} 
-				owner = { 
-					adm_power_cost = 55
-					dip_power_cost = 55
-					mil_power_cost = 55
-				} 
-				change_trade_goods = scamp_skin 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 62
@@ -3930,7 +3932,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = scrolls 
 			if = { 
@@ -3938,25 +3941,24 @@ country_event = {
 					any_province_in_state = { trade_goods = paper }  
 					NOT = { trade_goods = scrolls } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 225
-						dip_power = 225
-						mil_power = 225
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 225
+							dip_power = 225
+							mil_power = 225
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 225
+						dip_power_cost = 225
+						mil_power_cost = 225
+					} 
+					change_trade_goods = scrolls 
 				} 
-				owner = { 
-					adm_power_cost = 225
-					dip_power_cost = 225
-					mil_power_cost = 225
-				} 
-				change_trade_goods = scrolls 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 250
@@ -3978,7 +3980,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = shale 
 			if = { 
@@ -3986,25 +3989,24 @@ country_event = {
 					NOT = { OR = { has_terrain = hills has_terrain = mountain has_terrain = highlands } }  
 					NOT = { trade_goods = shale } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 78
-						dip_power = 78
-						mil_power = 78
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 78
+							dip_power = 78
+							mil_power = 78
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 78
+						dip_power_cost = 78
+						mil_power_cost = 78
+					} 
+					change_trade_goods = shale 
 				} 
-				owner = { 
-					adm_power_cost = 78
-					dip_power_cost = 78
-					mil_power_cost = 78
-				} 
-				change_trade_goods = shale 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 87
@@ -4026,7 +4028,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = shein 
 			if = { 
@@ -4034,25 +4037,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = drylands has_terrain = hills has_terrain = mountain has_terrain = highlands has_terrain = desert has_terrain = coastal_desert has_terrain = lava has_terrain = salt_plains has_terrain = taiga has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } } superregion = morrowind_superregion  
 					NOT = { trade_goods = shein } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 90
-						dip_power = 90
-						mil_power = 90
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 90
+							dip_power = 90
+							mil_power = 90
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 90
+						dip_power_cost = 90
+						mil_power_cost = 90
+					} 
+					change_trade_goods = shein 
 				} 
-				owner = { 
-					adm_power_cost = 90
-					dip_power_cost = 90
-					mil_power_cost = 90
-				} 
-				change_trade_goods = shein 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 100
@@ -4074,7 +4076,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = silk 
 			if = { 
@@ -4082,25 +4085,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = drylands has_terrain = hills has_terrain = mountain has_terrain = highlands has_terrain = lava has_terrain = salt_plains has_terrain = tundra has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } }  
 					NOT = { trade_goods = silk } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 123
-						dip_power = 123
-						mil_power = 123
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 123
+							dip_power = 123
+							mil_power = 123
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 123
+						dip_power_cost = 123
+						mil_power_cost = 123
+					} 
+					change_trade_goods = silk 
 				} 
-				owner = { 
-					adm_power_cost = 123
-					dip_power_cost = 123
-					mil_power_cost = 123
-				} 
-				change_trade_goods = silk 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 137
@@ -4122,7 +4124,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = silver 
 			if = { 
@@ -4130,25 +4133,24 @@ country_event = {
 					NOT = { OR = { has_terrain = farmlands has_terrain = grasslands has_terrain = steppe has_terrain = savannah has_terrain = jungle has_terrain = marsh has_terrain = desert has_terrain = coastal_desert has_terrain = coastline has_terrain = mudflats } }  
 					NOT = { trade_goods = silver } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 225
-						dip_power = 225
-						mil_power = 225
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 225
+							dip_power = 225
+							mil_power = 225
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 225
+						dip_power_cost = 225
+						mil_power_cost = 225
+					} 
+					change_trade_goods = silver 
 				} 
-				owner = { 
-					adm_power_cost = 225
-					dip_power_cost = 225
-					mil_power_cost = 225
-				} 
-				change_trade_goods = silver 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 250
@@ -4170,7 +4172,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = skooma 
 			if = { 
@@ -4178,25 +4181,24 @@ country_event = {
 					NOT = { has_province_flag = banned_skooma_production_flag } continent = Tamriel  
 					NOT = { trade_goods = skooma } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 168
-						dip_power = 168
-						mil_power = 168
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 168
+							dip_power = 168
+							mil_power = 168
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 168
+						dip_power_cost = 168
+						mil_power_cost = 168
+					} 
+					change_trade_goods = skooma 
 				} 
-				owner = { 
-					adm_power_cost = 168
-					dip_power_cost = 168
-					mil_power_cost = 168
-				} 
-				change_trade_goods = skooma 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 187
@@ -4218,7 +4220,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = slaves 
 			if = { 
@@ -4226,25 +4229,24 @@ country_event = {
 					OR = { has_owner_accepted_culture = no has_owner_religion = no } owner = { has_estate = estate_slavers }  
 					NOT = { trade_goods = slaves } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 100
-						dip_power = 100
-						mil_power = 100
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 100
+							dip_power = 100
+							mil_power = 100
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 100
+						dip_power_cost = 100
+						mil_power_cost = 100
+					} 
+					change_trade_goods = slaves 
 				} 
-				owner = { 
-					adm_power_cost = 100
-					dip_power_cost = 100
-					mil_power_cost = 100
-				} 
-				change_trade_goods = slaves 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 112
@@ -4266,7 +4268,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = sleeping_tree_sap 
 			if = { 
@@ -4274,25 +4277,24 @@ country_event = {
 					continent = Tamriel NOT = { has_province_flag = banned_sleeping_tree_sap_production_flag }  
 					NOT = { trade_goods = sleeping_tree_sap } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 213
-						dip_power = 213
-						mil_power = 213
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 213
+							dip_power = 213
+							mil_power = 213
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 213
+						dip_power_cost = 213
+						mil_power_cost = 213
+					} 
+					change_trade_goods = sleeping_tree_sap 
 				} 
-				owner = { 
-					adm_power_cost = 213
-					dip_power_cost = 213
-					mil_power_cost = 213
-				} 
-				change_trade_goods = sleeping_tree_sap 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 237
@@ -4314,7 +4316,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = sload_soap 
 			if = { 
@@ -4322,25 +4325,24 @@ country_event = {
 					culture = sload  
 					NOT = { trade_goods = sload_soap } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 213
-						dip_power = 213
-						mil_power = 213
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 213
+							dip_power = 213
+							mil_power = 213
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 213
+						dip_power_cost = 213
+						mil_power_cost = 213
+					} 
+					change_trade_goods = sload_soap 
 				} 
-				owner = { 
-					adm_power_cost = 213
-					dip_power_cost = 213
-					mil_power_cost = 213
-				} 
-				change_trade_goods = sload_soap 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 237
@@ -4362,7 +4364,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = soul_gems 
 			if = { 
@@ -4370,25 +4373,24 @@ country_event = {
 					owner = { OR = { full_idea_group = soul_siphon_ideas } }  
 					NOT = { trade_goods = soul_gems } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 168
-						dip_power = 168
-						mil_power = 168
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 168
+							dip_power = 168
+							mil_power = 168
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 168
+						dip_power_cost = 168
+						mil_power_cost = 168
+					} 
+					change_trade_goods = soul_gems 
 				} 
-				owner = { 
-					adm_power_cost = 168
-					dip_power_cost = 168
-					mil_power_cost = 168
-				} 
-				change_trade_goods = soul_gems 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 187
@@ -4410,7 +4412,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = sparkling_honeydew 
 			if = { 
@@ -4418,25 +4421,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = drylands has_terrain = hills has_terrain = mountain has_terrain = highlands has_terrain = desert has_terrain = coastal_desert has_terrain = lava has_terrain = salt_plains has_terrain = taiga has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } }  
 					NOT = { trade_goods = sparkling_honeydew } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 145
-						dip_power = 145
-						mil_power = 145
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 145
+							dip_power = 145
+							mil_power = 145
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 145
+						dip_power_cost = 145
+						mil_power_cost = 145
+					} 
+					change_trade_goods = sparkling_honeydew 
 				} 
-				owner = { 
-					adm_power_cost = 145
-					dip_power_cost = 145
-					mil_power_cost = 145
-				} 
-				change_trade_goods = sparkling_honeydew 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 162
@@ -4458,7 +4460,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = spiced_wine 
 			if = { 
@@ -4466,25 +4469,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = drylands has_terrain = hills has_terrain = mountain has_terrain = highlands has_terrain = desert has_terrain = coastal_desert has_terrain = lava has_terrain = salt_plains has_terrain = taiga has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } } superregion = skyrim_superregion  
 					NOT = { trade_goods = spiced_wine } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 225
-						dip_power = 225
-						mil_power = 225
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 225
+							dip_power = 225
+							mil_power = 225
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 225
+						dip_power_cost = 225
+						mil_power_cost = 225
+					} 
+					change_trade_goods = spiced_wine 
 				} 
-				owner = { 
-					adm_power_cost = 225
-					dip_power_cost = 225
-					mil_power_cost = 225
-				} 
-				change_trade_goods = spiced_wine 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 250
@@ -4506,7 +4508,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = spiddal_stick 
 			if = { 
@@ -4514,25 +4517,24 @@ country_event = {
 					owner = { full_idea_group = alchemical_ideas }  
 					NOT = { trade_goods = spiddal_stick } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 33
-						dip_power = 33
-						mil_power = 33
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 33
+							dip_power = 33
+							mil_power = 33
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 33
+						dip_power_cost = 33
+						mil_power_cost = 33
+					} 
+					change_trade_goods = spiddal_stick 
 				} 
-				owner = { 
-					adm_power_cost = 33
-					dip_power_cost = 33
-					mil_power_cost = 33
-				} 
-				change_trade_goods = spiddal_stick 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 37
@@ -4554,7 +4556,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = stalhrim 
 			if = { 
@@ -4562,25 +4565,24 @@ country_event = {
 					NOT = { OR = { has_terrain = farmlands has_terrain = grasslands has_terrain = steppe has_terrain = savannah has_terrain = jungle has_terrain = marsh has_terrain = desert has_terrain = coastal_desert has_terrain = coastline has_terrain = dwemer_stronghold has_terrain = salt_plains has_terrain = mudflats has_terrain = drylands has_terrain = woods has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } OR = { region = eastern_deadlands_lr region = western_deadlands_lr region = northern_deadlands_lr region = southern_deadlands_lr } } OR = { region = western_atmora_lr region = eastern_atmora_lr area = morrowind_1_la area = morrowind_23_la }  
 					NOT = { trade_goods = stalhrim } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 145
-						dip_power = 145
-						mil_power = 145
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 145
+							dip_power = 145
+							mil_power = 145
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 145
+						dip_power_cost = 145
+						mil_power_cost = 145
+					} 
+					change_trade_goods = stalhrim 
 				} 
-				owner = { 
-					adm_power_cost = 145
-					dip_power_cost = 145
-					mil_power_cost = 145
-				} 
-				change_trade_goods = stalhrim 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 162
@@ -4602,7 +4604,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = stone 
 			if = { 
@@ -4610,25 +4613,24 @@ country_event = {
 					NOT = { OR = { has_terrain = farmlands has_terrain = grasslands has_terrain = steppe has_terrain = savannah has_terrain = jungle has_terrain = marsh has_terrain = coastal_desert has_terrain = coastline has_terrain = mudflats has_terrain = glacier has_terrain = drylands has_terrain = desert development = 15 } }  
 					NOT = { trade_goods = stone } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 22
-						dip_power = 22
-						mil_power = 22
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 22
+							dip_power = 22
+							mil_power = 22
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 22
+						dip_power_cost = 22
+						mil_power_cost = 22
+					} 
+					change_trade_goods = stone 
 				} 
-				owner = { 
-					adm_power_cost = 22
-					dip_power_cost = 22
-					mil_power_cost = 22
-				} 
-				change_trade_goods = stone 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 25
@@ -4650,7 +4652,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = stumblefoots_reserve 
 			if = { 
@@ -4658,25 +4661,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = drylands has_terrain = hills has_terrain = mountain has_terrain = highlands has_terrain = desert has_terrain = coastal_desert has_terrain = lava has_terrain = salt_plains has_terrain = taiga has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } } superregion = cyrodiil_superregion  
 					NOT = { trade_goods = stumblefoots_reserve } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 123
-						dip_power = 123
-						mil_power = 123
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 123
+							dip_power = 123
+							mil_power = 123
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 123
+						dip_power_cost = 123
+						mil_power_cost = 123
+					} 
+					change_trade_goods = stumblefoots_reserve 
 				} 
-				owner = { 
-					adm_power_cost = 123
-					dip_power_cost = 123
-					mil_power_cost = 123
-				} 
-				change_trade_goods = stumblefoots_reserve 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 137
@@ -4698,7 +4700,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = sujiamma 
 			if = { 
@@ -4706,25 +4709,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = drylands has_terrain = hills has_terrain = mountain has_terrain = highlands has_terrain = desert has_terrain = coastal_desert has_terrain = lava has_terrain = salt_plains has_terrain = taiga has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } } OR = { culture_group = velothi_cg superregion = morrowind_superregion }  
 					NOT = { trade_goods = sujiamma } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 270
-						dip_power = 270
-						mil_power = 270
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 270
+							dip_power = 270
+							mil_power = 270
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 270
+						dip_power_cost = 270
+						mil_power_cost = 270
+					} 
+					change_trade_goods = sujiamma 
 				} 
-				owner = { 
-					adm_power_cost = 270
-					dip_power_cost = 270
-					mil_power_cost = 270
-				} 
-				change_trade_goods = sujiamma 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 300
@@ -4746,7 +4748,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = tobacco 
 			if = { 
@@ -4754,25 +4757,24 @@ country_event = {
 					NOT = { has_province_flag = banned_tobacco_production_flag }  
 					NOT = { trade_goods = tobacco } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 112
-						dip_power = 112
-						mil_power = 112
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 112
+							dip_power = 112
+							mil_power = 112
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 112
+						dip_power_cost = 112
+						mil_power_cost = 112
+					} 
+					change_trade_goods = tobacco 
 				} 
-				owner = { 
-					adm_power_cost = 112
-					dip_power_cost = 112
-					mil_power_cost = 112
-				} 
-				change_trade_goods = tobacco 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 125
@@ -4794,7 +4796,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = vampire_dust 
 			if = { 
@@ -4802,25 +4805,24 @@ country_event = {
 					owner = { full_idea_group = alchemical_ideas } culture = vampire owner = { NOT = { OR = { accepted_culture = vampire primary_culture = vampire } } }  
 					NOT = { trade_goods = vampire_dust } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 123
-						dip_power = 123
-						mil_power = 123
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 123
+							dip_power = 123
+							mil_power = 123
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 123
+						dip_power_cost = 123
+						mil_power_cost = 123
+					} 
+					change_trade_goods = vampire_dust 
 				} 
-				owner = { 
-					adm_power_cost = 123
-					dip_power_cost = 123
-					mil_power_cost = 123
-				} 
-				change_trade_goods = vampire_dust 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 137
@@ -4842,7 +4844,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = weapons_and_armor 
 			if = { 
@@ -4850,25 +4853,24 @@ country_event = {
 					any_province_in_state = { OR = { trade_goods = iron trade_goods = ebony trade_goods = orichalcum trade_goods = quicksilver trade_goods = malachite trade_goods = moonstone trade_goods = stalhrim trade_goods = dwemer_metal trade_goods = adamantium } }  
 					NOT = { trade_goods = weapons_and_armor } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 168
-						dip_power = 168
-						mil_power = 168
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 168
+							dip_power = 168
+							mil_power = 168
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 168
+						dip_power_cost = 168
+						mil_power_cost = 168
+					} 
+					change_trade_goods = weapons_and_armor 
 				} 
-				owner = { 
-					adm_power_cost = 168
-					dip_power_cost = 168
-					mil_power_cost = 168
-				} 
-				change_trade_goods = weapons_and_armor 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 187
@@ -4890,7 +4892,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = west_weald_wine 
 			if = { 
@@ -4898,25 +4901,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = drylands has_terrain = hills has_terrain = mountain has_terrain = highlands has_terrain = desert has_terrain = coastal_desert has_terrain = lava has_terrain = salt_plains has_terrain = taiga has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } } region = western_cyrodiil_lr  
 					NOT = { trade_goods = west_weald_wine } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 168
-						dip_power = 168
-						mil_power = 168
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 168
+							dip_power = 168
+							mil_power = 168
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 168
+						dip_power_cost = 168
+						mil_power_cost = 168
+					} 
+					change_trade_goods = west_weald_wine 
 				} 
-				owner = { 
-					adm_power_cost = 168
-					dip_power_cost = 168
-					mil_power_cost = 168
-				} 
-				change_trade_goods = west_weald_wine 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 187
@@ -4938,7 +4940,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = wine 
 			if = { 
@@ -4946,25 +4949,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = drylands has_terrain = hills has_terrain = mountain has_terrain = highlands has_terrain = desert has_terrain = coastal_desert has_terrain = lava has_terrain = salt_plains has_terrain = taiga has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } }  
 					NOT = { trade_goods = wine } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 145
-						dip_power = 145
-						mil_power = 145
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 145
+							dip_power = 145
+							mil_power = 145
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 145
+						dip_power_cost = 145
+						mil_power_cost = 145
+					} 
+					change_trade_goods = wine 
 				} 
-				owner = { 
-					adm_power_cost = 145
-					dip_power_cost = 145
-					mil_power_cost = 145
-				} 
-				change_trade_goods = wine 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 162
@@ -4986,7 +4988,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = void_salts 
 			if = { 
@@ -4994,25 +4997,24 @@ country_event = {
 					owner = { full_idea_group = alchemical_ideas }  
 					NOT = { trade_goods = void_salts } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 135
-						dip_power = 135
-						mil_power = 135
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 135
+							dip_power = 135
+							mil_power = 135
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 135
+						dip_power_cost = 135
+						mil_power_cost = 135
+					} 
+					change_trade_goods = void_salts 
 				} 
-				owner = { 
-					adm_power_cost = 135
-					dip_power_cost = 135
-					mil_power_cost = 135
-				} 
-				change_trade_goods = void_salts 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 150
@@ -5034,7 +5036,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = wood 
 			if = { 
@@ -5042,25 +5045,24 @@ country_event = {
 					NOT = { OR = { has_terrain = glacier has_terrain = drylands has_terrain = mountain has_terrain = highlands has_terrain = desert has_terrain = coastal_desert has_terrain = coastline has_terrain = steppe has_terrain = farmlands has_terrain = grasslands has_terrain = dwemer_stronghold has_terrain = lava has_terrain = ashlands has_terrain = salt_plains has_terrain = mudflats has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } }  
 					NOT = { trade_goods = wood } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 33
-						dip_power = 33
-						mil_power = 33
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 33
+							dip_power = 33
+							mil_power = 33
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 33
+						dip_power_cost = 33
+						mil_power_cost = 33
+					} 
+					change_trade_goods = wood 
 				} 
-				owner = { 
-					adm_power_cost = 33
-					dip_power_cost = 33
-					mil_power_cost = 33
-				} 
-				change_trade_goods = wood 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 37
@@ -5082,7 +5084,8 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
+		} 
+	
 		option = { 
 			name = wool 
 			if = { 
@@ -5090,25 +5093,24 @@ country_event = {
 					NOT = { OR = { has_terrain = forest has_terrain = woods has_terrain = jungle has_terrain = marsh has_terrain = desert has_terrain = coastal_desert has_terrain = coastline has_terrain = dwemer_stronghold has_terrain = lava has_terrain = ashlands has_terrain = salt_plains has_terrain = taiga has_terrain = glacier has_terrain = drylands has_terrain = deadlands_ashen_wastes has_terrain = deadlands_smouldering_badlands has_terrain = deadlands_boiling_coast has_terrain = deadlands_burning_hills has_terrain = deadlands_daedric_keep has_terrain = deadlands_volcanic_peak has_terrain = deadlands_lava_cave has_terrain = deadlands_sulfuric_desolation } }  
 					NOT = { trade_goods = wool } 
 				} 
-			} 
-			
-			if = { 
-				limit = { 
-					owner = { 
-						full_idea_group = transmutation_ideas 
-						adm_power = 33
-						dip_power = 33
-						mil_power = 33
+				
+				if = { 
+					limit = { 
+						owner = { 
+							full_idea_group = transmutation_ideas 
+							adm_power = 33
+							dip_power = 33
+							mil_power = 33
+						} 
 					} 
+					owner = { 
+						adm_power_cost = 33
+						dip_power_cost = 33
+						mil_power_cost = 33
+					} 
+					change_trade_goods = wool 
 				} 
-				owner = { 
-					adm_power_cost = 33
-					dip_power_cost = 33
-					mil_power_cost = 33
-				} 
-				change_trade_goods = wool 
-			} 
-			else_if = { 
+				else_if = { 
 					limit = { 
 						owner = { 
 							adm_power = 37
@@ -5130,9 +5132,14 @@ country_event = {
 			else = { 
 				custom_tooltip = es_esb.tt0 
 			} 
-		
-	} 
+		} 
+	
 } 
+
+
+
+
+
 
 country_event = { 
 	id = es_esb.2 
@@ -5162,6 +5169,7 @@ country_event = {
 	} 
 } 
 
+
 country_event = { 
 	id = es_esb.3 
 	title = es_esb.3.t 
@@ -5174,7 +5182,7 @@ country_event = {
 		event_target:esb_to_genocide = { controlled_by = ROOT } 
 	} 
 	
-	hidden = no 
+	hidden = yes 
 	
 	option = { 
 		name = es_esb.0.a 
@@ -7302,10 +7310,6 @@ country_event = {
 
 
 
-
-
-
-
 province_event = { 
 	id = es_esb.6 
 	title = es_esb.6.t 
@@ -7746,14 +7750,14 @@ province_event = {
 					
 				} 
 			} 
-			random_list = { 
-				1 = { province_event = { id = es_esb.3 days = 1 } } 
-				1 = { province_event = { id = es_esb.2 days = 1 } } 
+			province_event = { 
+				id = es_esb.8 
+				days = 1 
 			} 
 		} 
 		else = { 
 			province_event = { 
-				id = es_esb.2 
+				id = es_esb.7 
 				days = 1 
 			} 
 		} 
@@ -7770,6 +7774,7 @@ province_event = {
 
 
 
+
 province_event = { 
 	id = es_esb.7 
 	title = es_esb.7.t 
@@ -7779,6 +7784,188 @@ province_event = {
 
 	option = { 
 		name = es_esb.7.a 
+		owner = { 
+			random_owned_province = { 
+				limit = { 
+					OR = { 
+						
+							has_province_flag = auriels_bow 
+						
+							has_province_flag = auriels_shield 
+						
+							has_province_flag = azuras_star 
+						
+							has_province_flag = ebony_blade 
+						
+							has_province_flag = ebonys_mail 
+						
+							has_province_flag = hircines_ring 
+						
+							has_province_flag = chrysamere 
+						
+							has_province_flag = king_orgnums_coffer1 
+						
+							has_province_flag = king_orgnums_coffer2 
+						
+							has_province_flag = king_orgnums_coffer3 
+						
+							has_province_flag = king_orgnums_coffer4 
+						
+							has_province_flag = lords_mail 
+						
+							has_province_flag = mace_of_molag_bal 
+						
+							has_province_flag = masque_of_clavicus_vile 
+						
+							has_province_flag = mehrunes_razor 
+						
+							has_province_flag = necromancers_amulet 
+						
+							has_province_flag = ring_of_khajiit 
+						
+							has_province_flag = ring_of_namira 
+						
+							has_province_flag = ring_of_phynaster 
+						
+							has_province_flag = skeleton_key 
+						
+							has_province_flag = skull_of_corruption 
+						
+							has_province_flag = spell_breaker 
+						
+							has_province_flag = staff_of_magnus 
+						
+							has_province_flag = volendrung 
+						
+							has_province_flag = wabbajack 
+						
+							has_province_flag = warlocks_ring 
+						
+							has_province_flag = amulet_of_heartfire 
+						
+							has_province_flag = amulet_of_heartheal 
+						
+							has_province_flag = amulet_of_heartrime 
+						
+							has_province_flag = amulet_of_heartthrum 
+						
+							has_province_flag = amulet_of_usheeja 
+						
+							has_province_flag = belt_of_heartfire 
+						
+							has_province_flag = bipolarblade 
+						
+							has_province_flag = bittercup 
+						
+							has_province_flag = blood_ring 
+						
+							has_province_flag = bloodworm_helm 
+						
+							has_province_flag = boots_of_the_apostle 
+						
+							has_province_flag = bow_of_shadows 
+						
+							has_province_flag = cleaver_of_saint_felms 
+						
+							has_province_flag = crosier_of_saint_llothis 
+						
+							has_province_flag = daedric_crescent 
+						
+							has_province_flag = denstagmers_ring 
+						
+							has_province_flag = dragonbone_cuirass 
+						
+							has_province_flag = eleidons_ward 
+						
+							has_province_flag = eltonbrand 
+						
+							has_province_flag = the_seizing_of_the_erabenimsun 
+						
+							has_province_flag = fang_of_haynekhtnamet 
+						
+							has_province_flag = fists_of_randagulf 
+						
+							has_province_flag = fork_of_horripilation 
+						
+							has_province_flag = goldbrand 
+						
+							has_province_flag = heart_ring 
+						
+							has_province_flag = helm_of_oreyn_bearclaw 
+						
+							has_province_flag = helm_of_tohan 
+						
+							has_province_flag = hopesfire 
+						
+							has_province_flag = ice_blade_of_the_monarch 
+						
+							has_province_flag = keening 
+						
+							has_province_flag = mace_of_aevar_stone_singer 
+						
+							has_province_flag = mace_of_slurring 
+						
+							has_province_flag = madstone_of_the_ahemmusa 
+						
+							has_province_flag = mentors_ring 
+						
+							has_province_flag = moon_and_star 
+						
+							has_province_flag = ring_of_surroundings 
+						
+							has_province_flag = ring_of_the_wind 
+						
+							has_province_flag = robe_of_the_lich 
+						
+							has_province_flag = sanguine_rose 
+						
+							has_province_flag = saviors_hide 
+						
+							has_province_flag = scourge 
+						
+							has_province_flag = shirt_of_saint_aralor 
+						
+							has_province_flag = shoes_of_saint_rilms 
+						
+							has_province_flag = skull_crusher 
+						
+							has_province_flag = soul_ring 
+						
+							has_province_flag = spear_of_bitter_mercy 
+						
+							has_province_flag = spear_of_the_hunter 
+						
+							has_province_flag = staff_of_hasedoki 
+						
+							has_province_flag = stendarrs_hammer 
+						
+							has_province_flag = sunder 
+						
+							has_province_flag = teeth_of_the_urshilaku 
+						
+							has_province_flag = ten_pace_boots 
+						
+							has_province_flag = thong_of_zainab 
+						
+							has_province_flag = trueflame 
+						
+							has_province_flag = umbra 
+						
+							has_province_flag = vampiric_ring 
+						
+							has_province_flag = ward_of_akavir 
+						
+							has_province_flag = wings_of_the_queen_of_bats 
+						
+							has_province_flag = wraithguard 
+						
+					} 
+				} 
+				owner = { 
+					custom_tooltip = es_esb.7.tt 
+				} 
+			} 
+		} 
 	} 
 } 
 

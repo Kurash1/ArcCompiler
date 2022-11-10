@@ -6,3 +6,10 @@ G:\Ohjelmat\Arc 4\obj\Release\Arc 4.csproj.SuggestedBindingRedirects.cache
 G:\Ohjelmat\Arc 4\obj\Release\Arc 4.csproj.CoreCompileInputs.cache
 G:\Ohjelmat\Arc 4\obj\Release\Arc 4.exe
 G:\Ohjelmat\Arc 4\obj\Release\Arc 4.pdb
+C:\Users\Jesse\Documents\Paradox Interactive\Europa Universalis IV\mod\ArcCompiler\bin\Release\Arc 4.exe.config
+C:\Users\Jesse\Documents\Paradox Interactive\Europa Universalis IV\mod\ArcCompiler\bin\Release\Arc 4.exe
+C:\Users\Jesse\Documents\Paradox Interactive\Europa Universalis IV\mod\ArcCompiler\bin\Release\Arc 4.pdb
+C:\Users\Jesse\Documents\Paradox Interactive\Europa Universalis IV\mod\ArcCompiler\obj\Release\Arc 4.csproj.AssemblyReference.cache
+C:\Users\Jesse\Documents\Paradox Interactive\Europa Universalis IV\mod\ArcCompiler\obj\Release\Arc 4.csproj.CoreCompileInputs.cache
+C:\Users\Jesse\Documents\Paradox Interactive\Europa Universalis IV\mod\ArcCompiler\obj\Release\Arc 4.exe
+C:\Users\Jesse\Documents\Paradox Interactive\Europa Universalis IV\mod\ArcCompiler\obj\Release\Arc 4.pdb
