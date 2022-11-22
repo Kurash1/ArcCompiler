@@ -13,8 +13,17 @@ namespace Arc4
         static void Main(string[] args)
         {
             Arc arc = new Arc();
-            arc.main(true);
-
+            try
+            {
+                if (args.Length > 0)
+                    arc.main(true, args[0]);
+                else
+                    arc.main(true);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
             Console.ReadKey();
         }
     }
@@ -103,12 +112,32 @@ namespace Arc4
                 return encoder.GetString(result);
             }
         }
-        public void main(bool syntax)
+        public void main(bool syntax, string file = "")
         {
-            directory = Directory.GetCurrentDirectory();
+            System.Globalization.CultureInfo.CurrentCulture = System.Globalization.CultureInfo.CreateSpecificCulture("en");
+            directory = AppDomain.CurrentDomain.BaseDirectory;
             readLoc();
             readMod();
-            LoadFolder(directory);
+            if (file == "")
+                LoadFolder(directory);
+            else
+            {
+                if (syntax)
+                    File.WriteAllText(file.Substring(0, file.Length - 4) + ".txt",
+                        new Compiler(directory, this).compile(
+                            Regex.Replace(File.ReadAllText(file), "#.*", "")
+                                .Replace("\n", " \\n ")
+                                .Replace("\t", " \\t ")
+                        )
+                    );
+                else
+                    File.WriteAllText(file.Substring(0, file.Length - 4) + ".txt",
+                        new Compiler(directory, this).compile(
+                            Regex.Replace(File.ReadAllText(file), "#.*", "")
+                        )
+                    );
+                Console.WriteLine("Transpiled " + file);
+            }
 
             void LoadFolder(string start)
             {
@@ -122,21 +151,21 @@ namespace Arc4
                     {
                         try
                         {
-                            if (syntax)
-                                File.WriteAllText(files[i].Substring(0, files[i].Length - 4) + ".txt",
-                                    new Compiler(directory, this).compile(
-                                        Regex.Replace(File.ReadAllText(files[i]), "#.*", "")
-                                            .Replace("\n", " \\n ")
-                                            .Replace("\t", " \\t ")
-                                    )
-                                );
-                            else
-                                File.WriteAllText(files[i].Substring(0, files[i].Length - 4) + ".txt",
-                                    new Compiler(directory, this).compile(
-                                        Regex.Replace(File.ReadAllText(files[i]), "#.*", "")
-                                    )
-                                );
-                            Console.WriteLine("Transpiled " + files[i]);
+                          if (syntax)
+                              File.WriteAllText(files[i].Substring(0, files[i].Length - 4) + ".txt",
+                                  new Compiler(directory, this).compile(
+                                      Regex.Replace(File.ReadAllText(files[i]), "#.*", "")
+                                          .Replace("\n", " \\n ")
+                                          .Replace("\t", " \\t ")
+                                  )
+                              );
+                          else
+                              File.WriteAllText(files[i].Substring(0, files[i].Length - 4) + ".txt",
+                                  new Compiler(directory, this).compile(
+                                      Regex.Replace(File.ReadAllText(files[i]), "#.*", "")
+                                  )
+                              );
+                          Console.WriteLine("Transpiled " + files[i]);
                         }
                         catch (Exception e) { Console.WriteLine(e.Message + " at " + files[i]); };
                     }
@@ -164,6 +193,10 @@ namespace Arc4
         {
             this.directory = directory;
             this.owner = owner;
+            if (!classes.ContainsKey("defines"))
+            {
+                LoadClasses(Regex.Replace(File.ReadAllText(directory + "\\arc.defines"), "#.*", ""), "defines");
+            }
         }
         public string compile(string file)
         {
@@ -185,15 +218,31 @@ namespace Arc4
                     case "var":
                         i = arc_variable(i);
                         break;
+                    //<number>% - <number>years - <number>months - <number>weeks
+                    case string s when Regex.IsMatch(s, "-?[0-9]+(\\.[0-9]+)?%"):
+                        result += (float.Parse(s.Substring(0,s.Length-1)) / 100).ToString();
+                        break;
+                    case string s when Regex.IsMatch(s, "-?[0-9]+(\\.[0-9]+)?years", RegexOptions.IgnoreCase):
+                        result += (float.Parse(s.Substring(0,s.Length-5)) * 365).ToString();
+                        break;
+                    case string s when Regex.IsMatch(s, "-?[0-9]+(\\.[0-9]+)months", RegexOptions.IgnoreCase):
+                        result += (float.Parse(s.Substring(0,s.Length-6)) * 30).ToString();
+                        break;
+                    case string s when Regex.IsMatch(s, "-?[0-9]+(\\.[0-9]+)?weeks", RegexOptions.IgnoreCase):
+                        result += (float.Parse(s.Substring(0,s.Length-5)) * 7).ToString();
+                        break;
+
+                    //Checks for multiscope ex: CB8,
                     case string s when Regex.IsMatch(s, "[^,],"):
                         multiscope.Add(s.Substring(0, s.Length - 1));
                         if (currentscope.Count == 0 || currentscope[0] != "multiscope")
                             currentscope.Insert(0, "multiscope");
                         break;
+                    //Math expressions (6*2)
                     case string s when Regex.IsMatch(s, "\\([^()]+\\)"):
-                        result += arc_math(Regex.Match(Regex.Match(s, "\\([^()]+\\)").Value, "[^()]+").Value);
+                        result += arc_math(Regex.Match(Regex.Match(s, "\\([^()]+\\)").Value, "[^()]+").Value) + " ";
                         break;
-                    case string s when g.ToLower() == "defineloc":
+                    case string _ when g.ToLower() == "defineloc":
                         i = arc_defineloc(i);
                         break;
                     case "for":
@@ -201,11 +250,12 @@ namespace Arc4
                         break;
                     case "using": i = arc_using(i); break;
                     case "foreach": result += arc_foreach(i, out i); break;
+                    //Class.Id.Key
                     case string s when Regex.IsMatch(s, "([^.]+)\\.([^.]+)\\.([^.]+)") && classes.ContainsKey(Regex.Match(s, "[^.]+").Value):
-                        i = arc_class(i);
+                        result += arc_class(i, out i) + " ";
                         break;
                     case string s when variables.ContainsKey(s):
-                        result += variables[s];
+                        result += variables[s] + " ";
                         break;
                     case string s when currentscope.Count > 0:
                         switch (currentscope[0])
@@ -265,9 +315,10 @@ namespace Arc4
                 i = a;
                 i++; string varname = code[i];
                 i++; while (!expect(code, i, "=")) { i++; }
-                i++; int start = int.Parse(code[i]);
+                i++; int start = int.Parse(low_compile(ParseString(code[i])));
                 i++; while (!expect(code, i, "to")) { i++; }
-                i++; int end = int.Parse(code[i]);
+                i++;
+                int end = int.Parse(low_compile(ParseString(code[i])));
                 i++; while (!expect(code, i, "=")) { i++; }
                 i++; while (!expect(code, i, "{")) { i++; }
                 i++;
@@ -307,6 +358,7 @@ namespace Arc4
                         final.Add(loop[h]);
                 }
 
+                i--;
                 return low_compile(final.ToArray());
 
                 int towards(int v, int o)
@@ -374,6 +426,8 @@ namespace Arc4
             }
             string arc_foreach(int a, out int i)
             {
+                string condition = "";
+                int wherecount = 0;
                 i = a;
                 i++;
                 string currentClass = code[i];
@@ -389,45 +443,84 @@ namespace Arc4
                 i++;
                 while (indent > 0)
                 {
+                    if (Regex.IsMatch(code[i + g], "where"))
+                    {
+                        g++; wherecount++; while (!expect(code, i + g, "=")) { g++; wherecount++; }
+                        g++; wherecount++; while (!expect(code, i + g, "{")) { g++; wherecount++; }
+                        g++; wherecount++;
+                        while(code[i+g] != "}") {
+                            wherecount++;
+                            condition += code[i + g]; 
+                            g++; 
+                        }
+                        g++; wherecount++;
+                    }
                     indent += Regex.Matches(code[i + g], "{").Count;
                     indent -= Regex.Matches(code[i + g], "}").Count;
                     if (indent > 0) loop.Add(code[i + g]);
                     g++;
                 }
+                condition = Regex.Replace(condition, "\\\\[tn]", "");
 
                 List<string> ForEach = new List<string>();
 
                 for (int z = 0; z < classes[currentClass].Count; z++)
                 {
-                    for (int b = 0; b < loop.Count; b++)
+                    string id = classes[currentClass].ElementAt(z).Key;
+                    if (classes[currentClass][id]["id"] != "default")
                     {
-                        if (Regex.Match(loop[b], currentClass + "(\\..+)+").Success)
+                        if (condition == "" || expressiontobool(condition))
                         {
-                            string var = Regex.Match(loop[b], "[^.0-9*/+-]+").NextMatch().Value;
-                            ForEach.Add(Regex.Replace(loop[b], currentClass + "\\." + var, classes[currentClass].ElementAt(z).Value[var]));
+                            for (int b = 0; b < loop.Count; b++)
+                            {
+                                if (Regex.Matches(loop[b], currentClass + "\\.").Count == 1)
+                                {
+                                    string var = Regex.Match(loop[b], "[^.*/+-]+").NextMatch().Value;
+                                    try { ForEach.Add(Regex.Replace(loop[b], currentClass + "\\." + var, classes[currentClass].ElementAt(z).Value[var])); }
+                                    catch (KeyNotFoundException)
+                                    {
+                                        try { ForEach.Add(Regex.Replace(loop[b], currentClass + "\\." + var, classes[currentClass]["default"][var])); }
+                                        catch (KeyNotFoundException) { ForEach.Add(Regex.Replace(loop[b], currentClass + "\\." + var, "")); }
+                                    }
+                                }
+                                else
+                                    ForEach.Add(loop[b]);
+                            }
                         }
-                        else
-                            ForEach.Add(loop[b]);
                     }
                 }
 
+                //i += wherecount;
                 i += loop.Count;
 
                 return low_compile(ForEach.ToArray());
-            }
 
-            int arc_class(int i)
+                bool expressiontobool(string expression)
+                {
+                    for(int h = 0; h < expression.Length; h++)
+                    {
+
+                    }
+
+                    return false;
+                }
+            }
+            string arc_class(int a, out int i)
             {
+                i = a;
                 MatchCollection matches = Regex.Matches(code[i], "[^.]+");
                 if (matches.Count < 3)
-                    return i;
+                    return "";
                 string classtype = matches[0].Value;
                 string id = matches[1].Value;
                 string var = matches[2].Value;
-                Console.WriteLine(classes[classtype][id][var]);
-                return i;
+                try { return low_compile(ParseString(classes[classtype][id][var])); }
+                catch (KeyNotFoundException) 
+                {
+                    try { return low_compile(ParseString(classes[classtype]["default"][var])); }
+                    catch (KeyNotFoundException) { return ""; }
+                }
             }
-
             int arc_using(int i)
             {
                 i++;
@@ -450,7 +543,6 @@ namespace Arc4
 
                 return i;
             }
-
             return result;
         }
         private void LoadClasses(string file, string classtype)

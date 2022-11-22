@@ -1,0 +1,164 @@
+# Regex for adding new units to tech 
+# This one is the "search" value, where "xxx" is the existing unit type you want to place the new unit after (e.g. giant, nord, yokudan) 
+# xxx_([ACITGLH]\d\d) 
+# This is the "replace" value, where "xxx" is the same as the unit type from the search value, and "yyy" is the new unit type. 
+# xxx_$1\n\tenable = yyy_$1 
+monarch_power = MIL
+ahead_of_time = { }
+technology = {
+	# Tech 0 
+	year = 1
+	sprite_level = 1
+	infantry_fire = 0.35
+	infantry_shock = 0.50
+	cavalry_fire = 0.00
+	cavalry_shock = 1.0
+	artillery_fire = 1
+	artillery_shock = 0.1
+	land_morale = 3.00
+	#military_tactics = 1.00
+	
+	# Maormer
+	enable = maormer_I01
+	enable = maormer_I02
+	enable = maormer_C01
+	enable = maormer_C02
+	enable = maormer_A01
+	
+	# Infantry Tier 0 
+	enable = elven_I00
+	enable = sload_I00
+	enable = yokudan_I00
+	enable = redguard_I00
+	enable = northern_I00
+	enable = nord_I00
+	enable = dwemer_I00
+	enable = breton_I00
+	enable = reachmen_I00
+	enable = nedic_I00
+	enable = imperial_I00
+	enable = nibenean_I00
+	enable = colovian_I00
+	enable = keptu_I00
+	enable = orc_I00
+	enable = khajiit_I00
+	enable = po_tun_I00
+	enable = imga_I00
+	enable = bosmer_I00
+	enable = argonian_I00
+	enable = velothi_I00
+	enable = chimer_I00
+	enable = tsaesci_I00
+	enable = tangmo_I00
+	enable = akaviri_I00
+	enable = kamalian_I00
+	enable = vampire_I00
+	enable = soul_shriven_I00
+	enable = daedric_I00
+	enable = void_I00
+	enable = lilmothiit_I00
+	enable = goblin_I00
+	enable = giant_I00
+	enable = minotaur_I00
+	enable = kothringi_I00
+	# Cavalry Tier 0 
+	enable = elven_C00
+	enable = sload_C00
+	enable = yokudan_C00
+	enable = redguard_C00
+	enable = northern_C00
+	enable = nord_C00
+	enable = dwemer_C00
+	enable = breton_C00
+	enable = reachmen_C00
+	enable = nedic_C00
+	enable = imperial_C00
+	enable = nibenean_C00
+	enable = colovian_C00
+	enable = keptu_C00
+	enable = orc_C00
+	enable = khajiit_C00
+	enable = po_tun_C00
+	enable = imga_C00
+	enable = bosmer_C00
+	enable = argonian_C00
+	enable = velothi_C00
+	enable = chimer_C00
+	enable = tsaesci_C00
+	enable = tangmo_C00
+	enable = akaviri_C00
+	enable = kamalian_C00
+	enable = vampire_C00
+	enable = soul_shriven_C00
+	enable = daedric_C00
+	enable = void_C00
+	enable = lilmothiit_C00
+	enable = goblin_C00
+	enable = giant_C00
+	enable = minotaur_C00
+	enable = kothringi_C00
+	# Artillery Tier 0 
+	enable = elven_A00
+	enable = sload_A00
+	enable = yokudan_A00
+	enable = redguard_A00
+	enable = northern_A00
+	enable = nord_A00
+	enable = dwemer_A00
+	enable = breton_A00
+	enable = reachmen_A00
+	enable = nedic_A00
+	enable = imperial_A00
+	enable = nibenean_A00
+	enable = colovian_A00
+	enable = keptu_A00
+	enable = orc_A00
+	enable = khajiit_A00
+	enable = po_tun_A00
+	enable = imga_A00
+	enable = bosmer_A00
+	enable = argonian_A00
+	enable = velothi_A00
+	enable = chimer_A00
+	enable = tsaesci_A00
+	enable = tangmo_A00
+	enable = akaviri_A00
+	enable = kamalian_A00
+	enable = vampire_A00
+	enable = soul_shriven_A00
+	enable = daedric_A00
+	enable = void_A00
+	enable = lilmothiit_A00
+	enable = goblin_A00
+	enable = giant_A00
+	enable = minotaur_A00
+	enable = kothringi_A00
+	may_drill = yes
+	fort_15th = yes
+}
+technology = {
+	# Tech 1 
+	year = 9999
+	military_tactics = 0.25
+	combat_width = 10
+	maneuver_value = 0.0
+	supply_limit = 0.0
+	
+	ramparts = yes
+	grain_depot = yes
+	soldier_households = yes
+	barracks = yes
+	regimental_camp = yes
+	armory = yes
+	earth_rampart = yes
+	weapons = yes
+	fort_16th = yes
+	conscription_center = yes
+	arsenal = yes
+	tenaille = yes
+	fort_17th = yes
+	training_fields = yes
+	redoubt = yes
+	furnace = yes
+	fort_18th = yes
+}
