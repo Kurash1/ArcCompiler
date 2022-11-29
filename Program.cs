@@ -100,13 +100,22 @@ namespace Arc4
         }
         private void readProv()
         {
-            string[] prova = File.ReadAllLines(directory + "\\localisation\\replace\\es_provinces_l_english.yml");
-            for (int i = 0; i < prova.Length; i++)
+            System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
+            watch.Start();
+            string prova = File.ReadAllText(directory + "\\localisation\\replace\\es_provinces_l_english.yml");
+            long time = watch.ElapsedMilliseconds;
+            Console.WriteLine(time);
+            MatchCollection m = Regex.Matches(prova, "PROV([0-9]+):([0-9]+)? *\"([^\"]*)\"");
+            time = watch.ElapsedMilliseconds - time;
+            Console.WriteLine(time);
+            //provinces = m.Cast<Match>().ToDictionary(n => n.Groups[3].Value, n => n.Groups[1].Value);
+
+            for (int i = 0; i< m.Count; i++)
             {
-                Match m = Regex.Match(prova[i], "PROV([0-9]+):([0-9]+)? *\"([^\"]*)\"");
-                if (m.Success)
-                    try { provinces.Add(m.Groups[3].Value.ToUpper(), m.Groups[1].Value); } catch (Exception) { }
+                try { provinces.Add(m[i].Groups[3].Value.ToUpper(), m[i].Groups[1].Value); } catch (Exception e) { Console.WriteLine(e); Console.WriteLine(i); Console.WriteLine(m[i].Value); }
             }
+            time = watch.ElapsedMilliseconds - time;
+            Console.WriteLine(time);
         }
         private void readCountr()
         {
@@ -164,10 +173,21 @@ namespace Arc4
         {
             System.Globalization.CultureInfo.CurrentCulture = System.Globalization.CultureInfo.CreateSpecificCulture("en");
             directory = AppDomain.CurrentDomain.BaseDirectory;
+            System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
+            watch.Start();
             readLoc();
+            long time = watch.ElapsedMilliseconds;
+            Console.WriteLine(time);
             readMod();
+            time = watch.ElapsedMilliseconds - time;
+            Console.WriteLine(time);
             readCountr();
+            time = watch.ElapsedMilliseconds - time;
+            Console.WriteLine(time);
             readProv();
+            time = watch.ElapsedMilliseconds - time;
+            Console.WriteLine(time);
+
             Compiler com = new Compiler(directory,this);
             Console.WriteLine("Interpeter Engaged. Type exit to Exit");
             string input = Console.ReadLine();
