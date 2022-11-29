@@ -14,18 +14,17 @@ namespace Arc4
         {
             bool syntax = false;
             Arc arc = new Arc();
-            arc.main(false, "C:\\Users\\Jesse\\Documents\\Paradox Interactive\\Europa Universalis IV\\mod\\ArcCompiler\\bin\\Esb\\events\\mechanics_esb.arc");
-            //try
-            //{
-            //    if (args.Length > 0 && File.Exists(args[0]))
-            //        arc.main(syntax, args[0]);
-            //    else
-            //        arc.main(syntax);
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine(e);
-            //}
+            try
+            {
+                if (args.Length > 0 && File.Exists(args[0]))
+                    arc.main(syntax, args[0]);
+                else
+                    arc.main(syntax);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
             Console.WriteLine("Press any key to exit");
             Console.ReadKey();
         }
@@ -521,7 +520,9 @@ namespace Arc4
                     }
                 }
 
-                //i += wherecount;
+                i += wherecount;
+                if (wherecount > 0)
+                    i += 4;
                 i += loop.Count;
 
                 return low_compile(ForEach.ToArray());
