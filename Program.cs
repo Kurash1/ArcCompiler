@@ -16,10 +16,43 @@ namespace Arc4
             Arc arc = new Arc();
             try
             {
-                if (args.Length > 0 && File.Exists(args[0]))
-                    arc.main(syntax, args[0]);
+                if (args.Length > 0)
+                {
+                    switch (args[0])
+                    {
+                        case "c":
+                            arc.main(syntax, args[1]);
+                            break;
+                        case "a":
+                            arc.main(syntax);
+                            break;
+                        case "i":
+                            arc.interpreter();
+                            break;
+                    }
+                }
                 else
-                    arc.main(syntax);
+                {
+                    Console.WriteLine("write a for transpiling all files, c for transpiling a specific file, or i for interpreting code");
+                    string input = "";
+                    while (input != "c" && input != "a" && input != "i")
+                    {
+                        input = Console.ReadLine();
+                    }
+                    switch (input)
+                    {
+                        case "c":
+                            Console.WriteLine("Write the path");
+                            arc.main(syntax, Console.ReadLine());
+                            break;
+                        case "a":
+                            arc.main(syntax);
+                            break;
+                        case "i":
+                            arc.interpreter();
+                            break;
+                    }
+                }
             }
             catch (Exception e)
             {
@@ -126,6 +159,34 @@ namespace Arc4
 
                 return encoder.GetString(result);
             }
+        }
+        public void interpreter()
+        {
+            System.Globalization.CultureInfo.CurrentCulture = System.Globalization.CultureInfo.CreateSpecificCulture("en");
+            directory = AppDomain.CurrentDomain.BaseDirectory;
+            readLoc();
+            readMod();
+            readCountr();
+            readProv();
+            Compiler com = new Compiler(directory,this);
+            Console.WriteLine("Interpeter Engaged. Type exit to Exit");
+            string input = Console.ReadLine();
+            while (input != "exit")
+            {
+                Console.SetCursorPosition(0, Console.CursorTop - 1);
+                ClearCurrentConsoleLine();
+                try { Console.WriteLine(com.compile(input),true); }
+                catch(Exception e) { Console.WriteLine(e); }
+                input = Console.ReadLine();
+            }
+        }
+        public static void ClearCurrentConsoleLine()
+        {
+            int currentLineCursor = Console.CursorTop;
+            Console.SetCursorPosition(0, Console.CursorTop);
+            for (int i = 0; i < Console.WindowWidth; i++)
+                Console.Write(" ");
+            Console.SetCursorPosition(0, currentLineCursor);
         }
         public void main(bool syntax, string file = "")
         {
@@ -242,7 +303,7 @@ namespace Arc4
                     case string s when Regex.IsMatch(s, "-?[0-9]+(\\.[0-9]+)?years", RegexOptions.IgnoreCase):
                         result += (float.Parse(s.Substring(0, s.Length - 5)) * 365).ToString() + " ";
                         break;
-                    case string s when Regex.IsMatch(s, "-?[0-9]+(\\.[0-9]+)months", RegexOptions.IgnoreCase):
+                    case string s when Regex.IsMatch(s, "-?[0-9]+(\\.[0-9]+)?months", RegexOptions.IgnoreCase):
                         result += (float.Parse(s.Substring(0, s.Length - 6)) * 30).ToString() + " ";
                         break;
                     case string s when Regex.IsMatch(s, "-?[0-9]+(\\.[0-9]+)?weeks", RegexOptions.IgnoreCase):
