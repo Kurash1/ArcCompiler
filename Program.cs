@@ -12,39 +12,38 @@ namespace Arc4
     {
         static void Main(string[] args)
         {
+            bool syntax = false;
             Arc arc = new Arc();
-            try
-            {
-                if (args.Length > 0)
-                    arc.main(true, args[0]);
-                else
-                    arc.main(true);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
+            arc.main(false, "C:\\Users\\Jesse\\Documents\\Paradox Interactive\\Europa Universalis IV\\mod\\ArcCompiler\\bin\\Esb\\events\\mechanics_esb.arc");
+            //try
+            //{
+            //    if (args.Length > 0 && File.Exists(args[0]))
+            //        arc.main(syntax, args[0]);
+            //    else
+            //        arc.main(syntax);
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine(e);
+            //}
+            Console.WriteLine("Press any key to exit");
             Console.ReadKey();
         }
     }
     class Arc
     {
+        public Dictionary<string, string> provinces = new Dictionary<string, string>();
+        public Dictionary<string, string> countries = new Dictionary<string, string>();
         public Dictionary<string, string> loc = new Dictionary<string, string>();
         public Dictionary<string, string> mod = new Dictionary<string, string>();
         string directory;
-        public void writeMod(string key, string modifiers)
+        public void write(Dictionary<string, string> ide, string key, string modifiers)
         {
-            if (mod.ContainsKey(key))
-                mod[key] = modifiers;
+
+            if (ide.ContainsKey(key))
+                ide[key] = modifiers;
             else
-                mod.Add(key, modifiers);
-        }
-        public void writeLoc(string key, string text)
-        {
-            if (loc.ContainsKey(key))
-                loc[key] = text;
-            else
-                loc.Add(key, text);
+                ide.Add(key, modifiers);
         }
         private void readLoc()
         {
@@ -62,12 +61,29 @@ namespace Arc4
         {
             if (!File.Exists(directory + "\\common\\event_modifiers\\arc.txt"))
                 File.Create(directory + "\\common\\event_modifiers\\arc.txt").Dispose();
-            string[] loca = File.ReadAllLines(directory + "\\common\\event_modifiers\\arc.txt");
-            for (int i = 0; i < loca.Length; i++)
+            string loca = File.ReadAllText(directory + "\\common\\event_modifiers\\arc.txt");
+            MatchCollection match = Regex.Matches(loca, "([^ ]+) += +{ +([^}]+) +} +");
+            for(int v = 0; v < match.Count; v++)
+                mod.Add(match[v].Groups[1].Value, match[v].Groups[2].Value);
+        }
+        private void readProv()
+        {
+            string[] prova = File.ReadAllLines(directory + "\\localisation\\replace\\es_provinces_l_english.yml");
+            for (int i = 0; i < prova.Length; i++)
             {
-                Match match = Regex.Match(loca[i], "^([^ ]+) *= *{ *([^}]+) *}", RegexOptions.Multiline);
-                if (match.Success)
-                    mod.Add(match.Groups[1].Value, match.Groups[2].Value);
+                Match m = Regex.Match(prova[i], "PROV([0-9]+):([0-9]+)? *\"([^\"]*)\"");
+                if (m.Success)
+                    try { provinces.Add(m.Groups[3].Value.ToUpper(), m.Groups[1].Value); } catch (Exception) { }
+            }
+        }
+        private void readCountr()
+        {
+            string[] prova = File.ReadAllLines(directory + "\\localisation\\replace\\countries_l_english.yml");
+            for (int i = 0; i < prova.Length; i++)
+            {
+                Match m = Regex.Match(prova[i], "([a-zA-Z0-9]{3}):([0-9]+)? *\"([^\"]*)\"");
+                if (m.Success)
+                    try { countries.Add(m.Groups[3].Value.ToUpper(), m.Groups[1].Value); } catch (Exception) { }
             }
         }
         private void saveMod()
@@ -77,12 +93,12 @@ namespace Arc4
             List<string> loca = new List<string>();
             for (int i = 0; i < mod.Count; i++)
             {
-                loca.Add(mod.Keys.ElementAt(i) + " = { \n \t" + mod.Values.ElementAt(i) + "\n } \n");
+                loca.Add(mod.Keys.ElementAt(i) + " = { " + mod.Values.ElementAt(i) + "} ");
             }
             string loca2 = "";
             for (int i = 0; i < loca.Count; i++)
             {
-                loca2 += loca[i] + "\n";
+                loca2 += loca[i];
             }
             File.WriteAllText(directory + "\\common\\event_modifiers\\arc.txt", loca2);
         }
@@ -118,6 +134,8 @@ namespace Arc4
             directory = AppDomain.CurrentDomain.BaseDirectory;
             readLoc();
             readMod();
+            readCountr();
+            readProv();
             if (file == "")
                 LoadFolder(directory);
             else
@@ -151,21 +169,21 @@ namespace Arc4
                     {
                         try
                         {
-                          if (syntax)
-                              File.WriteAllText(files[i].Substring(0, files[i].Length - 4) + ".txt",
-                                  new Compiler(directory, this).compile(
-                                      Regex.Replace(File.ReadAllText(files[i]), "#.*", "")
-                                          .Replace("\n", " \\n ")
-                                          .Replace("\t", " \\t ")
-                                  )
-                              );
-                          else
-                              File.WriteAllText(files[i].Substring(0, files[i].Length - 4) + ".txt",
-                                  new Compiler(directory, this).compile(
-                                      Regex.Replace(File.ReadAllText(files[i]), "#.*", "")
-                                  )
-                              );
-                          Console.WriteLine("Transpiled " + files[i]);
+                            if (syntax)
+                                File.WriteAllText(files[i].Substring(0, files[i].Length - 4) + ".txt",
+                                    new Compiler(directory, this).compile(
+                                        Regex.Replace(File.ReadAllText(files[i]), "#.*", "")
+                                            .Replace("\n", " \\n ")
+                                            .Replace("\t", " \\t ")
+                                    )
+                                );
+                            else
+                                File.WriteAllText(files[i].Substring(0, files[i].Length - 4) + ".txt",
+                                    new Compiler(directory, this).compile(
+                                        Regex.Replace(File.ReadAllText(files[i]), "#.*", "")
+                                    )
+                                );
+                            Console.WriteLine("Transpiled " + files[i]);
                         }
                         catch (Exception e) { Console.WriteLine(e.Message + " at " + files[i]); };
                     }
@@ -220,16 +238,16 @@ namespace Arc4
                         break;
                     //<number>% - <number>years - <number>months - <number>weeks
                     case string s when Regex.IsMatch(s, "-?[0-9]+(\\.[0-9]+)?%"):
-                        result += (float.Parse(s.Substring(0,s.Length-1)) / 100).ToString();
+                        result += (float.Parse(s.Substring(0, s.Length - 1)) / 100).ToString() + " ";
                         break;
                     case string s when Regex.IsMatch(s, "-?[0-9]+(\\.[0-9]+)?years", RegexOptions.IgnoreCase):
-                        result += (float.Parse(s.Substring(0,s.Length-5)) * 365).ToString();
+                        result += (float.Parse(s.Substring(0, s.Length - 5)) * 365).ToString() + " ";
                         break;
                     case string s when Regex.IsMatch(s, "-?[0-9]+(\\.[0-9]+)months", RegexOptions.IgnoreCase):
-                        result += (float.Parse(s.Substring(0,s.Length-6)) * 30).ToString();
+                        result += (float.Parse(s.Substring(0, s.Length - 6)) * 30).ToString() + " ";
                         break;
                     case string s when Regex.IsMatch(s, "-?[0-9]+(\\.[0-9]+)?weeks", RegexOptions.IgnoreCase):
-                        result += (float.Parse(s.Substring(0,s.Length-5)) * 7).ToString();
+                        result += (float.Parse(s.Substring(0, s.Length - 5)) * 7).ToString() + " ";
                         break;
 
                     //Checks for multiscope ex: CB8,
@@ -265,6 +283,12 @@ namespace Arc4
                                 break;
                         }
                         break;
+                    case string s when s.StartsWith("p@"):
+                        result += owner.provinces[s.Substring(2).Replace("_", " ").ToUpper()] + " ";
+                        break;
+                    case string s when s.StartsWith("c@"):
+                        result += owner.countries[s.Substring(2).Replace("_", " ").ToUpper()] + " ";
+                        break;
                     default:
                         result += g + " ";
                         break;
@@ -295,9 +319,9 @@ namespace Arc4
                 i++; string modifiers = code[i];
                 i++; while (!expect(code, i, "}")) { i++; }
                 i++; while (!expect(code, i, "}")) { i++; }
-                owner.writeLoc(id, name);
-                owner.writeLoc(id + "_desc", desc);
-                owner.writeMod(id, modifiers);
+                owner.write(owner.loc, id, name);
+                owner.write(owner.loc, id + "_desc", desc);
+                owner.write(owner.mod, id, modifiers);
                 return "add_" + type + "_modifier = { name = " + id + " duration = " + duration + " desc = " + id + "_desc hidden = no } ";
             }
             int arc_variable(int i)
@@ -384,7 +408,7 @@ namespace Arc4
             {
                 i++; string key = code[i];
                 i++; i++; string value = code[i];
-                owner.writeLoc(key, value);
+                owner.write(owner.loc, key, value);
                 return i;
             }
             string arc_multiscope(string g, int a, out int i)
@@ -393,12 +417,18 @@ namespace Arc4
                 currentscope.RemoveAt(0);
                 multiscope.Add(g);
                 List<string> effect = new List<string>();
-                while (g != "}")
+                i++; while (!expect(code, i, "=")) { i++; }
+                effect.Add("=");
+                i++; while (!expect(code, i, "{")) { i++; }
+                effect.Add("{");
+                int index = 1;
+                while (index > 0)
                 {
                     i++; g = code[i];
                     effect.Add(g);
+                    if (g == "{") index++;
+                    if (g == "}") index--;
                 }
-                effect.Add("\\n");
                 string[] newcode = new string[(effect.Count + 1) * multiscope.Count];
                 for (int j = 0; j < multiscope.Count; j++)
                 {
@@ -448,10 +478,11 @@ namespace Arc4
                         g++; wherecount++; while (!expect(code, i + g, "=")) { g++; wherecount++; }
                         g++; wherecount++; while (!expect(code, i + g, "{")) { g++; wherecount++; }
                         g++; wherecount++;
-                        while(code[i+g] != "}") {
+                        while (code[i + g] != "}")
+                        {
                             wherecount++;
-                            condition += code[i + g]; 
-                            g++; 
+                            condition += code[i + g];
+                            g++;
                         }
                         g++; wherecount++;
                     }
@@ -497,7 +528,7 @@ namespace Arc4
 
                 bool expressiontobool(string expression)
                 {
-                    for(int h = 0; h < expression.Length; h++)
+                    for (int h = 0; h < expression.Length; h++)
                     {
 
                     }
@@ -515,7 +546,7 @@ namespace Arc4
                 string id = matches[1].Value;
                 string var = matches[2].Value;
                 try { return low_compile(ParseString(classes[classtype][id][var])); }
-                catch (KeyNotFoundException) 
+                catch (KeyNotFoundException)
                 {
                     try { return low_compile(ParseString(classes[classtype]["default"][var])); }
                     catch (KeyNotFoundException) { return ""; }
@@ -617,7 +648,7 @@ namespace Arc4
                 return false;
 
             if (error == "")
-                Console.WriteLine(new Exception("Expecting " + regex + " at index " + index));
+                Console.WriteLine(new Exception("Expecting " + regex + " at index " + index + " was " + str));
             else
                 Console.WriteLine(error);
 
