@@ -103,19 +103,18 @@ namespace Arc4
             System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
             watch.Start();
             string prova = File.ReadAllText(directory + "\\localisation\\replace\\es_provinces_l_english.yml");
-            long time = watch.ElapsedMilliseconds;
-            Console.WriteLine(time);
-            MatchCollection m = Regex.Matches(prova, "PROV([0-9]+):([0-9]+)? *\"([^\"]*)\"");
-            time = watch.ElapsedMilliseconds - time;
-            Console.WriteLine(time);
-            //provinces = m.Cast<Match>().ToDictionary(n => n.Groups[3].Value, n => n.Groups[1].Value);
-
-            for (int i = 0; i< m.Count; i++)
+            MatchCollection m = Regex.Matches(prova, "^ PROV(\\d+): \"([^\"]+)\"");
+            try { provinces = m.Cast<Match>().ToDictionary(n => n.Groups[2].Value, n => n.Groups[1].Value); }
+            catch (Exception)
             {
-                try { provinces.Add(m[i].Groups[3].Value.ToUpper(), m[i].Groups[1].Value); } catch (Exception e) { Console.WriteLine(e); Console.WriteLine(i); Console.WriteLine(m[i].Value); }
+                Console.WriteLine("Duplicate non empty province names");
+                for (int i = 0; i < m.Count; i++)
+                {
+                    try { provinces.Add(m[i].Groups[2].Value.ToUpper(), m[i].Groups[1].Value); }
+                    catch (Exception) { Console.WriteLine(m[i].Groups[2].Value.ToUpper() + ", " + m[i].Groups[1].Value); }
+                }
             }
-            time = watch.ElapsedMilliseconds - time;
-            Console.WriteLine(time);
+            Console.WriteLine(watch.ElapsedMilliseconds);
         }
         private void readCountr()
         {
