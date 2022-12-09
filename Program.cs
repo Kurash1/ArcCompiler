@@ -29,13 +29,16 @@ namespace Arc4
                         case "i":
                             arc.interpreter();
                             break;
+                        case "t":
+                            arc.test();
+                            break;
                     }
                 }
                 else
                 {
                     Console.WriteLine("write a for transpiling all files, c for transpiling a specific file, or i for interpreting code");
                     string input = "";
-                    while (input != "c" && input != "a" && input != "i")
+                    while (input != "c" && input != "a" && input != "i" && input != "t")
                     {
                         input = Console.ReadLine();
                     }
@@ -50,6 +53,9 @@ namespace Arc4
                             break;
                         case "i":
                             arc.interpreter();
+                            break;
+                        case "t":
+                            arc.test();
                             break;
                     }
                 }
@@ -103,7 +109,7 @@ namespace Arc4
             System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
             watch.Start();
             string prova = File.ReadAllText(directory + "\\localisation\\replace\\es_provinces_l_english.yml");
-            MatchCollection m = Regex.Matches(prova, "^ PROV(\\d+): \"([^\"]+)\"");
+            MatchCollection m = Regex.Matches(prova, "^ PROV(\\d+): \"([^\"]+)\"", RegexOptions.Multiline);
             try { provinces = m.Cast<Match>().ToDictionary(n => n.Groups[2].Value, n => n.Groups[1].Value); }
             catch (Exception)
             {
@@ -166,6 +172,57 @@ namespace Arc4
                 var encoder = new UTF8Encoding(true);
 
                 return encoder.GetString(result);
+            }
+        }
+        public void test()
+        {
+            System.Globalization.CultureInfo.CurrentCulture = System.Globalization.CultureInfo.CreateSpecificCulture("en");
+            directory = AppDomain.CurrentDomain.BaseDirectory;
+            System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
+            watch.Start();
+            readLoc();
+            long time = watch.ElapsedMilliseconds;
+            Console.WriteLine(time);
+            readMod();
+            time = watch.ElapsedMilliseconds - time;
+            Console.WriteLine(time);
+            readCountr();
+            time = watch.ElapsedMilliseconds - time;
+            Console.WriteLine(time);
+            readProv();
+            time = watch.ElapsedMilliseconds - time;
+            Console.WriteLine(time);
+
+            LoadFolder(directory+"tests");
+
+            void LoadFolder(string start)
+            {
+                string[] folder = Directory.GetDirectories(start);
+                for (int i = 0; i < folder.Length; i++)
+                    LoadFolder(folder[i]);
+
+                string[] files = Directory.GetFiles(start);
+                for (int i = 0; i < files.Length; i++)
+                    if (files[i].EndsWith(".arc-test"))
+                    {
+                        try
+                        {
+                            string com = new Compiler(directory, this).compile(Regex.Replace(File.ReadAllText(files[i]), "#.*", ""));
+                            string com2 = File.ReadAllText(files[i] + "-result");
+                            if (com == com2)
+                            {
+                                Console.WriteLine("Success on " + Regex.Match(files[i].Replace("\\","|"),"[^|]+",RegexOptions.RightToLeft));
+                            }
+                            else
+                            {
+                                Console.WriteLine("Failure on " + files[i]);
+                                Console.WriteLine("Difference = " + string.Compare(com, com2));
+                                Console.WriteLine("Expected: " + com2);
+                                Console.WriteLine("Got:      " + com);
+                            }
+                        }
+                        catch (Exception e) { Console.WriteLine(e.Message + " at " + files[i]); };
+                    }
             }
         }
         public void interpreter()

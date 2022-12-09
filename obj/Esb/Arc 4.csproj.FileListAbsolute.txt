@@ -5,7 +5,6 @@ C:\Users\Jesse\Documents\Paradox Interactive\Europa Universalis IV\mod\ArcCompil
 C:\Users\Jesse\Documents\Paradox Interactive\Europa Universalis IV\mod\ArcCompiler\obj\Esb\Arc 4.csproj.CoreCompileInputs.cache
 C:\Users\Jesse\Documents\Paradox Interactive\Europa Universalis IV\mod\ArcCompiler\obj\Esb\Arc 4.exe
 C:\Users\Jesse\Documents\Paradox Interactive\Europa Universalis IV\mod\ArcCompiler\obj\Esb\Arc 4.pdb
-C:\Users\Jesse\Documents\Paradox Interactive\Europa Universalis IV\mod\ArcCompiler\obj\Esb\Arc 4.csproj.SuggestedBindingRedirects.cache
 C:\Users\jesse.ranta\Documents\GitHub\ArcTranspiler\bin\Esb\Arc 4.exe.config
 C:\Users\jesse.ranta\Documents\GitHub\ArcTranspiler\bin\Esb\Arc 4.exe
 C:\Users\jesse.ranta\Documents\GitHub\ArcTranspiler\bin\Esb\Arc 4.pdb
