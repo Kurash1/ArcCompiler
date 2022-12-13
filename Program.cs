@@ -251,7 +251,7 @@ namespace Arc4
             {
                 Console.SetCursorPosition(0, Console.CursorTop - 1);
                 ClearCurrentConsoleLine();
-                try { Console.WriteLine(com.compile(input),true); }
+                try { Console.WriteLine(com.compile(input)); }
                 catch(Exception e) { Console.WriteLine(e); }
                 input = Console.ReadLine();
             }
@@ -328,6 +328,12 @@ namespace Arc4
             saveMod();
         }
     }
+    enum LogicalScope
+    {
+        AND,
+        OR,
+        NOT
+    }
     class Compiler
     {
         Dictionary<string, string> variables = new Dictionary<string, string>();
@@ -392,6 +398,10 @@ namespace Arc4
                         if (currentscope.Count == 0 || currentscope[0] != "multiscope")
                             currentscope.Insert(0, "multiscope");
                         break;
+                    case "NAND":
+                        result += arc_nand(i, out i);
+                        break;
+                    case "NOR": result += "NOT "; break;
                     //Math expressions (6*2)
                     case string s when Regex.IsMatch(s, "\\([^()]+\\)"):
                         result += arc_math(Regex.Match(Regex.Match(s, "\\([^()]+\\)").Value, "[^()]+").Value) + " ";
@@ -429,6 +439,28 @@ namespace Arc4
                         result += g + " ";
                         break;
                 }
+            }
+            string arc_nand(int a, out int i)
+            {
+                i = a;
+                i++; while (!expect(code, i, "=")) { i++; }
+                i++; while (!expect(code, i, "{")) { i++; }
+                i++;
+                string res;
+                res = "NOT = { AND = {";
+                int indent = 1;
+                List<string> codr = new List<string>();
+                while(indent > 0)
+                {
+                    indent += Regex.Matches(code[i], "{").Count;
+                    indent -= Regex.Matches(code[i], "}").Count;
+                    if(indent > 0)
+                        codr.Add(code[i]);
+                    i++;
+                }
+                res += low_compile(codr.ToArray());
+                res += "} } ";
+                return res;
             }
             string arc_modifier(int a, out int i)
             {
@@ -538,6 +570,10 @@ namespace Arc4
                         return v + 1;
                     else
                         return v;
+
+                    //
+
+
                 }
             }
             int arc_defineloc(int i)
@@ -611,14 +647,20 @@ namespace Arc4
                 {
                     if (Regex.IsMatch(code[i + g], "where"))
                     {
+                        int indent2 = 1;
                         g++; wherecount++; while (!expect(code, i + g, "=")) { g++; wherecount++; }
                         g++; wherecount++; while (!expect(code, i + g, "{")) { g++; wherecount++; }
                         g++; wherecount++;
-                        while (code[i + g] != "}")
+                        while (indent2 > 0)
                         {
-                            wherecount++;
-                            condition += code[i + g];
-                            g++;
+                            indent2 += Regex.Matches(code[i + g], "{").Count;
+                            indent2 -= Regex.Matches(code[i + g], "}").Count;
+                            if (indent2 > 0)
+                            {
+                                wherecount++;
+                                condition += code[i + g] + " ";
+                                g++;
+                            }
                         }
                         g++; wherecount++;
                     }
@@ -636,7 +678,7 @@ namespace Arc4
                     string id = classes[currentClass].ElementAt(z).Key;
                     if (classes[currentClass][id]["id"] != "default")
                     {
-                        if (condition == "" || expressiontobool(condition))
+                        if (condition == "" || expressiontobool(ParseString(condition),id))
                         {
                             for (int b = 0; b < loop.Count; b++)
                             {
@@ -658,20 +700,86 @@ namespace Arc4
                 }
 
                 i += wherecount;
-                if (wherecount > 0)
-                    i += 4;
+                //if (wherecount > 0)
+                //    i += 4;
                 i += loop.Count;
 
                 return low_compile(ForEach.ToArray());
 
-                bool expressiontobool(string expression)
+                bool expressiontobool(string[] expression, string id)
                 {
+                    for(int c = 0; c < expression.Length; c++)
+                    {
+                        if (expression[c].StartsWith("\"") && expression[c].EndsWith("\""))
+                            expression[c] = expression[c].Substring(1, expression[c].Length - 2);
+                    }
+                    //for(int c = 0; c < expression.Length; c++)
+                    //{
+                    //    Console.Write(expression[c]);
+                    //}
+                    //Console.Write("\n");
+                    LogicalScope scope = LogicalScope.AND;
+                    bool istrue = false;
                     for (int h = 0; h < expression.Length; h++)
                     {
-
+                        switch (expression[h])
+                        {
+                            case "has_key":
+                                h++; except(h, "=");
+                                h++;
+                                LogicalScopeAssign(classes[currentClass][id].ContainsKey(expression[h]));
+                                break;
+                            case "key_contains":
+                                h++; except(h, "=");
+                                h++; except(h, "{");
+                                h++; except(h, "key");
+                                h++; except(h, "=");
+                                h++; string key = expression[h];
+                                h++; except(h, "value");
+                                h++; except(h, "=");
+                                h++; string value = expression[h];
+                                try { LogicalScopeAssign(classes[currentClass][id][key].Contains(value)); }
+                                catch(Exception) { LogicalScopeAssign(false); }
+                                h++; except(h, "}");
+                                break;
+                        }
                     }
 
-                    return false;
+                    return istrue;
+
+                    void LogicalScopeAssign(bool expr)
+                    {
+                        if(expr) 
+                            switch (scope)
+                            {
+                                case LogicalScope.AND:
+                                    istrue = true;
+                                    break;
+                                case LogicalScope.OR:
+                                    istrue = istrue || true;
+                                    break;
+                                case LogicalScope.NOT:
+                                    istrue = !true;
+                                    break;
+                            }
+                        else
+                            switch (scope)
+                            {
+                                case LogicalScope.AND:
+                                    istrue = !true;
+                                    break;
+                                case LogicalScope.OR:
+                                    istrue = !istrue || !true;
+                                    break;
+                                case LogicalScope.NOT:
+                                    istrue = true;
+                                    break;
+                            }
+                    }
+                    void except(int index, string regex, string error = "")
+                    {
+                        actual_except(expression[index],index,regex,error);
+                    }
                 }
             }
             string arc_class(int a, out int i)

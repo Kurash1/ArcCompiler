@@ -1,0 +1,1 @@
+p@windhelm c@windhelm var aba = 100 (2*aba) 100% 100years 100months 100weeks c@windhelm, CB8, 1002 = { } for i = 0 to 8 = { add_base_tax = 1 } using "classes/artifacts/*" as artifacts foreach artifacts = { add_base_tax = 1 } 
