@@ -1,0 +1,3 @@
+foreach [2117 = { } 220 = { } 1142 = { }] as provinces = {
+  set_capital = provinces.id
+}

@@ -1,0 +1,9 @@
+using "common\event_modifiers\ai_cheats.class" as aimod 
+foreach aimod = {
+	foreach aimod as aimod2 = {
+		aimod.id = {
+			aimod2.id
+			aimod.modifiers
+		}
+	}
+}

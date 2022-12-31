@@ -1,0 +1,2 @@
+var testcode = "var b = 20 b"
+eval testcode

@@ -1,0 +1,3 @@
+definemod test = {
+	infantry_power = 0.10
+}

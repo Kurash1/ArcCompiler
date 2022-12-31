@@ -1,0 +1,4 @@
+defines.functions.test = {
+	i = 10
+	b = value
+}
