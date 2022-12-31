@@ -255,6 +255,11 @@ namespace Arc4
             foreach (KeyValuePair<string,string> a in loc){
                 Console.Write(a.Key + " | ");
             }
+            Console.WriteLine("\n\n\tEvents");
+            foreach (string s in events)
+            {
+                Console.WriteLine(s);
+            }
         }
         public void test(bool a = false)
         {
@@ -293,7 +298,7 @@ namespace Arc4
                                 else
                                 {
                                     Console.WriteLine("Failure on " + files[i]);
-                                    Console.WriteLine("Difference = " + ((com.Length>com2.Length)?string.Compare(com, com2):string.Compare(com2, com)));
+                                    Console.WriteLine("Difference = " + FindDifferences(com,com2));
                                     Console.WriteLine("Expected: " + com2);
                                     Console.WriteLine("Got:      " + com);
                                 }
@@ -303,6 +308,44 @@ namespace Arc4
                     }
                 return;
             }
+        }
+        public string FindDifferences(string str1, string str2)
+        {
+            List<string> differences = new List<string>();
+
+            // Split the strings into arrays of characters
+            char[] charArray1 = str1.ToCharArray();
+            char[] charArray2 = str2.ToCharArray();
+
+            // Find the length of the shorter array
+            int minLength = Math.Min(charArray1.Length, charArray2.Length);
+
+            // Compare the characters in the arrays and add any differences to the list
+            for (int i = 0; i < minLength; i++)
+            {
+                if (charArray1[i] != charArray2[i])
+                {
+                    int j = i + 1;
+                    while (j < minLength && charArray1[j] != charArray2[j])
+                    {
+                        j++;
+                    }
+                    differences.Add($"Difference at indices {i}-{j - 1}: '{str1.Substring(i, j - i)}' vs '{str2.Substring(i, j - i)}'");
+                    i = j - 1;
+                }
+            }
+
+            // If one array is longer than the other, add the remaining characters to the list of differences
+            if (charArray1.Length > minLength)
+            {
+                differences.Add($"Extra characters at indices {minLength}-{charArray1.Length - 1}: '{str1.Substring(minLength)}'");
+            }
+            else if (charArray2.Length > minLength)
+            {
+                differences.Add($"Extra characters at indices {minLength}-{charArray2.Length - 1}: '{str2.Substring(minLength)}'");
+            }
+
+            return string.Join("\n", differences);
         }
         public void interpreter()
         {
@@ -427,294 +470,500 @@ namespace Arc4
         public string low_compile(List<string> code)
         {
             string result = "";
+            Dictionary<string,Func<int, int>> keywords = new Dictionary<string, Func<int, int>>()
+            {
+                { "\\t", 
+                    (int i)=>{
+                        result += "\t";
+                        return i; 
+                    } 
+                },
+                { "\\n", 
+                    (int i)=>{
+                        result += "\n";
+                        return i; 
+                    } 
+                },
+                { "arc_modifier", 
+                    (int i) =>{
+                        i++; while (!expect(code, i, "=")) { i++; }
+                        i++; while (!expect(code, i, "{")) { i++; }
+                        i++; while (!expect(code, i, "id")) { i++; }
+                        i++; while (!expect(code, i, "=")) { i++; }
+                        i++; string id = code[i];
+                        i++; while (!expect(code, i, "type")) { i++; }
+                        i++; while (!expect(code, i, "=")) { i++; }
+                        i++; string type = Regex.Match(code[i], "[^(]+").Value;
+                        string duration = arc_math(Regex.Match(code[i], "\\([^()]*\\)").Value);
+                        if (duration == "") duration = "-1";
+                        i++; while (!expect(code, i, "name")) { i++; }
+                        i++; while (!expect(code, i, "=")) { i++; }
+                        i++; string name = code[i];
+                        i++; while (!expect(code, i, "desc")) { i++; }
+                        i++; while (!expect(code, i, "=")) { i++; }
+                        i++; string desc = code[i];
+                        i++; while (!expect(code, i, "modifiers")) { i++; }
+                        i++; while (!expect(code, i, "=")) { i++; }
+                        i++; while (!expect(code, i, "{")) { i++; }
+                        i++; string modifiers = code[i];
+                        i++; while (!expect(code, i, "}")) { i++; }
+                        i++; while (!expect(code, i, "}")) { i++; }
+                        owner.write(owner.loc, id, name);
+                        owner.write(owner.loc, id + "_desc", desc);
+                        owner.write(owner.mod, id, modifiers);
+                        result += "add_" + type + "_modifier = { name = " + id + " duration = " + duration + " desc = " + id + "_desc hidden = no } ";
+                        return i;
+                    } 
+                },
+                { "><",
+                    (int i) =>
+                    {
+                        result = result.Trim();
+                        return i;
+                    }
+                },
+                { "var",
+                    (int i) =>
+                    {
+                        i++; string varname = code[i];
+                        i++; while (!expect(code, i, "=")) { i++; }
+                        i++; string varvalue = code[i];
+                        if (varvalue.Contains("("))
+                            varvalue = arc_math(Regex.Match(varvalue, "\\(.*\\)").Value);
+                        setVar(varname, varvalue);
+                        return i++;
+                    }
+                },
+                { "eval",
+                    (int i) =>
+                    {
+                        i++;
+                            if (variables[code[i]].StartsWith("\"")) result += compile(variables[code[i]].Substring(1,variables[code[i]].Length-2));
+                            else result += compile(variables[code[i]]);
+                        return i;
+                    }
+                },
+                { "defineMod",
+                    (int i) =>
+                    {
+                        i++; string id = code[i];
+                        i++; while(!expect(code, i, "=")) { i++; }
+                        i++; while(!expect(code, i, "{")) { i++; }
+                        string modifiers = "";
+                        i++; while(code[i] != "}")
+                        {
+                            modifiers += code[i] + " ";
+                            i++;
+                        }
+                        owner.write(owner.mod, id, modifiers);
+                        return i;
+                    }
+                },
+                { "definemod",
+                    (int i) =>
+                    {
+                        i++; string id = code[i];
+                        i++; while(!expect(code, i, "=")) { i++; }
+                        i++; while(!expect(code, i, "{")) { i++; }
+                        string modifiers = "";
+                        i++; while(code[i] != "}")
+                        {
+                            modifiers += code[i] + " ";
+                            i++;
+                        }
+                        owner.write(owner.mod, id, modifiers);
+                        return i;
+                    }
+                },
+                { "NAND",
+                    (int i) =>
+                    {
+                        i++; while (!expect(code, i, "=")) { i++; }
+                        i++; while (!expect(code, i, "{")) { i++; }
+                        i++;
+                        result += "NOT = { AND = {";
+                        int indent = 1;
+                        List<string> codr = new List<string>();
+                        while(indent > 0)
+                        {
+                            indent += Regex.Matches(code[i], "{").Count;
+                            indent -= Regex.Matches(code[i], "}").Count;
+                            if(indent > 0)
+                                codr.Add(code[i]);
+                            i++;
+                        }
+                        result += low_compile(codr);
+                        result += "} } ";
+                        return i;
+                    }
+                },
+                { "defineLoc",
+                    (int i) =>
+                    {
+                        i++; string key = code[i];
+                        i++; i++; string value = code[i];
+                        owner.write(owner.loc, key, value);
+                        return i;
+                    }
+                },
+                { "defineloc",
+                    (int i) =>
+                    {
+                        i++; string key = code[i];
+                        i++; i++; string value = code[i];
+                        owner.write(owner.loc, key, value);
+                        return i;
+                    }
+                },
+                { "for",
+                    (int i) =>
+                    {
+                        i++; string varname = code[i];
+                        i++; while (!expect(code, i, "=")) { i++; }
+                        i++; int start = int.Parse(compile(code[i]));
+                        i++; while (!expect(code, i, "to")) { i++; }
+                        i++;
+                        int end = int.Parse(compile(code[i]));
+                        i++; while (!expect(code, i, "=")) { i++; }
+                        i++; while (!expect(code, i, "{")) { i++; }
+                        i++;
+                        int indent = 1;
+                        List<string> loop = new List<string>();
+
+                        while (indent > 0)
+                        {
+                            string g = code[i];
+                            switch (g)
+                            {
+                                case "{":
+                                    indent++;
+                                    loop.Add("{");
+                                    break;
+                                case "}":
+                                    indent--;
+                                    if (indent > 0)
+                                        loop.Add("}");
+                                    break;
+                                default:
+                                    loop.Add(g);
+                                    break;
+                            }
+                            i++;
+                        }
+
+                        List<string> final = new List<string>();
+
+                        bool isatend = true;
+                        for (int j = start; isatend; j = towards(j, away(end, start)))
+                        {
+                            final.Add("var");
+                            final.Add(varname);
+                            final.Add("=");
+                            final.Add(j.ToString());
+                            for (int h = 0; h < loop.Count; h++)
+                                final.Add(loop[h]);
+                            isatend = j != end;
+                        }
+
+                        i--;
+                        result += low_compile(final);
+
+                        return i;
+
+                        int towards(int v, int o)
+                        {
+                            if (v > o)
+                                return v - 1;
+                            if (v < o)
+                                return v + 1;
+                            else
+                                return v;
+                        }
+                        int away(int v, int o)
+                        {
+                            if (v < o)
+                                return v - 1;
+                            if (v > o)
+                                return v + 1;
+                            else
+                                return v;
+                        }
+                    }
+                },
+                { "quick_event",
+                    (int i) =>
+                    {
+                        i++; while (!expect(code, i, "=")) { i++; }
+                        i++; while (!expect(code, i, "{")) { i++; }
+                        i++; while (!expect(code, i, "alias")) { i++; }
+                        i++; while (!expect(code, i, "=")) { i++; }
+                        i++; string alias = code[i];
+                        i++; while (!expect(code, i, "type")) { i++; }
+                        i++; while (!expect(code, i, "=")) { i++; }
+                        i++; while (!expect(code, i, "province|country")) { i++; }
+                        string type = code[i];
+
+                        string qevent = type + "_event = { ";
+
+                        int indent = 1;
+                        while (indent > 0)
+                        {
+                            i++;
+                            if (code[i] == "{") indent++;
+                            if (code[i] == "}") indent--;
+
+                            if(indent > 0)
+                                qevent += code[i] + " ";
+                        }
+                        qevent += " }";
+                        setVar(alias, "arc." + (owner.events.Count + 1));
+                        owner.events.Add(compile(qevent.Replace(alias, "arc." + (owner.events.Count + 1))));
+
+                        return i;
+                    }
+                },
+                { "using",
+                    (int i) =>
+                    {
+                        i++;
+                        string classfile = code[i];
+                        i++;
+                        while (!expect(code, i, "as")) { i++; }
+                        i++;
+                        string classtype = code[i];
+
+                        if (classfile.EndsWith("*\""))
+                        {
+                            string[] path = Directory.GetFiles(directory + "\\" + classfile.Substring(1, classfile.Length - 3));
+                            for (int j = 0; j < path.Length; j++)
+                                LoadClasses(File.ReadAllText(path[j]), classtype);
+                        }
+                        else
+                        {
+                            LoadClasses(File.ReadAllText(directory + "\\" + classfile.Substring(1, classfile.Length - 2)), classtype);
+                        }
+
+                        return i;
+                    }
+                },
+                { "foreach",
+                    (int i) =>
+                    {
+                        string condition = "";
+                        int wherecount = 0;
+                        i++;
+                        string currentClass = code[i];
+                        if (currentClass.StartsWith("["))
+                        {
+                            currentClass += " ";
+                            while (!currentClass.Trim().EndsWith("]"))
+                            {
+                                i++;
+                                currentClass += code[i] + " ";
+                            }
+                            currentClass.Replace(";", " = { }");
+                        }
+                        i++;
+                        string alias = currentClass;
+                        if (code[i] == "as")
+                        {
+                            i++;
+                            alias = code[i];
+                            i++;
+                        }
+                        if (currentClass.StartsWith("["))
+                        {
+                            LoadClasses(currentClass.Substring(1, currentClass.Length - 3), alias);
+                            currentClass = alias;
+                        }
+                        while (!expect(code, i, "=")) { i++; }
+                        i++;
+                        while (!expect(code, i, "{")) { i++; }
+                        int g = 0;
+                        int indent = 1;
+
+                        List<string> loop = new List<string>();
+
+                        i++;
+                        while (indent > 0)
+                        {
+                            if (Regex.IsMatch(code[i + g], "where"))
+                            {
+                                int indent2 = 1;
+                                g++; wherecount++; while (!expect(code, i + g, "=")) { g++; wherecount++; }
+                                g++; wherecount++; while (!expect(code, i + g, "{")) { g++; wherecount++; }
+                                g++; wherecount++;
+                                while (indent2 > 0)
+                                {
+                                    indent2 += Regex.Matches(code[i + g], "{").Count;
+                                    indent2 -= Regex.Matches(code[i + g], "}").Count;
+                                    if (indent2 > 0)
+                                    {
+                                        wherecount++;
+                                        condition += code[i + g] + " ";
+                                        g++;
+                                    }
+                                }
+                                g++; wherecount++;
+                            }
+                            indent += Regex.Matches(code[i + g], "{").Count;
+                            indent -= Regex.Matches(code[i + g], "}").Count;
+                            if (indent > 0) loop.Add(code[i + g]);
+                            g++;
+                        }
+                        condition = Regex.Replace(condition, "\\\\[tn]", "");
+
+                        List<string> ForEach = new List<string>();
+
+                        for (int z = 0; z < classes[currentClass].Count; z++)
+                        {
+                            string id = classes[currentClass].ElementAt(z).Key;
+                            if (classes[currentClass][id]["id"] != "default")
+                            {
+                                if (condition == "" || expressiontobool(ParseString(condition),id,LogicalScope.AND))
+                                {
+                                    for (int b = 0; b < loop.Count; b++)
+                                    {
+                                        if (Regex.Matches(loop[b], alias + "\\.").Count == 1)
+                                        {
+                                            string var = Regex.Match(loop[b], "[^.*/+-]+").NextMatch().Value;
+                                            try { ForEach.Add(Regex.Replace(loop[b], alias + "\\." + var, classes[currentClass].ElementAt(z).Value[var])); }
+                                            catch (KeyNotFoundException)
+                                            {
+                                                try { ForEach.Add(Regex.Replace(loop[b], alias + "\\." + var, classes[currentClass]["default"][var])); }
+                                                catch (KeyNotFoundException) { ForEach.Add(Regex.Replace(loop[b], currentClass + "\\." + var, "")); }
+                                            }
+                                        }
+                                        else
+                                            ForEach.Add(loop[b]);
+                                    }
+                                }
+                            }
+                        }
+
+                        i += wherecount;
+                        //if (wherecount > 0)
+                        //    i += 4;
+                        i += loop.Count;
+                        if(currentClass.StartsWith("["))
+                            classes.Remove(alias);
+                        result += low_compile(ForEach);
+                        return i;
+
+                        bool expressiontobool(List<string> expression, string id, LogicalScope scope)
+                        {
+                            for(int c = 0; c < expression.Count; c++)
+                            {
+                                if (expression[c].StartsWith("\"") && expression[c].EndsWith("\""))
+                                    expression[c] = expression[c].Substring(1, expression[c].Length - 2);
+                            }
+                            //for(int c = 0; c < expression.Length; c++)
+                            //{
+                            //    Console.Write(expression[c]);
+                            //}
+                            //Console.Write("\n");
+                            bool istrue = false;
+                            for (int h = 0; h < expression.Count; h++)
+                            {
+                                switch (expression[h])
+                                {
+                                    case "has_key":
+                                        h++; except(h, "=");
+                                        h++;
+                                        LogicalScopeAssign(classes[currentClass][id].ContainsKey(expression[h]));
+                                        break;
+                                    case "key_contains":
+                                        h++; except(h, "=");
+                                        h++; except(h, "{");
+                                        h++; except(h, "key");
+                                        h++; except(h, "=");
+                                        h++; string key = expression[h];
+                                        h++; except(h, "value");
+                                        h++; except(h, "=");
+                                        h++; string value = expression[h];
+                                        try { LogicalScopeAssign(classes[currentClass][id][key].Contains(value)); }
+                                        catch(Exception) { LogicalScopeAssign(false); }
+                                        h++; except(h, "}");
+                                        break;
+                                }
+                            }
+
+                            return istrue;
+
+                            void LogicalScopeAssign(bool expr)
+                            {
+                                if(expr)
+                                    switch (scope)
+                                    {
+                                        case LogicalScope.AND:
+                                        case LogicalScope.OR:
+                                            istrue = true;
+                                            break;
+                                        case LogicalScope.NOT:
+                                            istrue = !true;
+                                            break;
+                                    }
+                                else
+                                    switch (scope)
+                                    {
+                                        case LogicalScope.AND:
+                                            istrue = false;
+                                            break;
+                                        case LogicalScope.NOT:
+                                            istrue = true;
+                                            break;
+                                    }
+                            }
+                            void except(int index, string regex, string error = "")
+                            {
+                                actual_except(expression[index],index,regex,error);
+                            }
+                        }
+                    }
+                }
+            };
+
             for (int i = 0; i < code.Count; i++)
             {
                 string g = code[i];
-                switch (g)
+                if (keywords.ContainsKey(g))
+                    i = keywords[g].Invoke(i);
+                else if (Regex.IsMatch(g, "\\([^()]+\\)")) result += arc_math(Regex.Match(Regex.Match(g, "\\([^()]+\\)").Value, "[^()]+").Value) + " ";
+                else if (variables.ContainsKey(g))
+                    result += variables[g] + " ";
+                else if (Regex.IsMatch(g, "([^.]+)\\.([^.]+)\\.([^.]+)") && classes.ContainsKey(Regex.Match(g, "[^.]+").Value))
+                    result += arc_class(i, out i) + " ";
+                else if (Regex.IsMatch(g, "[^,],"))
                 {
-                    case "\\t": result += "\t"; break;
-                    case "\\n": result += "\n"; break;
-                    case "arc_modifier":
-                        result += arc_modifier(i, out i);
-                        break;
-                    case "><":
-                        result = result.Trim();
-                        break;
-                    case "var":
-                        i = arc_variable(i);
-                        break;
-                    //<number>% - <number>years - <number>months - <number>weeks
-                    case string s when Regex.IsMatch(s, "-?[0-9]+(\\.[0-9]+)?%"):
-                        result += (float.Parse(s.Substring(0, s.Length - 1)) / 100).ToString() + " ";
-                        break;
-                    case string s when Regex.IsMatch(s, "-?[0-9]+(\\.[0-9]+)?years", RegexOptions.IgnoreCase):
-                        result += (float.Parse(s.Substring(0, s.Length - 5)) * 365).ToString() + " ";
-                        break;
-                    case string s when Regex.IsMatch(s, "-?[0-9]+(\\.[0-9]+)?months", RegexOptions.IgnoreCase):
-                        result += (float.Parse(s.Substring(0, s.Length - 6)) * 30).ToString() + " ";
-                        break;
-                    case string s when Regex.IsMatch(s, "-?[0-9]+(\\.[0-9]+)?weeks", RegexOptions.IgnoreCase):
-                        result += (float.Parse(s.Substring(0, s.Length - 5)) * 7).ToString() + " ";
-                        break;
-                    case "eval":
-                        i++;
-                        if (variables[code[i]].StartsWith("\"")) result += compile(variables[code[i]].Substring(1,variables[code[i]].Length-2));
-                        else result += compile(variables[code[i]]);
-                        break;
-                    case "definemod":
-                        arc_definemod(i, out i);
-                        break;
-                    //Checks for multiscope ex: CB8,
-                    case string s when Regex.IsMatch(s, "[^,],"):
-                        multiscope.Add(s.Substring(0, s.Length - 1));
-                        if (currentscope.Count == 0 || currentscope[0] != "multiscope")
-                            currentscope.Insert(0, "multiscope");
-                        break;
-                    case "NAND":
-                        result += arc_nand(i, out i);
-                        break;
-                    case "NOR": result += "NOT "; break;
-                    case "NONE": result += "NOT "; break;
-                    //Math expressions (6*2)
-                    case string s when Regex.IsMatch(s, "\\([^()]+\\)"):
-                        result += arc_math(Regex.Match(Regex.Match(s, "\\([^()]+\\)").Value, "[^()]+").Value) + " ";
-                        break;
-                    case string _ when g.ToLower() == "defineloc":
-                        i = arc_defineloc(i);
-                        break;
-                    case "for":
-                        result += arc_for(i, out i);
-                        break;
-                    case "quick_event": i += arc_quickevent(i); break;
-                    case "using": i = arc_using(i); break;
-                    case "foreach": result += arc_foreach(i, out i); break;
-                    //Class.Id.Key
-                    case string s when Regex.IsMatch(s, "([^.]+)\\.([^.]+)\\.([^.]+)") && classes.ContainsKey(Regex.Match(s, "[^.]+").Value):
-                        result += arc_class(i, out i) + " ";
-                        break;
-                    case string s when variables.ContainsKey(s):
-                        result += variables[s] + " ";
-                        break;
-                    case string s when currentscope.Count > 0:
-                        switch (currentscope[0])
-                        {
-                            case "multiscope":
-                                result += arc_multiscope(g, i, out i);
-                                break;
-                        }
-                        break;
-                    case string s when s.StartsWith("p@"):
-                        try { result += owner.provinces[s.Substring(2).Replace("_", " ").ToUpper()] + " "; }
-                        catch (Exception e) { Console.Write(s + ": "); throw e; }
-                        break;
-                    case string s when s.StartsWith("c@"):
-                        try { result += owner.countries[s.Substring(2).Replace("_", " ").ToUpper()] + " "; }
-                        catch (Exception e) { Console.Write(s + ": "); throw e; }
-                        break;
-                    default:
-                        result += g + " ";
-                        break;
+                    result += arc_multiscope(i, out i);
                 }
+                else if (g.StartsWith("p@")) { 
+                    try { result += owner.provinces[g.Substring(2).Replace("_", " ").ToUpper()] + " "; }
+                    catch (Exception e) { Console.Write(g + ": "); throw e; }
+                }
+                else if (g.StartsWith("c@")) {
+                    try { result += owner.countries[g.Substring(2).Replace("_", " ").ToUpper()] + " "; }
+                    catch (Exception e) { Console.Write(g + ": "); throw e; } 
+                }
+                else if (g.Length > 1 && g.EndsWith("%")) result += (float.Parse(g.Substring(0, g.Length - 1)) / 100).ToString() + " ";
+                else if (g.Length > 5 && g.EndsWith("years")) result += (float.Parse(g.Substring(0, g.Length - 5)) * 365).ToString() + " ";
+                else if (g.Length > 6 && g.EndsWith("months")) result += (float.Parse(g.Substring(0, g.Length - 6)) * 30).ToString() + " ";
+                else if (g.Length > 7 && g.EndsWith("weeks")) result += (float.Parse(g.Substring(0, g.Length - 5)) * 7).ToString() + " ";
+                else
+                    result += g + " ";
             }
 
             return result;
 
-            int arc_quickevent(int i) 
-            {
-                i++; while (!expect(code, i, "=")) { i++; }
-                i++; while (!expect(code, i, "{")) { i++; }
-                i++; while (!expect(code, i, "alias")) { i++; }
-                i++; while (!expect(code, i, "=")) { i++; }
-                i++; string alias = code[i];
-                i++; while (!expect(code, i, "type")) { i++; }
-                i++; while (!expect(code, i, "=")) { i++; }
-                i++; while (!expect(code, i, "province|country")) { i++; }
-                string type = code[i];
-
-                string qevent = type + "_event = { ";
-
-                int indent = 1;
-                while (indent > 0)
-                {
-                    i++;
-                    if (code[i] == "{") indent++;
-                    if (code[i] == "}") indent--;
-
-                    if(indent > 0)
-                        qevent += code[i] + " ";
-                }
-                qevent += " }";
-                setVar(alias, "arc." + (owner.events.Count + 1));
-                owner.events.Add(compile(qevent.Replace(alias, "arc." + (owner.events.Count + 1))));
-
-
-                return i;
-            }
-            void arc_definemod(int a, out int i)
+            string arc_multiscope(int a, out int i)
             {
                 i = a;
-                i++; string id = code[i];
-                i++; while(!expect(code, i, "=")) { i++; }
-                i++; while(!expect(code, i, "{")) { i++; }
-                string modifiers = "";
-                i++; while(code[i] != "}")
+                while (code[i].EndsWith(","))
                 {
-                    modifiers += code[i] + " ";
+                    multiscope.Add(code[i].Substring(0,code[i].Length-1));
                     i++;
                 }
-                owner.write(owner.mod, id, modifiers);
-                return;
-            }
-            string arc_nand(int a, out int i)
-            {
-                i = a;
-                i++; while (!expect(code, i, "=")) { i++; }
-                i++; while (!expect(code, i, "{")) { i++; }
-                i++;
-                string res;
-                res = "NOT = { AND = {";
-                int indent = 1;
-                List<string> codr = new List<string>();
-                while(indent > 0)
-                {
-                    indent += Regex.Matches(code[i], "{").Count;
-                    indent -= Regex.Matches(code[i], "}").Count;
-                    if(indent > 0)
-                        codr.Add(code[i]);
-                    i++;
-                }
-                res += low_compile(codr);
-                res += "} } ";
-                return res;
-            }
-            string arc_modifier(int a, out int i)
-            {
-                i = a;
-                i++; while (!expect(code, i, "=")) { i++; }
-                i++; while (!expect(code, i, "{")) { i++; }
-                i++; while (!expect(code, i, "id")) { i++; }
-                i++; while (!expect(code, i, "=")) { i++; }
-                i++; string id = code[i];
-                i++; while (!expect(code, i, "type")) { i++; }
-                i++; while (!expect(code, i, "=")) { i++; }
-                i++; string type = Regex.Match(code[i], "[^(]+").Value;
-                string duration = arc_math(Regex.Match(code[i], "\\([^()]*\\)").Value);
-                if (duration == "") duration = "-1";
-                i++; while (!expect(code, i, "name")) { i++; }
-                i++; while (!expect(code, i, "=")) { i++; }
-                i++; string name = code[i];
-                i++; while (!expect(code, i, "desc")) { i++; }
-                i++; while (!expect(code, i, "=")) { i++; }
-                i++; string desc = code[i];
-                i++; while (!expect(code, i, "modifiers")) { i++; }
-                i++; while (!expect(code, i, "=")) { i++; }
-                i++; while (!expect(code, i, "{")) { i++; }
-                i++; string modifiers = code[i];
-                i++; while (!expect(code, i, "}")) { i++; }
-                i++; while (!expect(code, i, "}")) { i++; }
-                owner.write(owner.loc, id, name);
-                owner.write(owner.loc, id + "_desc", desc);
-                owner.write(owner.mod, id, modifiers);
-                return "add_" + type + "_modifier = { name = " + id + " duration = " + duration + " desc = " + id + "_desc hidden = no } ";
-            }
-            int arc_variable(int i)
-            {
-                i++; string varname = code[i];
-                i++; while (!expect(code, i, "=")) { i++; }
-                i++; string varvalue = code[i];
-                if (varvalue.Contains("("))
-                    varvalue = arc_math(Regex.Match(varvalue, "\\(.*\\)").Value);
-                setVar(varname, varvalue);
-                return i++;
-            }
-            string arc_for(int a, out int i)
-            {
-                i = a;
-                i++; string varname = code[i];
-                i++; while (!expect(code, i, "=")) { i++; }
-                i++; int start = int.Parse(low_compile(ParseString(code[i])));
-                i++; while (!expect(code, i, "to")) { i++; }
-                i++;
-                int end = int.Parse(low_compile(ParseString(code[i])));
-                i++; while (!expect(code, i, "=")) { i++; }
-                i++; while (!expect(code, i, "{")) { i++; }
-                i++;
-                int indent = 1;
-                List<string> loop = new List<string>();
-
-                while (indent > 0)
-                {
-                    string g = code[i];
-                    switch (g)
-                    {
-                        case "{":
-                            indent++;
-                            loop.Add("{");
-                            break;
-                        case "}":
-                            indent--;
-                            if (indent > 0)
-                                loop.Add("}");
-                            break;
-                        default:
-                            loop.Add(g);
-                            break;
-                    }
-                    i++;
-                }
-
-                List<string> final = new List<string>();
-
-                bool isatend = true;
-                for (int j = start; isatend; j = towards(j, away(end, start)))
-                {
-                    final.Add("var");
-                    final.Add(varname);
-                    final.Add("=");
-                    final.Add(j.ToString());
-                    for (int h = 0; h < loop.Count; h++)
-                        final.Add(loop[h]);
-                    isatend = j != end;
-                }
-
-                i--;
-                return low_compile(final);
-
-                int towards(int v, int o)
-                {
-                    if (v > o)
-                        return v - 1;
-                    if (v < o)
-                        return v + 1;
-                    else
-                        return v;
-                }
-                int away(int v, int o)
-                {
-                    if (v < o)
-                        return v - 1;
-                    if (v > o)
-                        return v + 1;
-                    else
-                        return v;
-
-                    //
-
-
-                }
-            }
-            int arc_defineloc(int i)
-            {
-                i++; string key = code[i];
-                i++; i++; string value = code[i];
-                owner.write(owner.loc, key, value);
-                return i;
-            }
-            string arc_multiscope(string g, int a, out int i)
-            {
-                i = a;
-                currentscope.RemoveAt(0);
-                multiscope.Add(g);
+                multiscope.Add(code[i]);
                 List<string> effect = new List<string>();
                 i++; while (!expect(code, i, "=")) { i++; }
                 effect.Add("=");
@@ -723,10 +972,10 @@ namespace Arc4
                 int index = 1;
                 while (index > 0)
                 {
-                    i++; g = code[i];
-                    effect.Add(g);
-                    if (g == "{") index++;
-                    if (g == "}") index--;
+                    i++;
+                    effect.Add(code[i]);
+                    if (code[i] == "{") index++;
+                    if (code[i] == "}") index--;
                 }
                 List<string> newcode = new List<string>();
                 for (int j = 0; j < multiscope.Count; j++)
@@ -752,179 +1001,6 @@ namespace Arc4
                 for (int i = 0; i < matches.Count; i++)
                     expression = Regex.Replace(expression, matches[i].Value, variables[matches[i].Groups[1].Value]);
                 return Regex.Match(Evaluate(expression).ToString(), "[^.]+").Value;
-            }
-            string arc_foreach(int a, out int i)
-            {
-                string condition = "";
-                int wherecount = 0;
-                i = a;
-                i++;
-                string currentClass = code[i];
-                if (currentClass.StartsWith("["))
-                {
-                    currentClass += " ";
-                    while (!currentClass.Trim().EndsWith("]"))
-                    {
-                        i++;
-                        currentClass += code[i] + " ";
-                    }
-                    currentClass.Replace(";", " = { }");
-                }
-                i++;
-                string alias = currentClass;
-                if (code[i] == "as")
-                {
-                    i++;
-                    alias = code[i];
-                    i++;
-                }
-                if (currentClass.StartsWith("["))
-                {
-                    LoadClasses(currentClass.Substring(1, currentClass.Length - 3), alias);
-                    currentClass = alias;
-                }
-                while (!expect(code, i, "=")) { i++; }
-                i++;
-                while (!expect(code, i, "{")) { i++; }
-                int g = 0;
-                int indent = 1;
-
-                List<string> loop = new List<string>();
-
-                i++;
-                while (indent > 0)
-                {
-                    if (Regex.IsMatch(code[i + g], "where"))
-                    {
-                        int indent2 = 1;
-                        g++; wherecount++; while (!expect(code, i + g, "=")) { g++; wherecount++; }
-                        g++; wherecount++; while (!expect(code, i + g, "{")) { g++; wherecount++; }
-                        g++; wherecount++;
-                        while (indent2 > 0)
-                        {
-                            indent2 += Regex.Matches(code[i + g], "{").Count;
-                            indent2 -= Regex.Matches(code[i + g], "}").Count;
-                            if (indent2 > 0)
-                            {
-                                wherecount++;
-                                condition += code[i + g] + " ";
-                                g++;
-                            }
-                        }
-                        g++; wherecount++;
-                    }
-                    indent += Regex.Matches(code[i + g], "{").Count;
-                    indent -= Regex.Matches(code[i + g], "}").Count;
-                    if (indent > 0) loop.Add(code[i + g]);
-                    g++;
-                }
-                condition = Regex.Replace(condition, "\\\\[tn]", "");
-
-                List<string> ForEach = new List<string>();
-
-                for (int z = 0; z < classes[currentClass].Count; z++)
-                {
-                    string id = classes[currentClass].ElementAt(z).Key;
-                    if (classes[currentClass][id]["id"] != "default")
-                    {
-                        if (condition == "" || expressiontobool(ParseString(condition),id,LogicalScope.AND))
-                        {
-                            for (int b = 0; b < loop.Count; b++)
-                            {
-                                if (Regex.Matches(loop[b], alias + "\\.").Count == 1)
-                                {
-                                    string var = Regex.Match(loop[b], "[^.*/+-]+").NextMatch().Value;
-                                    try { ForEach.Add(Regex.Replace(loop[b], alias + "\\." + var, classes[currentClass].ElementAt(z).Value[var])); }
-                                    catch (KeyNotFoundException)
-                                    {
-                                        try { ForEach.Add(Regex.Replace(loop[b], alias + "\\." + var, classes[currentClass]["default"][var])); }
-                                        catch (KeyNotFoundException) { ForEach.Add(Regex.Replace(loop[b], currentClass + "\\." + var, "")); }
-                                    }
-                                }
-                                else
-                                    ForEach.Add(loop[b]);
-                            }
-                        }
-                    }
-                }
-
-                i += wherecount;
-                //if (wherecount > 0)
-                //    i += 4;
-                i += loop.Count;
-                if(currentClass.StartsWith("["))
-                    classes.Remove(alias);
-                return low_compile(ForEach);
-
-                bool expressiontobool(List<string> expression, string id, LogicalScope scope)
-                {
-                    for(int c = 0; c < expression.Count; c++)
-                    {
-                        if (expression[c].StartsWith("\"") && expression[c].EndsWith("\""))
-                            expression[c] = expression[c].Substring(1, expression[c].Length - 2);
-                    }
-                    //for(int c = 0; c < expression.Length; c++)
-                    //{
-                    //    Console.Write(expression[c]);
-                    //}
-                    //Console.Write("\n");
-                    bool istrue = false;
-                    for (int h = 0; h < expression.Count; h++)
-                    {
-                        switch (expression[h])
-                        {
-                            case "has_key":
-                                h++; except(h, "=");
-                                h++;
-                                LogicalScopeAssign(classes[currentClass][id].ContainsKey(expression[h]));
-                                break;
-                            case "key_contains":
-                                h++; except(h, "=");
-                                h++; except(h, "{");
-                                h++; except(h, "key");
-                                h++; except(h, "=");
-                                h++; string key = expression[h];
-                                h++; except(h, "value");
-                                h++; except(h, "=");
-                                h++; string value = expression[h];
-                                try { LogicalScopeAssign(classes[currentClass][id][key].Contains(value)); }
-                                catch(Exception) { LogicalScopeAssign(false); }
-                                h++; except(h, "}");
-                                break;
-                        }
-                    }
-
-                    return istrue;
-
-                    void LogicalScopeAssign(bool expr)
-                    {
-                        if(expr) 
-                            switch (scope)
-                            {
-                                case LogicalScope.AND:
-                                case LogicalScope.OR:
-                                    istrue = true;
-                                    break;
-                                case LogicalScope.NOT:
-                                    istrue = !true;
-                                    break;
-                            }
-                        else
-                            switch (scope)
-                            {
-                                case LogicalScope.AND:
-                                    istrue = false;
-                                    break;
-                                case LogicalScope.NOT:
-                                    istrue = true;
-                                    break;
-                            }
-                    }
-                    void except(int index, string regex, string error = "")
-                    {
-                        actual_except(expression[index],index,regex,error);
-                    }
-                }
             }
             string arc_class(int a, out int i)
             {
@@ -983,29 +1059,6 @@ namespace Arc4
                     }
                     return returnvalue;
                 }
-                return "";
-            }
-            int arc_using(int i)
-            {
-                i++;
-                string classfile = code[i];
-                i++;
-                while (!expect(code, i, "as")) { i++; }
-                i++;
-                string classtype = code[i];
-
-                if (classfile.EndsWith("*\""))
-                {
-                    string[] path = Directory.GetFiles(directory + "\\" + classfile.Substring(1, classfile.Length - 3));
-                    for (int j = 0; j < path.Length; j++)
-                        LoadClasses(File.ReadAllText(path[j]), classtype);
-                }
-                else
-                {
-                    LoadClasses(File.ReadAllText(directory + "\\" + classfile.Substring(1, classfile.Length - 2)), classtype);
-                }
-
-                return i;
             }
         }
         private void LoadClasses(string file, string classtype)
