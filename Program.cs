@@ -14,8 +14,8 @@ namespace Arc4
         {
             bool syntax = false;
             Arc arc = new Arc();
-            //try
-            //{
+            try
+            {
                 if (args.Length > 0)
                 {
                     switch (args[0])
@@ -71,11 +71,11 @@ namespace Arc4
                             break;
                     }
                 }
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine(e);
-            //}
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
             Console.WriteLine("Press any key to exit");
             Console.ReadKey();
         }
@@ -83,6 +83,7 @@ namespace Arc4
     class Arc
     {
         public Dictionary<string, string> provinces = new Dictionary<string, string>();
+        public Dictionary<string, string> areas = new Dictionary<string, string>();
         public Dictionary<string, string> countries = new Dictionary<string, string>();
         public Dictionary<string, string> loc = new Dictionary<string, string>();
         public Dictionary<string, string> mod = new Dictionary<string, string>();
@@ -99,7 +100,7 @@ namespace Arc4
         private void readLoc()
         {
             if (!File.Exists(directory + "\\localisation\\english\\arc_l_english.yml"))
-                File.Create(directory + "\\localisation\\english\\arc_l_english.yml").Dispose();
+                return;
             string[] loca = File.ReadAllLines(directory + "\\localisation\\english\\arc_l_english.yml");
             for (int i = 0; i < loca.Length; i++)
             {
@@ -111,7 +112,7 @@ namespace Arc4
         private void readMod()
         {
             if (!File.Exists(directory + "\\common\\event_modifiers\\arc.txt"))
-                File.Create(directory + "\\common\\event_modifiers\\arc.txt").Dispose();
+                return;
             string loca = File.ReadAllText(directory + "\\common\\event_modifiers\\arc.txt");
             MatchCollection match = Regex.Matches(loca, "([^ ]+) += +{ +([^}]+) +} +");
             for(int v = 0; v < match.Count; v++)
@@ -119,8 +120,8 @@ namespace Arc4
         }
         private void readProv()
         {
-            System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
-            watch.Start();
+            if (!File.Exists(directory + "\\localisation\\replace\\es_provinces_l_english.yml"))
+                return;
             using (StreamReader reader = new StreamReader(directory + "\\localisation\\replace\\es_provinces_l_english.yml"))
             {
                 string line;
@@ -143,10 +144,11 @@ namespace Arc4
                     }
                 }
             }
-            Console.WriteLine(watch.ElapsedMilliseconds);
         }
         private void readCountr()
         {
+            if (!File.Exists(directory + "\\localisation\\replace\\countries_l_english.yml"))
+                return;
             string[] prova = File.ReadAllLines(directory + "\\localisation\\replace\\countries_l_english.yml");
             for (int i = 0; i < prova.Length; i++)
             {
@@ -158,7 +160,7 @@ namespace Arc4
         private void readEvents()
         {
             if (!File.Exists(directory + "\\events\\arc.txt"))
-                File.Create(directory + "\\events\\arc.txt").Dispose();
+                return;
             string[] eventa = File.ReadAllLines(directory + "\\events\\arc.txt");
             foreach (string av in eventa)
             {
@@ -167,12 +169,28 @@ namespace Arc4
                     events.Add(m.Value);
             }
         }
+        private void readArea()
+        {
+            if (!File.Exists(directory + "\\map\\area.txt"))
+                return;
+
+            string areaFile = File.ReadAllText(directory + "\\map\\area.txt");
+            MatchCollection areas = Regex.Matches(areaFile, "([a-z_0-9]+) *= *{\\s*(( [0-9]*)+)\\s*}", RegexOptions.Multiline);
+            foreach (Match area in areas)
+            {
+                this.areas.Add(area.Groups[1].Value, area.Groups[2].Value);
+            }
+        }
         private void readAll()
         {
             //readLoc();
             //readMod();
             readCountr();
             readProv();
+            readArea();
+            //readRegion();
+            //readSuperregion();
+            //readContinent();
             //readEvents();
         }
         private void saveAll()
@@ -259,6 +277,11 @@ namespace Arc4
             foreach (string s in events)
             {
                 Console.WriteLine(s);
+            }
+            Console.WriteLine("\n\n\tAreas");
+            foreach (KeyValuePair<string,string> s in areas)
+            {
+                Console.WriteLine(s.Key + ":" + s.Value);
             }
         }
         public void test(bool a = false)
@@ -942,6 +965,11 @@ namespace Arc4
                 else if (g.StartsWith("c@")) {
                     try { result += owner.countries[g.Substring(2).Replace("_", " ").ToUpper()] + " "; }
                     catch (Exception e) { Console.Write(g + ": "); throw e; } 
+                }
+                else if (g.StartsWith("a$"))
+                {
+                    try { result += owner.areas[g.Substring(2)] + " "; }
+                    catch (Exception e) { Console.Write(g + ": "); throw e; }
                 }
                 else if (g.Length > 1 && g.EndsWith("%")) result += (float.Parse(g.Substring(0, g.Length - 1)) / 100).ToString() + " ";
                 else if (g.Length > 5 && g.EndsWith("years")) result += (float.Parse(g.Substring(0, g.Length - 5)) * 365).ToString() + " ";
