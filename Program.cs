@@ -528,9 +528,7 @@ namespace Arc4
                         i++; string varname = code[i];
                         i++; while (!expect(code, i, "=")) { i++; }
                         i++; string varvalue = code[i];
-                        if (varvalue.Contains("("))
-                            varvalue = arc_math(Regex.Match(varvalue, "\\(.*\\)").Value);
-                        setVar(varname, varvalue);
+                        setVar(varname, compile(varvalue).Trim());
                         return i++;
                     }
                 },
@@ -538,8 +536,8 @@ namespace Arc4
                     (int i) =>
                     {
                         i++;
-                            if (variables[code[i]].StartsWith("\"")) result += compile(variables[code[i]].Substring(1,variables[code[i]].Length-2));
-                            else result += compile(variables[code[i]]);
+                        if (variables[code[i]].StartsWith("\"")) result += compile(variables[code[i]].Substring(1,variables[code[i]].Length-2));
+                        else result += compile(variables[code[i]]);
                         return i;
                     }
                 },
@@ -703,7 +701,7 @@ namespace Arc4
                         i++; while (!expect(code, i, "province|country")) { i++; }
                         string type = code[i];
 
-                        string qevent = type + "_event = { ";
+                        string qevent = type + "_event = { id = arc." + owner.events.Count + " ";
 
                         int indent = 1;
                         while (indent > 0)
@@ -716,8 +714,8 @@ namespace Arc4
                                 qevent += code[i] + " ";
                         }
                         qevent += " }";
-                        setVar(alias, "arc." + (owner.events.Count + 1));
-                        owner.events.Add(compile(qevent.Replace(alias, "arc." + (owner.events.Count + 1))));
+                        setVar(alias, "arc." + owner.events.Count);
+                        owner.events.Add(compile(qevent.Replace(alias, "arc." + owner.events.Count)));
 
                         return i;
                     }
@@ -1193,7 +1191,7 @@ namespace Arc4
     { "=", (a, b) => a == b ? 1 : 0 },
     { "?", (a, b) => float.Parse(a) != 0 ? float.Parse(b.Split(':')[0]) : float.Parse(b.Split(':')[1]) }
   };
-
+            equation = equation.Replace(" ", "");
             List<string> tokens = Regex.Matches(equation, "[^0-9]|[0-9.:]+").Cast<Match>().Select(m => m.Value).ToList();
 
             if (tokens[0] == "-")
