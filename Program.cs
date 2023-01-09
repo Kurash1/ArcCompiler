@@ -576,7 +576,7 @@ namespace Arc4
                             modifiers += code[i] + " ";
                             i++;
                         }
-                        owner.write(owner.mod, id, modifiers);
+                        owner.write(owner.mod, id, compile(modifiers));
                         return i;
                     }
                 },
@@ -592,7 +592,7 @@ namespace Arc4
                             modifiers += code[i] + " ";
                             i++;
                         }
-                        owner.write(owner.mod, id, modifiers);
+                        owner.write(owner.mod, id, compile(modifiers));
                         return i;
                     }
                 },
