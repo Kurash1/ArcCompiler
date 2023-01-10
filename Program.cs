@@ -87,6 +87,7 @@ namespace Arc4
         public Dictionary<string, string> countries = new Dictionary<string, string>();
         public Dictionary<string, string> loc = new Dictionary<string, string>();
         public Dictionary<string, string> mod = new Dictionary<string, string>();
+        public List<string> gfx = new List<string>();
         public List<string> events = new List<string>();
         string directory;
         public void write(Dictionary<string, string> ide, string key, string value)
@@ -198,6 +199,7 @@ namespace Arc4
             saveMod();
             saveLoc();
             saveEvents();
+            saveGfx();
         }
         private void saveEvents()
         {
@@ -209,6 +211,18 @@ namespace Arc4
                 ret += s + "\n";
             }
             File.WriteAllText(directory + "\\events\\arc.txt", ret);
+        }
+        private void saveGfx()
+        {
+            if (!File.Exists(directory + "\\interface\\arc.gfx"))
+                File.Create(directory + "\\interface\\arc.gfx").Dispose();
+            string ret = "spriteTypes = {\n\t";
+            foreach(string s in gfx)
+            {
+                ret += "spriteType = { " + s + "}\n\t";
+            }
+            ret += "\n}";
+            File.WriteAllText(directory + "\\interface\\arc.gfx", ret);
         }
         private void saveMod()
         {
@@ -583,6 +597,21 @@ namespace Arc4
                         i++;
                         if (variables[code[i]].StartsWith("\"")) result += compile(variables[code[i]].Substring(1,variables[code[i]].Length-2));
                         else result += compile(variables[code[i]]);
+                        return i;
+                    }
+                },
+                { "definegfx",
+                    (int i) =>
+                    {
+                        i++; while(!expect(code, i, "=")) { i++; }
+                        i++; while(!expect(code, i, "{")) { i++; }
+                        string gfx = "";
+                        i++; while(code[i] != "}")
+                        {
+                            gfx += code[i] + " ";
+                            i++;
+                        }
+                        owner.gfx.Add(compile(gfx));
                         return i;
                     }
                 },

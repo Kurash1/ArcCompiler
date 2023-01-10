@@ -1,2 +1,2 @@
 namespace = arc
-country_event = { name = arc.1.title desc = arc.1.desc picture = none is_triggered_only = yes option = { name = arc.1.a } option = { name = arc.1.b } } 
+country_event = { id = arc.0 name = arc.0.title desc = arc.0.desc picture = none is_triggered_only = yes option = { name = arc.0.a } option = { name = arc.0.b } } 

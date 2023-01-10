@@ -1,1 +1,1 @@
-country_event = { id = arc.1 days = 30 } 
+country_event = { id = arc.0 days = 30 } 
