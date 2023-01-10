@@ -2,3 +2,10 @@ defines.functions.test = {
 	i = 10
 	b = value
 }
+defines.functions.example_function_1 = {
+  a = 10
+  b = 20
+}
+defines.functions.example_function_2 = {
+  $mana$ = adm
+}

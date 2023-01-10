@@ -6,6 +6,14 @@ functions = {
 	test = {
 		b = i
 	}
+	example_function_1 = {
+		(a+b)
+		var a = (a+1)
+		(a+b)
+	}
+	example_function_2 = {
+		add_$mana$_power
+	}
 	conquest_yokuda = {
 		icon = yokuda_mission
 		required_missions = { }

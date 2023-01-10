@@ -507,6 +507,28 @@ namespace Arc4
                         return i; 
                     } 
                 },
+                { "replace",
+                    (int i) =>
+                    {
+                        i++; string replace = code[i];
+                        i++; while(!expect(code, i, "=")){i++; }
+                        i++; string value = code[i];
+                        for(int j = i; j < code.Count; j++)
+                        {
+                            code[j] = code[j].Replace(replace,value);
+                        }
+                        return i;
+                    }
+                },
+                { "delete",
+                    (int i) =>
+                    {
+                        i++;
+                        if(variables.ContainsKey(code[i]))
+                            variables.Remove(code[i]);
+                        return i;
+                    }
+                },
                 { "arc_modifier", 
                     (int i) =>{
                         i++; while (!expect(code, i, "=")) { i++; }
@@ -943,44 +965,91 @@ namespace Arc4
                     }
                 }
             };
+            Dictionary<string, double> MultUnits = new Dictionary<string, double>(){
+                {"%", 0.01},
+                {"years", 365},
+                {"months", 30},
+                {"weeks", 7}
+            };
 
             for (int i = 0; i < code.Count; i++)
             {
                 string g = code[i];
                 if (keywords.ContainsKey(g))
+                {
                     i = keywords[g].Invoke(i);
-                else if (Regex.IsMatch(g, "\\([^()]+\\)")) result += arc_math(Regex.Match(Regex.Match(g, "\\([^()]+\\)").Value, "[^()]+").Value) + " ";
-                else if (variables.ContainsKey(g))
+                    continue;
+                }
+                if (Regex.IsMatch(g, "\\([^()]+\\)"))
+                {
+                    result += arc_math(Regex.Match(Regex.Match(g, "\\([^()]+\\)").Value, "[^()]+").Value) + " ";
+                    continue;
+                }
+
+                if (variables.ContainsKey(g))
+                {
                     result += variables[g] + " ";
-                else if (Regex.IsMatch(g, "([^.]+)\\.([^.]+)\\.([^.]+)") && classes.ContainsKey(Regex.Match(g, "[^.]+").Value))
-                    result += arc_class(i, out i) + " ";
-                else if (Regex.IsMatch(g, "[^,],"))
+                    continue;
+                }
+                if (Regex.IsMatch(g, "([^.]+)\\.([^.]+)\\.([^.]+)") && classes.ContainsKey(Regex.Match(g, "[^.]+").Value))
+                {
+                    result += arc_class(i, out i);
+                    continue;
+                }
+
+                if (Regex.IsMatch(g, "[^,],"))
                 {
                     result += arc_multiscope(i, out i);
+                    continue;
                 }
-                else if (g.StartsWith("p@")) { 
+
+                if (g.StartsWith("p@"))
+                {
                     try { result += owner.provinces[g.Substring(2).Replace("_", " ").ToUpper()] + " "; }
                     catch (Exception e) { Console.Write(g + ": "); throw e; }
+                    continue;
                 }
-                else if (g.StartsWith("c@")) {
+                if (g.StartsWith("c@"))
+                {
                     try { result += owner.countries[g.Substring(2).Replace("_", " ").ToUpper()] + " "; }
-                    catch (Exception e) { Console.Write(g + ": "); throw e; } 
+                    catch (Exception e) { Console.Write(g + ": "); throw e; }
+                    continue;
                 }
-                else if (g.StartsWith("a$"))
+                if (g.StartsWith("a$"))
                 {
                     try { result += owner.areas[g.Substring(2)] + " "; }
                     catch (Exception e) { Console.Write(g + ": "); throw e; }
+                    continue;
                 }
-                else if (g.Length > 1 && g.EndsWith("%")) result += (float.Parse(g.Substring(0, g.Length - 1)) / 100).ToString() + " ";
-                else if (g.Length > 5 && g.EndsWith("years")) result += (float.Parse(g.Substring(0, g.Length - 5)) * 365).ToString() + " ";
-                else if (g.Length > 6 && g.EndsWith("months")) result += (float.Parse(g.Substring(0, g.Length - 6)) * 30).ToString() + " ";
-                else if (g.Length > 7 && g.EndsWith("weeks")) result += (float.Parse(g.Substring(0, g.Length - 5)) * 7).ToString() + " ";
-                else
-                    result += g + " ";
+
+                foreach (KeyValuePair<string, double> kvp in MultUnits)
+                {
+                    string ret;
+                    if (tryMultiply(g, kvp.Key, kvp.Value, out ret))
+                    {
+                        result += ret;
+                        goto end;
+                    }
+                }
+
+                result += g + " ";
+
+                end:
+                continue;
             }
 
             return result;
 
+            bool tryMultiply(string g, string end, double mult, out string ret)
+            {
+                if (g.Length > end.Length && g.EndsWith(end))
+                {
+                    ret = (double.Parse(g.Substring(0, g.Length - end.Length)) * mult).ToString() + " ";
+                    return true;
+                }
+                ret = "";
+                return false;
+            }
             string arc_multiscope(int a, out int i)
             {
                 i = a;
@@ -1039,10 +1108,10 @@ namespace Arc4
                 string var = matches[2].Value;
                 if (code.Count < i + 2 || code[i + 1] != "=")
                 {
-                    try { return low_compile(ParseString(classes[classtype][id][var])); }
+                    try { return low_compile(ParseString(classes[classtype][id][var])) + " "; }
                     catch (KeyNotFoundException)
                     {
-                        try { return low_compile(ParseString(classes[classtype]["default"][var])); }
+                        try { return low_compile(ParseString(classes[classtype]["default"][var])) + " "; }
                         catch (KeyNotFoundException) { return ""; }
                     }
                 }
@@ -1069,19 +1138,21 @@ namespace Arc4
                         i++;
                     }
                     string returnvalue = "";
-                    try { returnvalue = compile(classes[classtype][id][var]); }
+                    try { returnvalue = (classes[classtype][id][var]); }
                     catch (KeyNotFoundException)
                     {
-                        try { returnvalue = compile(classes[classtype]["default"][var]); }
+                        try { returnvalue = (classes[classtype]["default"][var]); }
                         catch (KeyNotFoundException) { returnvalue = ""; }
-                    }
-                    foreach(string vbar in gern)
-                    {
-                        variables.Remove(vbar);
                     }
                     foreach(KeyValuePair<string,string> vbar in repl)
                     {
                         returnvalue = returnvalue.Replace(vbar.Key, vbar.Value);
+                    }
+                    if(returnvalue != "")
+                        returnvalue = compile(returnvalue);
+                    foreach(string vbar in gern)
+                    {
+                        variables.Remove(vbar);
                     }
                     return returnvalue;
                 }

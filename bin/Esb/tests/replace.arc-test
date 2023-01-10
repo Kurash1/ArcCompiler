@@ -1,0 +1,2 @@
+replace $type$ = adm
+add_$type$_power = 50
