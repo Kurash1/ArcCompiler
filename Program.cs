@@ -818,6 +818,45 @@ namespace Arc4
                         return i;
                     }
                 },
+                { "when", 
+                    (int i) =>
+                    {
+                        int indent = 1;
+                        string condition = "";
+                        i++; while (!expect(code, i, "=")) { i++; }
+                        i++; while (!expect(code, i, "{")) { i++; }
+                        i++; while (!expect(code, i, "limit")) { i++; }
+                        i++; while (!expect(code, i, "=")) { i++; }
+                        i++; while (!expect(code, i, "{")) { i++; }
+                        i++;  while (indent > 0)
+                        {
+                            indent += Regex.Matches(code[i], "{").Count;
+                            indent -= Regex.Matches(code[i], "}").Count;
+                            if (indent > 0)
+                            {
+                                condition += code[i] + " ";
+                                i++;
+                            }
+                        }
+                        indent = 1;
+                        string codr = "";
+                        i++;  while (indent > 0)
+                        {
+                            indent += Regex.Matches(code[i], "{").Count;
+                            indent -= Regex.Matches(code[i], "}").Count;
+                            if (indent > 0)
+                            {
+                                codr += code[i] + " ";
+                                i++;
+                            }
+                        }
+                        i++; if (expressiontobool(ParseString(condition), LogicalScope.AND))
+                        {
+                            result += compile(codr);
+                        }
+                        return i;
+                    } 
+                },
                 { "foreach",
                     (int i) =>
                     {
@@ -892,7 +931,7 @@ namespace Arc4
                             string id = classes[currentClass].ElementAt(z).Key;
                             if (classes[currentClass][id]["id"] != "default")
                             {
-                                if (condition == "" || expressiontobool(ParseString(condition),id,LogicalScope.AND))
+                                if (condition == "" || expressiontobool(ParseString(condition),LogicalScope.AND, currentClass, id))
                                 {
                                     for (int b = 0; b < loop.Count; b++)
                                     {
@@ -914,83 +953,11 @@ namespace Arc4
                         }
 
                         i += wherecount;
-                        //if (wherecount > 0)
-                        //    i += 4;
                         i += loop.Count;
                         if(currentClass.StartsWith("["))
                             classes.Remove(alias);
                         result += low_compile(ForEach);
                         return i;
-
-                        bool expressiontobool(List<string> expression, string id, LogicalScope scope)
-                        {
-                            for(int c = 0; c < expression.Count; c++)
-                            {
-                                if (expression[c].StartsWith("\"") && expression[c].EndsWith("\""))
-                                    expression[c] = expression[c].Substring(1, expression[c].Length - 2);
-                            }
-                            //for(int c = 0; c < expression.Length; c++)
-                            //{
-                            //    Console.Write(expression[c]);
-                            //}
-                            //Console.Write("\n");
-                            bool istrue = false;
-                            for (int h = 0; h < expression.Count; h++)
-                            {
-                                switch (expression[h])
-                                {
-                                    case "has_key":
-                                        h++; except(h, "=");
-                                        h++;
-                                        LogicalScopeAssign(classes[currentClass][id].ContainsKey(expression[h]));
-                                        break;
-                                    case "key_contains":
-                                        h++; except(h, "=");
-                                        h++; except(h, "{");
-                                        h++; except(h, "key");
-                                        h++; except(h, "=");
-                                        h++; string key = expression[h];
-                                        h++; except(h, "value");
-                                        h++; except(h, "=");
-                                        h++; string value = expression[h];
-                                        try { LogicalScopeAssign(classes[currentClass][id][key].Contains(value)); }
-                                        catch(Exception) { LogicalScopeAssign(false); }
-                                        h++; except(h, "}");
-                                        break;
-                                }
-                            }
-
-                            return istrue;
-
-                            void LogicalScopeAssign(bool expr)
-                            {
-                                if(expr)
-                                    switch (scope)
-                                    {
-                                        case LogicalScope.AND:
-                                        case LogicalScope.OR:
-                                            istrue = true;
-                                            break;
-                                        case LogicalScope.NOT:
-                                            istrue = !true;
-                                            break;
-                                    }
-                                else
-                                    switch (scope)
-                                    {
-                                        case LogicalScope.AND:
-                                            istrue = false;
-                                            break;
-                                        case LogicalScope.NOT:
-                                            istrue = true;
-                                            break;
-                                    }
-                            }
-                            void except(int index, string regex, string error = "")
-                            {
-                                actual_except(expression[index],index,regex,error);
-                            }
-                        }
                     }
                 }
             };
@@ -1014,7 +981,7 @@ namespace Arc4
                     result += arc_math(Regex.Match(Regex.Match(g, "\\([^()]+\\)").Value, "[^()]+").Value) + " ";
                     continue;
                 }
-
+                
                 if (variables.ContainsKey(g))
                 {
                     result += variables[g] + " ";
@@ -1185,6 +1152,134 @@ namespace Arc4
                     }
                     return returnvalue;
                 }
+            }
+        }
+        private bool expressiontobool(List<string> expression, LogicalScope scope, string currentClass = "", string id = "")
+        {
+            for (int c = 0; c < expression.Count; c++)
+            {
+                if (expression[c].StartsWith("\"") && expression[c].EndsWith("\""))
+                    expression[c] = expression[c].Substring(1, expression[c].Length - 2);
+            }
+            bool istrue = false;
+            for (int h = 0; h < expression.Count; h++)
+            {
+                switch (expression[h])
+                {
+                    case "variable_exists":
+                        {
+                            h++; except(h, "=");
+                            h++; LogicalScopeAssign(variables.ContainsKey(expression[h]));
+                        }
+                        break;
+                    case "variable_is":
+                        {
+                            h++; except(h, "=");
+                            h++; except(h, "{");
+                            h++; except(h, "variable");
+                            h++; except(h, "=");
+                            h++; string var = expression[h];
+                            h++; except(h, "value");
+                            h++; except(h, "=");
+                            h++; LogicalScopeAssign(variables[var] == expression[h]);
+                            h++; except(h, "}");
+                        }
+                        break;
+                    case "has_key":
+                        {
+                            h++; except(h, "=");
+                            if (currentClass == "" || id == "")
+                            {
+                                h++; except(h, "{");
+                                h++; except(h, "class");
+                                h++; except(h, "=");
+                                h++; currentClass = expression[h];
+                                h++; except(h, "id");
+                                h++; except(h, "=");
+                                h++; id = expression[h];
+                                h++; except(h, "key");
+                                h++; except(h, "=");
+                                h++; LogicalScopeAssign(classes[currentClass][id].ContainsKey(expression[h]));
+                                h++; except(h, "}");
+                                currentClass = "";
+                                id = "";
+                            }
+                            else
+                            {
+                                h++; LogicalScopeAssign(classes[currentClass][id].ContainsKey(expression[h]));
+                            }
+                        }
+                        break;
+                    case "key_contains":
+                        {
+                            h++; except(h, "=");
+                            h++; except(h, "{");
+                            if (currentClass == "" || id == "")
+                            {
+                                h++; except(h, "class");
+                                h++; except(h, "=");
+                                h++; currentClass = expression[h];
+                                h++; except(h, "id");
+                                h++; except(h, "=");
+                                h++; id = expression[h];
+                                h++; except(h, "key");
+                                h++; except(h, "=");
+                                h++; string key = expression[h];
+                                h++; except(h, "value");
+                                h++; except(h, "=");
+                                h++; string value = expression[h];
+                                try { LogicalScopeAssign(classes[currentClass][id][key].Contains(value)); }
+                                catch (Exception) { LogicalScopeAssign(false); }
+                                h++; except(h, "}");
+                                currentClass = "";
+                                id = "";
+                            }
+                            else
+                            {
+                                h++; except(h, "key");
+                                h++; except(h, "=");
+                                h++; string key = expression[h];
+                                h++; except(h, "value");
+                                h++; except(h, "=");
+                                h++; string value = expression[h];
+                                try { LogicalScopeAssign(classes[currentClass][id][key].Contains(value)); }
+                                catch (Exception) { LogicalScopeAssign(false); }
+                                h++; except(h, "}");
+                            }
+                        }
+                        break;
+                }
+            }
+
+            return istrue;
+
+            void LogicalScopeAssign(bool expr)
+            {
+                if (expr)
+                    switch (scope)
+                    {
+                        case LogicalScope.AND:
+                        case LogicalScope.OR:
+                            istrue = true;
+                            break;
+                        case LogicalScope.NOT:
+                            istrue = !true;
+                            break;
+                    }
+                else
+                    switch (scope)
+                    {
+                        case LogicalScope.AND:
+                            istrue = false;
+                            break;
+                        case LogicalScope.NOT:
+                            istrue = true;
+                            break;
+                    }
+            }
+            void except(int index, string regex, string error = "")
+            {
+                actual_except(expression[index], index, regex, error);
             }
         }
         private void LoadClasses(string file, string classtype)
