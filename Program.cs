@@ -1080,19 +1080,6 @@ namespace Arc4
                 multiscope.Clear();
                 return low_compile(newcode);
             }
-            string arc_math(string expression)
-            {
-                if (expression == "")
-                    return "";
-                expression = expression.Replace(" ", "");
-                MatchCollection matches = new Regex("([^ .]+)\\.([^.]+)\\.([^. +/*-]+)").Matches(expression);
-                for (int i = 0; i < matches.Count; i++)
-                    expression = Regex.Replace(expression, matches[i].Value, classes[matches[i].Groups[1].Value][matches[i].Groups[2].Value][matches[i].Groups[3].Value]);
-                matches = new Regex("([^()0-9.*+/-]+)").Matches(expression);
-                for (int i = 0; i < matches.Count; i++)
-                    expression = Regex.Replace(expression, matches[i].Value, variables[matches[i].Groups[1].Value]);
-                return Regex.Match(Evaluate(expression).ToString(), "[^.]+").Value;
-            }
             string arc_class(int a, out int i)
             {
                 i = a;
@@ -1154,7 +1141,20 @@ namespace Arc4
                 }
             }
         }
-        private bool expressiontobool(List<string> expression, LogicalScope scope, string currentClass = "", string id = "")
+        string arc_math(string expression)
+        {
+            if (expression == "")
+                return "";
+            expression = expression.Replace(" ", "");
+            MatchCollection matches = new Regex("([^ .]+)\\.([^.]+)\\.([^. +/*-]+)").Matches(expression);
+            for (int i = 0; i < matches.Count; i++)
+                expression = Regex.Replace(expression, matches[i].Value, classes[matches[i].Groups[1].Value][matches[i].Groups[2].Value][matches[i].Groups[3].Value]);
+            matches = new Regex("([^()0-9.*+/-]+)").Matches(expression);
+            for (int i = 0; i < matches.Count; i++)
+                expression = Regex.Replace(expression, matches[i].Value, variables[matches[i].Groups[1].Value]);
+            return Regex.Match(Evaluate(expression).ToString(), "[^.]+").Value;
+        }
+        bool expressiontobool(List<string> expression, LogicalScope scope, string currentClass = "", string id = "")
         {
             for (int c = 0; c < expression.Count; c++)
             {
@@ -1166,6 +1166,19 @@ namespace Arc4
             {
                 switch (expression[h])
                 {
+                    case "math_equals":
+                        {
+                            h++; except(h, "=");
+                            h++; except(h, "{");
+                            h++; except(h, "equation");
+                            h++; except(h, "=");
+                            h++; string var = expression[h];
+                            h++; except(h, "value");
+                            h++; except(h, "=");
+                            h++; LogicalScopeAssign(arc_math(var) == expression[h]);
+                            h++; except(h, "}");
+                        }
+                        break;
                     case "has_variable":
                         {
                             h++; except(h, "=");
