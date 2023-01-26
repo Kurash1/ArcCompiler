@@ -1166,13 +1166,13 @@ namespace Arc4
             {
                 switch (expression[h])
                 {
-                    case "variable_exists":
+                    case "has_variable":
                         {
                             h++; except(h, "=");
                             h++; LogicalScopeAssign(variables.ContainsKey(expression[h]));
                         }
                         break;
-                    case "variable_is":
+                    case "variable_equals":
                         {
                             h++; except(h, "=");
                             h++; except(h, "{");
