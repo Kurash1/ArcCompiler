@@ -850,7 +850,7 @@ namespace Arc4
                                 i++;
                             }
                         }
-                        i++; if (expressiontobool(ParseString(condition), LogicalScope.AND))
+                        if (expressiontobool(ParseString(condition), LogicalScope.AND))
                         {
                             result += compile(codr);
                         }
@@ -993,7 +993,7 @@ namespace Arc4
                     continue;
                 }
 
-                if (Regex.IsMatch(g, "[^,],"))
+                if (Regex.IsMatch(g, "^[^,]+,$"))
                 {
                     result += arc_multiscope(i, out i);
                     continue;
