@@ -14,8 +14,8 @@ namespace Arc4
         {
             bool syntax = false;
             Arc arc = new Arc();
-            try
-            {
+            //try
+            //{
                 if (args.Length > 0)
                 {
                     switch (args[0])
@@ -71,11 +71,11 @@ namespace Arc4
                             break;
                     }
                 }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine(e);
+            //}
             Console.WriteLine("Press any key to exit");
             Console.ReadKey();
         }
@@ -474,7 +474,8 @@ namespace Arc4
     {
         AND,
         OR,
-        NOT
+        NOT,
+        MAYBE
     }
     class Compiler
     {
@@ -581,6 +582,13 @@ namespace Arc4
                         return i;
                     }
                 },
+                { ".",
+                    (int i) =>
+                    {
+                        result = result.Trim();
+                        return i;
+                    }
+                },
                 { "var",
                     (int i) =>
                     {
@@ -611,6 +619,7 @@ namespace Arc4
                             gfx += code[i] + " ";
                             i++;
                         }
+                        gfx = compile(gfx).Trim();
                         owner.gfx.Add(compile(gfx));
                         return i;
                     }
@@ -627,6 +636,8 @@ namespace Arc4
                             modifiers += code[i] + " ";
                             i++;
                         }
+                        id = compile(id).Trim();
+                        modifiers = compile(modifiers).Trim();
                         owner.write(owner.mod, id, compile(modifiers));
                         return i;
                     }
@@ -643,6 +654,8 @@ namespace Arc4
                             modifiers += code[i] + " ";
                             i++;
                         }
+                        id = compile(id).Trim();
+                        modifiers = compile(modifiers).Trim();
                         owner.write(owner.mod, id, compile(modifiers));
                         return i;
                     }
@@ -674,6 +687,8 @@ namespace Arc4
                     {
                         i++; string key = code[i];
                         i++; i++; string value = code[i];
+                        key = compile(key).Trim();
+                        value = compile(value).Trim();
                         owner.write(owner.loc, key, value);
                         return i;
                     }
@@ -683,7 +698,45 @@ namespace Arc4
                     {
                         i++; string key = code[i];
                         i++; i++; string value = code[i];
+                        key = compile(key).Trim();
+                        value = compile(value).Trim();
                         owner.write(owner.loc, key, value);
+                        return i;
+                    }
+                },
+                { "savefile",
+                    (int i) =>
+                    {
+                        i++; string id = code[i]; 
+                        if(id.StartsWith("\"") && id.EndsWith("\""))
+                            id = id.Substring(1, id.Length-2);
+                        i++; while(!expect(code, i, "=")) { i++; }
+                        i++; while(!expect(code, i, "{")) { i++; }
+                        i++; int indent = 1;
+                        string modifiers = "";
+                        while (indent > 0)
+                        {
+                            string g = code[i];
+                            switch (g)
+                            {
+                                case "{":
+                                    indent++;
+                                    modifiers += "{ ";
+                                    break;
+                                case "}":
+                                    indent--;
+                                    if (indent > 0)
+                                        modifiers += "} ";
+                                    break;
+                                default:
+                                    modifiers += $"{g} ";
+                                    break;
+                            }
+                            i++;
+                        }
+                        id = compile(id).Trim();
+                        modifiers = compile(modifiers).Trim();
+                        File.WriteAllText(directory + id, modifiers);
                         return i;
                     }
                 },
@@ -1017,6 +1070,20 @@ namespace Arc4
                     catch (Exception e) { Console.Write(g + ": "); throw e; }
                     continue;
                 }
+                if (g.StartsWith("§\""))
+                {
+                    string input = g.Substring(2, g.Length - 3);
+                    input = Regex.Replace(input, "{([^}]*)}", new MatchEvaluator(CompiledText));
+                    result += $"{input} ";
+                    continue;
+                }
+                if (g.StartsWith("§!\""))
+                {
+                    string input = g.Substring(3, g.Length - 4);
+                    input = Regex.Replace(input, "{([^}]*)}", new MatchEvaluator(CompiledText));
+                    result += $"\"{input.Trim()}\" ";
+                    continue;
+                }
 
                 foreach (KeyValuePair<string, double> kvp in MultUnits)
                 {
@@ -1036,6 +1103,14 @@ namespace Arc4
 
             return result;
 
+            string CompiledText(Match m)
+            {
+                string x = m.ToString();
+
+                x = x.Substring(1, x.Length - 2);
+
+                return compile(x);
+            }
             bool tryMultiply(string g, string end, double mult, out string ret)
             {
                 if (g.Length > end.Length && g.EndsWith(end))
@@ -1140,6 +1215,18 @@ namespace Arc4
                     return returnvalue;
                 }
             }
+        }
+        T ToValue<T>(string input)
+        {
+            if (variables.ContainsKey(input))
+                input = variables[input];
+
+            if (typeof(T) == typeof(string))
+                return (T)(object)input;
+            else if (typeof(T) == typeof(int))
+                return (T)(object)int.Parse(input);
+
+            return default;
         }
         string arc_math(string expression)
         {

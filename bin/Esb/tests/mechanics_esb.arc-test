@@ -238,7 +238,7 @@ province_event = {
 defineLoc es_esb.0.c = "Genocide Province"
 defineLoc es_esb.2.t = "Genocide Province?"
 defineLoc es_esb.2.d = "My Liege Shall we Genocide the Province"
-defineLoc es_esb.2.tt = "You must control the province for the next 100 days to perform the genocide (Genociding a province means uncolonizing it)"
+defineLoc es_esb.2.tt = "You must control the province for the next 100 days to perform the genocide"
 
 country_event = {
 	id = es_esb.2

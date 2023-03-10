@@ -1,0 +1,1 @@
+graphical_culture = westerngfx color = { 255 51 51 } 
