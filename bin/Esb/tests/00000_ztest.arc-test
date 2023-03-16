@@ -1,0 +1,66 @@
+using "common/country_tags/arc_countries.class" as country
+#using "common/country_tags/culture_defaults.class" as defaults
+
+foreach country = {
+	var tag = country.id
+	defineloc §"{country.id}" = country.name
+	defineloc §"{country.id}_ADJ" = country.adj
+	country.id = §!"countries/{tag}.txt"
+	savefile §"common/countries/{tag}.txt" = {
+		graphical_culture = country.graphical_culture
+		color = { country.color }
+		historical_idea_groups = {
+			country.historical_idea_groups
+		}
+
+		historical_units = {
+			country.historical_units
+		}
+		
+		monarch_names = {
+			country.monarch_names
+		}
+		
+		leader_names = {
+			country.leader_names
+		}
+
+		ship_names= {
+			country.ship_names
+		}
+
+		army_names = {
+			country.army_names
+		}
+
+		fleet_names = {
+			country.fleet_names
+		}
+	}
+	savefile §"history/countries/{tag}.txt" = {
+		#the eval in the name allows us to remove the "" from the name
+		government = country.government
+		government_rank = country.government_rank
+		mercantilism = country.mercantilism
+		technology_group = country.technology_group
+		religion = country.religion
+		primary_culture = country.primary_culture
+		capital = country.capital
+		
+		when = {
+			limit = {
+				key_contains = {
+					class = country
+					id = country.id
+					key = primary_culture
+					value = "khajiit"
+				}
+			}
+			khajiit_discovery = { 
+				discover_country = country.id 
+			}
+		}
+		
+		country.history
+	}
+}

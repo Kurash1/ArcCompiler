@@ -709,7 +709,7 @@ namespace Arc4
                     {
                         i++; string id = code[i]; 
                         if(id.StartsWith("\"") && id.EndsWith("\""))
-                            id = id.Substring(1, id.Length-2);
+                            id = id.Trim('\"');
                         i++; while(!expect(code, i, "=")) { i++; }
                         i++; while(!expect(code, i, "{")) { i++; }
                         i++; int indent = 1;
@@ -737,7 +737,7 @@ namespace Arc4
                         id = compile(id).Trim();
                         modifiers = compile(modifiers).Trim();
                         File.WriteAllText(directory + id, modifiers);
-                        return i;
+                        return i - 1;
                     }
                 },
                 { "for",
@@ -1029,9 +1029,9 @@ namespace Arc4
                     i = keywords[g].Invoke(i);
                     continue;
                 }
-                if (Regex.IsMatch(g, "\\([^()]+\\)"))
+                if (g.StartsWith("(") && g.EndsWith(")"))
                 {
-                    result += arc_math(Regex.Match(Regex.Match(g, "\\([^()]+\\)").Value, "[^()]+").Value) + " ";
+                    result += arc_math(g.Trim('(', ')')) + " ";
                     continue;
                 }
                 
@@ -1109,13 +1109,21 @@ namespace Arc4
 
                 x = x.Substring(1, x.Length - 2);
 
-                return compile(x);
+                return compile(x).Trim();
             }
             bool tryMultiply(string g, string end, double mult, out string ret)
             {
                 if (g.Length > end.Length && g.EndsWith(end))
                 {
-                    ret = (double.Parse(g.Substring(0, g.Length - end.Length)) * mult).ToString() + " ";
+                    try
+                    {
+                        ret = (double.Parse(g.Substring(0, g.Length - end.Length)) * mult).ToString() + " ";
+                    }
+                    catch (Exception)
+                    {
+                        ret = "";
+                        return false;
+                    }
                     return true;
                 }
                 ret = "";

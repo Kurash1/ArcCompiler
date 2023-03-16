@@ -1,0 +1,167 @@
+default = {
+	name = "Country"
+	adj = ""
+	graphical_culture = latingfx
+	color = { 150 150 150 }
+	historical_idea_groups = {
+	}
+
+	historical_units = {
+	}
+	
+	monarch_names = {
+	}
+	leader_names = {
+	}
+	ship_names = {
+	}
+	
+	army_names = {
+		"Army of $PROVINCE$" 
+	}
+
+	fleet_names = {
+		"Fleet of $PROVINCE$"
+	}
+	
+	government = monarchy
+	government_rank = 1
+	mercantilism = 1
+	technology_group = cyrodiil_tg
+	religion = nedic_pantheon
+	primary_culture = nedic
+	capital = 1221
+}
+
+ALL = {
+	name = "Alessian Empire"
+	adj = "Alessian"
+	graphical_culture = latingfx
+	color = { 229 36 61 } 
+	government_rank = 10
+	technology_group = cyrodiil_tg
+	religion = nedic_pantheon
+	primary_culture = nedic
+	capital = 1221
+
+	monarch_names = {
+		"Zerlec #0" = 10
+		"Aroc #0" = 10
+		"Tudaarin #0" = 10
+		"Dulros #0" = 10
+		"Kaahlec #0" = 10
+		"Lysteth #0" = 10
+		"Vredraonir #0" = 10
+		"Kaomrar #0" = 10
+		"Menhadeth #0" = 10
+		"Ridravin #0" = 10
+		"Nhudren #0" = 10
+		"Gumrok #0" = 10
+		"Bauvmith #0" = 10
+		"Nirlyloth #0" = 10
+		"Runhyrac #0" = 10
+		"Vinhylak #0" = 10
+		"Ihrasek #0" = 10
+		"Rukec #0" = 10
+		"Nharmok #0" = 10
+		"Yhin #0" = 10
+		
+		"Datohuv #0" = -10
+		"Resa #0" = -10
+		"Oman #0" = -10
+		"Zathi #0" = -10
+		"Nemehul #0" = -10
+		"Atholur #0" = -10
+		"Sarul #0" = -10
+		"Nennabu #0" = -10
+		"Mahodae #0" = -10
+		"Dennae #0" = -10
+	}
+
+	leader_names = {
+		Zakysor Zerlec Aalezos Aroc Tudaarin Dulros Kaahlec Lysteth Vredraonir Kaomrar Menhadeth Remaasok Tykisok Ridravin Nhudren Gumrok Bauvmith Nirlyloth Runhyrac Vinhylak Ihrasek Rukec Nharmok Zurduzok Yhin Nuvnizo Dadrades Nauhrimak Haonuvic Tirlaasir Herlir Ralreloc Dastith Letan Vrakir Halaanis Demralis Gahlaras Gikamik Runhath Amedoc Zyrdusor Kalrin Vauleso Nhekhedin Kynhesac Dauhrak Rardoc Hyker Vrurlauleth Vrustimek Taaner Ytas Naanuzar Bakumoth Gukhedas Virdanath Larduve Bardek Hynhaolen Myhros Vaulic Taatysoth Gilraoles Vrilak Naonhaudes Haukos Gaohen Zunhe Tamedir Lukaazon Nuvner Desylis Daolo Vredraudin Ludec Muvmec Likoth Malrasoc Hetok Shahaulec Nirdoc Dyrmec Vristidok Vurmesoth Nestith Nhystareth Riralath Idith Tylak Gakaazin Nhihreseth Lyrmerek Tadak Naamaulec Vaorylan Shelren Tirleros Zevmin Tirdor
+	}
+
+	ship_names = {
+		Datohuv Resa Oman Zathi Nemehul Atholur Sarul Nennabu Mahodae Dennae Homin Zonemaer Ronah Soshemeh Ranni Sole Disseh Hiherev Reshoha Ithamav Eshebir Osibin Emah Isur Zeli Sovi Selav Linne Mimohu Vallal Lotemu Dannota Hotedi Lonnev Lerrimiv Teni Norri Dennida Terenu Horremel Nimoner Ilirah Zahoti Oshan Heva Ollatuv Milaer Varin Zollehin Dossehen Zeveduv Allalaer Hella Mannu Nathael Levadaeh Sarri Zosev Lirimiv Omidiv Emin Tazamaev Havu Mazan Rovamu Iran Masehur Resi Lihareh Nizae Dirrinuh Satohar Vonal Nomuh Tome Ossonel Lassoba Doshir Ellur Zassun Viladuh Essar Sonev Ashodev Retobil Vena Romale Demer Issaeh Hosir Izaev Dame Vohu Lashavun Lethadu Talih Dezone Orratul Serrive Mothal
+	}
+
+	history = {
+		242.1.1 = {
+			add_accepted_culture = ayleid
+			add_accepted_culture = snow_elven
+			monarch = {
+				name = "Alessia"
+				dynasty = "Nedic"
+				culture = nedic
+				birth_date = 221.1.1
+				adm = 5
+				dip = 3
+				mil = 7
+				female = yes
+			}
+		}
+
+		242.1.1 = {
+			queen = {
+				name = "Morihaus"
+				dynasty = "Man-Bull"
+				culture = al_dremoran
+				country_of_origin = ALE
+				birth_date = 218.1.1
+				death_date = 266.1.1
+				adm = 3
+				dip = 1
+				mil = 7
+			}
+		}
+
+		242.1.1 = {
+			heir = {
+				name = "Belharza"
+				monarch_name = "Belharza I"
+				dynasty = "Man-Bull"
+				culture = al_dremoran
+				birth_date = 242.1.1
+				death_date = 266.1.1
+				claim = 100
+				adm = 5
+				dip = 3
+				mil = 7
+			}
+		}
+
+		266.1.1 = {
+			monarch = {
+				name = "Belharza"
+				dynasty = "Man-Bull"
+				culture = al_dremoran
+				birth_date = 242.1.1
+				adm = 5
+				dip = 3
+				mil = 7
+			}
+			
+			capital = 1206
+		}
+
+		308.1.1 = {
+			add_country_modifier = {
+				name = "amulet_of_kings"
+				duration = -1
+			}
+		}
+
+		312.1.1 = {
+			monarch = {
+				name = "Lysteth"
+				dynasty = "Man-Bull"
+				culture = nedic
+				birth_date = 291.1.1
+				adm = 2
+				dip = 4
+				mil = 3
+			}
+		}
+	}
+}
