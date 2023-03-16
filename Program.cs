@@ -84,6 +84,8 @@ namespace Arc4
     {
         public Dictionary<string, string> provinces = new Dictionary<string, string>();
         public Dictionary<string, string> areas = new Dictionary<string, string>();
+        public Dictionary<string, string> regions = new Dictionary<string, string>();
+        public Dictionary<string, string> superregions = new Dictionary<string, string>();
         public Dictionary<string, string> countries = new Dictionary<string, string>();
         public Dictionary<string, string> loc = new Dictionary<string, string>();
         public Dictionary<string, string> mod = new Dictionary<string, string>();
@@ -176,10 +178,47 @@ namespace Arc4
                 return;
 
             string areaFile = File.ReadAllText(directory + "\\map\\area.txt");
-            MatchCollection areas = Regex.Matches(areaFile, "([a-z_0-9]+) *= *{\\s*(( [0-9]*)+)\\s*}", RegexOptions.Multiline);
+            MatchCollection areas = Regex.Matches(areaFile, "([a-zA-Z_0-9]+)\\s*=\\s*{\\s*((\\s[0-9]*)+)\\s*}", RegexOptions.Multiline);
             foreach (Match area in areas)
             {
-                this.areas.Add(area.Groups[1].Value, area.Groups[2].Value);
+                this.areas.Add(area.Groups[1].Value.ToUpper(), area.Groups[2].Value);
+            }
+        }
+        private void readRegion()
+        {
+            if (!File.Exists(directory + "\\map\\region.txt"))
+                return;
+            Dictionary<string, Dictionary<string, string>> regionsFile = Compiler.LoadClasses(File.ReadAllText(directory + "\\map\\region.txt"));
+            foreach(KeyValuePair<string, Dictionary<string, string>> region in regionsFile)
+            {
+                string prov = "";
+                string[] areass;
+                try { areass = Regex.Matches(region.Value["areas"], "[^\\s]+").Cast<Match>().Select(m => m.Value).ToArray(); }
+                catch (Exception) { return; }
+                foreach(string area in areass)
+                {
+                    prov += areas[area.ToUpper()] + " ";
+                }
+                regions.Add(region.Key.ToUpper(), Regex.Replace(prov, "\\s+", " "));
+            }
+        }
+        private void readSuperregion()
+        {
+            if (!File.Exists(directory + "\\map\\superregion.txt"))
+                return;
+            string areaFile = File.ReadAllText(directory + "\\map\\superregion.txt");
+            MatchCollection areas = Regex.Matches(areaFile, "([a-zA-Z_0-9]+)\\s*=\\s*{\\s*((\\s[a-zA-Z_0-9]*)+)\\s*}", RegexOptions.Multiline);
+            foreach (Match area in areas)
+            {
+                string prov = "";
+                string[] areass;
+                try { areass = Regex.Matches(area.Groups[2].Value, "[^\\s]+").Cast<Match>().Select(m => m.Value).ToArray(); }
+                catch (Exception) { return; }
+                foreach (string areaa in areass)
+                {
+                    prov += regions[areaa.ToUpper()] + " ";
+                }
+                this.superregions.Add(area.Groups[1].Value.ToUpper(), prov);
             }
         }
         private void readAll()
@@ -189,8 +228,8 @@ namespace Arc4
             readCountr();
             readProv();
             readArea();
-            //readRegion();
-            //readSuperregion();
+            readRegion();
+            readSuperregion();
             //readContinent();
             //readEvents();
         }
@@ -294,6 +333,16 @@ namespace Arc4
             }
             Console.WriteLine("\n\n\tAreas");
             foreach (KeyValuePair<string,string> s in areas)
+            {
+                Console.WriteLine(s.Key + ":" + s.Value);
+            }
+            Console.WriteLine("\n\n\tRegions");
+            foreach (KeyValuePair<string,string> s in regions)
+            {
+                Console.WriteLine(s.Key + ":" + s.Value);
+            }
+            Console.WriteLine("\n\n\tSuperregions");
+            foreach (KeyValuePair<string, string> s in superregions)
             {
                 Console.WriteLine(s.Key + ":" + s.Value);
             }
@@ -527,7 +576,7 @@ namespace Arc4
                     {
                         i++; string replace = code[i];
                         i++; while(!expect(code, i, "=")){i++; }
-                        i++; string value = code[i];
+                        i++; string value = compile(code[i]).Trim();
                         for(int j = i; j < code.Count; j++)
                         {
                             code[j] = code[j].Replace(replace,value);
@@ -1064,9 +1113,21 @@ namespace Arc4
                     catch (Exception e) { Console.Write(g + ": "); throw e; }
                     continue;
                 }
-                if (g.StartsWith("a$"))
+                if (g.StartsWith("a@"))
                 {
-                    try { result += owner.areas[g.Substring(2)] + " "; }
+                    try { result += owner.areas[g.Substring(2).ToUpper()] + " "; }
+                    catch (Exception e) { Console.Write(g + ": "); throw e; }
+                    continue;
+                }
+                if (g.StartsWith("r@"))
+                {
+                    try { result += owner.regions[g.Substring(2).ToUpper()] + " "; }
+                    catch (Exception e) { Console.Write(g + ": "); throw e; }
+                    continue;
+                }
+                if (g.StartsWith("s@"))
+                {
+                    try { result += owner.superregions[g.Substring(2).ToUpper()] + " "; }
                     catch (Exception e) { Console.Write(g + ": "); throw e; }
                     continue;
                 }
@@ -1390,6 +1451,68 @@ namespace Arc4
                 actual_except(expression[index], index, regex, error);
             }
         }
+        public static Dictionary<string, Dictionary<string,string>> LoadClasses(string file)
+        {
+            List<string> classcode = ParseString(Regex.Replace(file, "#.*", ""));
+            int indent = 0;
+            string keyholder = "";
+            string id = "";
+
+            Dictionary<string, Dictionary<string, string>> returnvalue = new Dictionary<string, Dictionary<string, string>>();
+
+            Dictionary<string, string> elements = new Dictionary<string, string>();
+
+            for (int i = 0; i < classcode.Count; i++)
+            {
+                string g = classcode[i];
+                switch (g)
+                {
+                    case "}":
+                        indent--;
+                        if (indent == 0)
+                        {
+                            elements.Add("id", id);
+                            returnvalue.Add(id, new Dictionary<string, string>(elements));
+                        }
+                        else if (indent >= 2)
+                            elements[keyholder] += "} ";
+                        break;
+                    case "{":
+                        indent++;
+                        if (indent >= 2)
+                            elements[keyholder] += "{ ";
+                        break;
+                    case string s when indent == 0:
+                        elements.Clear();
+                        id = s;
+                        i++; while (!_expect(i, "=")) { i++; }
+                        i++; while (!_expect(i, "{")) { i++; }
+                        indent++;
+                        break;
+                    case string s when indent == 1:
+                        keyholder = s;
+                        i++; while (!_expect(i, "=")) { i++; }
+                        i++; if (classcode[i] == "{")
+                        {
+                            keyholder = s;
+                            indent++;
+                            elements.Add(keyholder, "");
+                        }
+                        else
+                            elements.Add(s, classcode[i]);
+                        break;
+                    case string s when indent >= 2:
+                        elements[keyholder] += s + " ";
+                        break;
+                }
+            }
+            bool _expect(int index, string regex, string error = "")
+            {
+                return actual_except(classcode[index], index, regex, error);
+            }
+
+            return returnvalue;
+        }
         private void LoadClasses(string file, string classtype)
         {
             List<string> classcode = ParseString(Regex.Replace(file, "#.*", ""));
@@ -1454,7 +1577,7 @@ namespace Arc4
             return;
         }
         private bool expect(List<string> code, int index, string regex, string error = "") { return actual_except(code[index], index, regex, error); }
-        private bool actual_except(string str, int index, string regex, string error)
+        public static bool actual_except(string str, int index, string regex, string error)
         {
             if (Regex.IsMatch(str, regex))
                 return true;
@@ -1511,16 +1634,16 @@ namespace Arc4
         }
         public float EvaluateExpression(string equation)
         {
-            Dictionary<string, Func<string, string, float>> operations = new Dictionary<string, Func<string, string, float>>
+            Dictionary<string, Func<string, string, double>> operations = new Dictionary<string, Func<string, string, double>>
   {
-    { "+", (a, b) => float.Parse(a) + float.Parse(b) },
-    { "-", (a, b) => float.Parse(a) - float.Parse(b) },
-    { "*", (a, b) => float.Parse(a) * float.Parse(b) },
-    { "/", (a, b) => float.Parse(a) / float.Parse(b) },
-    { "^", (a, b) => (float)Math.Pow(float.Parse(a), float.Parse(b)) },
-    { "%", (a, b) => float.Parse(a) % float.Parse(b) },
+    { "+", (a, b) => double.Parse(a) + double.Parse(b) },
+    { "-", (a, b) => double.Parse(a) - double.Parse(b) },
+    { "*", (a, b) => double.Parse(a) * double.Parse(b) },
+    { "/", (a, b) => double.Parse(a) / double.Parse(b) },
+    { "^", (a, b) => (double)Math.Pow(double.Parse(a), double.Parse(b)) },
+    { "%", (a, b) => double.Parse(a) % double.Parse(b) },
     { "=", (a, b) => a == b ? 1 : 0 },
-    { "?", (a, b) => float.Parse(a) != 0 ? float.Parse(b.Split(':')[0]) : float.Parse(b.Split(':')[1]) }
+    { "?", (a, b) => double.Parse(a) != 0 ? double.Parse(b.Split(':')[0]) : double.Parse(b.Split(':')[1]) }
   };
             equation = equation.Replace(" ", "");
             List<string> tokens = Regex.Matches(equation, "[^0-9]|[0-9.:]+").Cast<Match>().Select(m => m.Value).ToList();
